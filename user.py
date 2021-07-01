@@ -61,13 +61,28 @@ def user_delete(userid):
 
 def user_name(userid):
     sql = "Select Name from userprofile where UserID='" + userid + "'"
-    mycursor.execute(sql)
-    user = mycursor.fetchone()
+    try:
+        mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+        mycursor.execute(sql)
+        user = mycursor.fetchone()
+    except:
+        conn.mydb.ping(True)
+        mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+        mycursor.execute(sql)
+        user = mycursor.fetchone()
     return user
 
 
 def fetchall_user():
     sql = "Select * from user"
-    mycursor.execute(sql)
-    users = mycursor.fetchall()
+    try:
+        mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+        mycursor.execute(sql)
+        users = mycursor.fetchall()
+    except:
+        conn.mydb.ping(True)
+        mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+        mycursor.execute(sql)
+        users = mycursor.fetchall()
     return users
+
