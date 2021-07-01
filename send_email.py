@@ -25,7 +25,7 @@ def email(user_email, uid, name):
                 <br>
                 <p>Hi {name}, Welcome to the SNSS community</p><br>
                 <p>Click here to verify your email.</p>
-                <a href="http://localhost:5000/emailverified/{uid}/{name}"><b>Follow this link for account activation</b></a>
+                <a href="https://socialnss.herokuapp.com/emailverified/{uid}/{name}"><b>Follow this link for account activation</b></a>
                 <br><br>
                 <p>Thank you, </p>
                 <p>The SNSS Team</p>
@@ -61,7 +61,7 @@ def change_pwd_email(user_email, uid):
                 <div class="email_content">
                     <h3 style="text-align: center;">SNSS - Password Reset</h3>
                     <br>
-                    <a href="http://127.0.0.1:5000/pwdreset/{uid}"><b>Click the following link to reset your account password.</b></a>
+                    <a href="https://socialnss.herokuapp.com/pwdreset/{uid}"><b>Click the following link to reset your account password.</b></a>
                     <p>Don't reply this email and delete this email after reset your password</p>
                     <br><br>
                     <p>Thank you, </p>
