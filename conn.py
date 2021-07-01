@@ -16,7 +16,7 @@ class MyConnection:
                                            password=self.password,
                                            database=self.database,
                                            buffered=True,
-                                           connect_time=5)
+                                           connect_timeout=5)
             return self.conn
         except mysql_conn.Error as err:
             if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
