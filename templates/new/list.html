@@ -1,0 +1,102 @@
+    <style>
+        .user_like_container, .user_comment_container, .user_share_container {
+            background-color: rgba(26, 26, 26, 0.4);
+            width: 100%;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            position: fixed;
+            display: none;
+        }
+        .user_list {
+            place-items: center;
+            margin: auto;
+            border-radius: 5px;
+            border-color: white;
+            border-width: 1px;
+            border-style: solid;
+            width: 30%;
+            max-height: 100%;
+            -webkit-flex: 4;
+            -ms-flex: 4;
+            flex: 4;
+            background-color: white;
+        }
+        .user_title {
+            text-align:center;
+            padding: 10px 5px;
+            font-size: 15px;
+            border-bottom-style: solid;
+            border-color: #cccccc;
+            border-width: 1px;
+        }
+        .close {
+            float: right;
+            position: absolute;
+            right: 3%;
+            top: 2px;
+            font-size: 30px;
+            cursor: pointer;
+        }
+        .list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .user {
+            display: block;
+            padding: 10px;
+            max-width: 100%;
+            position: relative;
+        }
+        .follow {
+            border: 1px solid #1a75ff;
+            background: #1a75ff;
+            border-radius: 5px;
+            color: white;
+            padding: 4px;
+            max-width: 70px;
+            float: right;
+
+        }
+        .following {
+            border: 2px solid black;
+            background: #ffffff;
+            color: #1a1a1a;
+            border-radius: 5px;
+            padding: 4px;
+            max-width: 85px;
+            float: right;
+        }
+        .user_name {
+            position: relative;
+            top: 2px;
+        }
+        .list::-webkit-scrollbar { width: 10px }
+        .list::-webkit-scrollbar-thumb { background: linear-gradient(to bottom right, #d9d9d9 30%, #595959 100%); }
+    </style>
+<div class="user_like_container" >
+    <div class="user_list centered">
+        <div class="user_title" style="">Like
+            <span class="close">&times;</span>
+        </div>
+        <div class="list"></div>
+    </div>
+</div>
+<div class="user_comment_container" >
+    <div class="user_list centered">
+        <div class="user_title" style="">Comment
+            <span class="close">&times;</span>
+        </div>
+        <div class="list"></div>
+    </div>
+</div>
+<div class="user_share_container">
+    <div class="user_list centered">
+        <div class="user_title" style="">Share
+            <span class="close">&times;</span>
+        </div>
+        <div class="list"></div>
+    </div>
+</div>
+
+

@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+{% block title %} Homepage {% endblock %}
+{% block content %}
+<head>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/homepage.css') }}" >
+</head>
+<body>
+<div class="homepage">
+    <div style="padding: 20px 25px;">
+        <div class="user_profile" style="background: rgb(255, 255, 255);">
+            <div class="user_profile_photo">
+                {% if upro[6] == "" %}
+                    <img class="uphoto" src="{{ url_for('static', filename='img/default-user.png') }}"/>
+                {% elif upro[6] != "" %}
+                    <img class="uphoto" src="{{ upro[6] }}"/>
+                {% endif %}
+                <div class="username"> {{ upro[2] }}
+                    {% if upro[3] == "Male" %}
+                        <img src="static/img/male.png"/>
+                    {% elif upro[3] == "Female" %}
+                        <img src="static/img/female.png" style="width:25px; height: 32px"/>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="user_relationship">
+                <div class="user_followers">
+                    <div>{{ relatenum[0] }}<div style="font-family: 'Open Sans', sans-serif;">Followers</div></div>
+                </div>
+                <div class="user_following">
+                    <div>{{ relatenum[1] }}<div style="font-family: 'Open Sans', sans-serif;">Following</div></div>
+                </div>
+            </div>
+            <div class="user_profile_info">
+                {% if upro[5] != None %}
+                    <img src="static/img/cake.png" style="float: right"/> {{ upro[5] }} <br>
+                {% endif %}
+                {% if upro[4] == "Single" %}
+                    <img src="static/img/heart.png"/> Single
+                {% elif upro[4] == "Married" %}
+                    <img src="static/img/married.png"/> Married
+                {% endif %}
+            </div>
+            <button class="create_btn" onclick="window.location.href='/create_post'" style="">Create Post</button> &nbsp;
+        </div>
+    </div>
+    <div style="display: block; margin: auto; width: 90%;">
+        <div class="tabs_list">
+            <div class="tabs" id="post">Post</div>
+            <div class="tabs" id="share">Share</div>
+        </div>
+        <div class="post_list" style="padding: 20px 50px;">
+            {% for a in myresult %}
+                {% if a[1] == "Photo" %}
+                    <div class="post">
+                        <a href="/post/{{ a[0] }}?id={{ userid }}&type=Photo"><img src="{{ a[2] }}" style="max-height: 40%;"/></a> &nbsp;
+                    </div>
+                {% elif a[1] == "Video" %}
+                    <div class="post">
+                        <a href="/post/{{ a[0] }}?id={{ userid }}&type=Video"><video class="video" src="{{ a[2] }}"></video></a>
+                    </div>
+                {% elif a[1] == "Album" %}
+                    <div class="post slide_container">
+                        <a href="/post/{{ a[0] }}?id={{ userid }}&type=Album">
+                        {% for types in a[2] %}
+                            <div class="slide">
+                                {% set type = types[1].split(".") %}
+                                {% if type[1] in ['gif', 'png', 'jpg', 'jpeg'] %}
+                                    <img src="{{ types[0] }}" >
+                                {% elif type[1] in ['mp4', 'mov', 'avi', 'webm'] %}
+                                    <video src="{{ types[0] }}" ></video>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        </a>
+                    </div>
+                {% endif %}
+            {% else %}
+                <div style="position: absolute; left: 50%; padding: 50px; color: rgb(89, 89, 89); font-size: 20px;" >No Post Yet</div>
+            {% endfor %}
+        </div>
+        <div class="share_list" style="display: none;">
+            {% for share in shares %}
+            {% if share[4] == "Active" %}
+                <div class="share">
+                    <a href="/post/{{ share[0] }}?id={{ userid }}&type={{ share[1] }}">
+                        {% if share[3] == "Active" %}
+                            {% if share[1] == "Photo" %}
+                                <img src="{{ share[2] }}"/>
+                            {% elif share[1] == "Video" %}
+                                <video src="{{ share[2] }}"></video>
+                            {% endif %}
+                        {% elif share[3] != "Active" %}
+                            <img src="{{ url_for('static', filename='img/Not available.png') }} "/>
+                        {% endif %}
+                    </a>
+                </div>
+            {% endif %}
+            {% else %}
+                <div style="position: absolute; left: 50%; padding: 50px; color: rgb(89, 89, 89); font-size: 20px;" >No Post Yet</div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% include 'new/followers.html' %}
+
+<script>
+$(document).ready(function(){
+    $("#share").click(function() {
+        $(".post_list").fadeOut(100);
+        $(".share_list").fadeIn(100);
+    });
+    $("#post").click(function() {
+        $(".post_list").fadeIn(100);
+        $(".share_list").fadeOut(100);
+    });
+});
+var container = document.querySelectorAll(".slide_container");
+for (j=0; j<container.length; j++) {
+    var slides = container[j].querySelectorAll(".slide");
+    var slideIndex = 0;
+    showSlides(slides, slideIndex);
+}
+function showSlides(slides, slideIndex, cycle) {
+    for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+    }
+    slideIndex ++;
+    if ( slideIndex > slides.length) { slideIndex = 1 }
+    slides[slideIndex-1].style.display = "block";
+    setTimeout(function() {
+        showSlides(slides, slideIndex)}, 3000);
+}
+
+var videos = document.getElementsByClassName('video');
+
+for (i=0; i<videos.length; i++) {
+	videos[i].currentTime = 5;
+}
+
+</script>
+<script>
+    document.querySelector(".user_following").addEventListener("click", function() {
+        $(".following_container").fadeIn(100);
+        document.body.style.overflow = "hidden";
+    });
+     document.querySelector(".user_followers").addEventListener("click", function() {
+        $(".followers_container").fadeIn(100);
+        document.body.style.overflow = "hidden";
+    });
+    document.querySelectorAll(".close").forEach( close => close.addEventListener("click", function() {
+        $(".following_container, .followers_container").fadeOut(100);
+        document.body.style.overflow = "";
+    }));
+
+    document.querySelectorAll(".following").forEach( unfollow => unfollow.addEventListener("click", function(e) {
+        var relateid = e.target.getAttribute("data-relateid");
+        $.ajax({
+            method: "DELETE",
+            url: "/relationship?relateId=" + relateid,
+            success: function() { console.log("success"); },
+        });
+        $(e.target).fadeOut(100);
+    }));
+</script>
+</body>
+{% endblock %}

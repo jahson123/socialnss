@@ -1,0 +1,69 @@
+{% extends "Admin/abase.html" %}
+{% block title %}Comment View{% endblock %}
+{% block link %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300&display=swap" rel="stylesheet">
+    <style>
+        label { font-weight: bold; font-size: 20px; padding: 10px;}
+        span { font-family: 'Merriweather', serif; font-size: 18px;}
+        .pic {
+            display: block;
+            margin: auto;
+            width: 80%;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+<h5 style="padding: 20px; color: rgb(0, 0, 0, 0.6)">Comment Data | {{ comment[0] }}</h5>
+<div class="container-fluid" style="background-color:white; padding: 15px;">
+    <div class="mb-3 row">
+        <div class="col-sm-5">
+            {% if post[9] == "Photo" %}
+                <img class="pic" src="{{ post[6] }}" alt="{{ post[5] }}">
+            {% elif post[9] == "Video" %}
+                <video class="video-fluid" width="100%" controls>
+                    <source src="{{ post[6] }}" type="video/{{ post[8] }}" />
+                </video>
+            {% elif post[9] == "Album" %}
+                {% for types in post[2] %}
+                {% set type = types[1].split(".") %}
+                {% if type[1] in ['gif', 'png', 'jpg', 'jpeg'] %}
+                    <img src="{{ types[0] }}" alt="{{ types[1] }}" style="width: 100%;">
+                {% elif type[1] in ['mp4', 'mov', 'avi', 'webm'] %}
+                    <video class="video-fluid" width='100%' controls>
+                        <source src="{{ types[0] }}" type="video/mp4" />
+                    </video>
+                {% endif %}
+            {% endfor %}
+            {% endif %}
+        </div>
+        <div class="col-sm-7">
+            <p>
+                <label>CID: &nbsp; <span>{{ comment[2] }}</span></label>
+                {% if types == "Video" %}
+                    <a href="/admin_video_view/{{ comment[2] }}" class="btn btn-primary">View</a>
+                {% elif types == "Photo" %}
+                    <a href="/admin_photo_view/{{ comment[2] }}" class="btn btn-primary">View</a>
+                {% elif types == "Album" %}
+                    <a href="/admin_album_view/{{ comment[2] }}" class="btn btn-primary">View</a>
+                {% endif %}
+                &nbsp; &nbsp; &nbsp;
+                <label>UserID: &nbsp; <span>{{ comment[3] }}</span></label>
+                <a href="/admin_view_profile/{{ comment[3] }}" class="btn btn-primary">Profile</a>
+            </p>
+            <p><label>Comment: &nbsp; <span>{{ comment[1] }}</span></label></p>
+        </div>
+    </div>
+    <br>
+    <center><a href="/admin_react/comment" class="btn btn-primary btn-md btn-block" style="width: 80%;">Back</a></center>
+    <br>
+</div>
+{% include 'new/list.html' %}
+<script src="{{ url_for('static', filename='js/react.js')  }}"></script>
+<script>
+    document.querySelector("#comment").classList.add("active");
+</script>
+{% endblock %}
+
+</body>

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %} Create Post {% endblock %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/create.css') }}" >
+<form action="/create_post" method="POST" enctype="multipart/form-data">
+    <div class="container">
+        <h2 style="padding:5px;" >Create Post</h2>
+        <textarea maxlength="500" name="description" placeholder="Say your feeling..."></textarea>
+        <br>
+        <div class="upload_file">
+            <span class="upload">
+                <span style="bottom: -5px; position: relative;">Upload</span>
+                {% include 'icon/upload.html' %}
+            </span>
+            <input type="file" id="file" name="files" multiple required/>
+        </div>
+        <div class="err_message">Cannot Upload More than 6</div>
+        <div class="file_container">
+            <div id="view">
+                <span id="close"> {% include 'icon/close.html' %} </span>
+            </div>
+        </div>
+        <input type="submit" value="POST" disabled/>
+    </div>
+</form>
+<button class="back" style="display: block; margin: auto;" onclick="window.location.assign('/')" >Back</button>
+<script src="{{ url_for('static', filename='js/post.js') }}"></script>
+{% endblock %}

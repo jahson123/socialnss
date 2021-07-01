@@ -1,0 +1,86 @@
+    .container {
+        display: grid;
+        place-items: center;
+    }
+    input[type='file'] {
+        position: absolute;
+        width: 390px;
+        height: 100px;
+        border-radius: 10px;
+        border: 1px solid black;
+        left: 0;
+        opacity: 0;
+    }
+    input[type='submit'], .back {
+        color: white;
+        border: 1px solid #3385ff;
+        background: #3385ff;
+        width: 400px;
+        height: 40px;
+        border-radius: 50px;
+    }
+    input[type='submit']:disabled {
+        color: white;
+        border: 1px solid #b3b3b3;
+        background: #b3b3b3;
+    }
+    input:focus, button:focus, textarea { outline: none; }
+    .upload_file {
+        text-align:center;
+        width: 390px;
+        height: 100px;
+        padding: 5px 10px;
+        position: relative;
+        background: white;
+        border-radius: 10px;
+        border: 3px dashed #bfbfbf;
+    }
+    textarea {
+        width: 400px;
+        height: 200px;
+        border-radius: 10px;
+        padding: 10px;
+        resize: none;
+        border: 1px solid #cccccc;
+    }
+    .upload {
+        position: relative;
+        padding: 5px 5px;
+        top: 25px;
+        z-index: 0;
+        color: #737373;
+    }
+    div.file_container {
+        padding: 10px 5px;
+        height: 50%;
+        display: grid;
+        place-items: center;
+
+    }
+    div#view {
+        background: white;
+        max-width: 950px;
+        padding: 10px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        border: 2px solid #bfbfbf;
+        display: none;
+    }
+    .image, .video {
+        width: 300px;
+        height: 300px;
+        padding: 5px;
+        object-fit: cover;
+    }
+    #close {
+        color: purple;
+        float: right;
+        top: -10px;
+        right: -5px;
+        padding: 1px;
+    }
+    .err_message {
+        color: red;
+        padding: 5px;
+        display: none;
+    }

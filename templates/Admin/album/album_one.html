@@ -1,0 +1,53 @@
+{% extends "Admin/abase.html" %}
+{% block title %}Album View{% endblock %}
+{% block link %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300&display=swap" rel="stylesheet">
+    <style>
+        label { font-weight: bold; font-size: 20px; padding: 10px;}
+        span { font-family: 'Merriweather', serif; font-size: 18px;}
+        .pic {
+            display: block;
+            margin: auto;
+            width: 80%;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+<h5 style="padding: 20px; color: rgb(0, 0, 0, 0.6)">Album Data | {{ app[0] }}</h5>
+<div class="container-fluid" style="background-color:white; padding: 15px;">
+    <div class="mb-3 row">
+        <div class="col-sm-5">
+            {% for types in app[2] %}
+                {% set type = types[1].split(".") %}
+                {% if type[1] in ['gif', 'png', 'jpg', 'jpeg'] %}
+                    <img src="{{ types[0] }}" alt="{{ types[1] }}" style="width: 100%;">
+                {% elif type[1] in ['mp4', 'mov', 'avi', 'webm'] %}
+                    <video class="video-fluid" width='100%' controls>
+                        <source src="{{ types[0] }}" type="video/mp4" />
+                    </video>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="col-sm-7">
+            <p><label>CID: &nbsp; <span>{{ app[0] }}</span></label></p>
+            <p><label>Description: &nbsp; <span>{{ app[1] }}</span></label></p>
+            <p><label>Post DateTime: &nbsp; <span>{{ app[3] }}</span></label></p>
+            <p><label>Post Status &nbsp; <span>{{ app[4] }}</span></label></p>
+            <p><label>UserID: &nbsp; <span>{{ app[5] }}</span></label></p>
+            <label class="user_like_list" data-post-id="{{ app[0] }}">Like: &nbsp; <span data-post-id="{{ app[0] }}">{{ react[0] }}</span></label>  &nbsp; &nbsp;
+            <label class="user_comment_list" data-post-id="{{ app[0] }}">Comment: &nbsp; <span data-post-id="{{ app[0] }}">{{ react[1] }}</span></label>  &nbsp; &nbsp;
+            <label class="user_share_list" data-post-id="{{ app[0] }}">Share: &nbsp; <span data-post-id="{{ app[0] }}">{{ react[2] }}</span></label>  &nbsp; &nbsp;
+        </div>
+    </div>
+    <center><a href="/postdb?type={{ app[6] }}" class="btn btn-primary btn-md btn-block" style="width: 80%;">Back</a></center>
+    <br><br>
+</div>
+{% include 'new/list.html' %}
+<script src="{{ url_for('static', filename='js/react.js')  }}"></script>
+<script>
+document.querySelector("#album").classList.add("active");
+</script>
+
+{% endblock %}

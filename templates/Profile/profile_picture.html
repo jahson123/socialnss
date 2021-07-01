@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+<title>Profile</title>
+{% block content %}
+<head>
+    <style>
+        .body { margin: 0; background-color: #e699ff;}
+        .column.side {
+            width: 25%;
+            background-color: white;
+            border: 1px solid #e6e6e6;
+        }
+        .column.side a {
+            color: black;
+            text-decoration: none;
+        }
+        .column.content {
+            padding: 20px;
+            width: 75%;
+            background-color: white;
+            float: right;
+            border: 1px solid #e6e6e6;
+        }
+        .row:after {
+            display: table;
+            clear: both;
+        }
+        @media screen and (max-width: 600px) {
+            .column.side, .column.content {
+                width: 100%;
+            }
+        }
+        .column.side ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        .column.side li a {
+            padding: 20px 50px;
+            display: block;
+        }
+        .column.side li a:hover:not(.active) {
+            background-color: #e6e6e6;
+            color: black;
+            text-decoration: none;
+            border-style: hidden hidden hidden solid;
+            border-color: #bfbfbf;
+        }
+        .active {
+            border-style: hidden hidden hidden solid;
+            border-color: black;
+        }
+        .uphoto{
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            border: 1px solid #e6e6e6;
+            object-fit: cover;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .err_message {
+            color: red;
+            padding: 5px;
+            display: none;
+        }
+        #change {
+            display: block;
+            text-align: center;
+            padding: 5px;
+            color: #3385ff;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" style="padding: 30px;">
+    <div class="row">
+        <div class="column side">
+        <ul>
+            <li><a href="/profile">Edit Profile</a></li>
+            <li><a href="/profile/password">Change Password</a></li>
+            <li><a href="/profile/picture" class="active">Profile Photo</a></li>
+        </ul>
+        </div>
+        <div class="column content">
+            <div class="form-group">
+                <form action="/profile/picture" method="POST" enctype="multipart/form-data">
+                    {% if pic == "" %}
+                        <img class="uphoto" src="{{ url_for('static', filename='img/default-user.png') }}"/>
+                    {% elif pic != "" %}
+                        <img class="uphoto" src="{{ pic }}"/>
+                    {% endif %}
+                    <div class="err_message" style="text-align: center;">Only Image file is allowed</div>
+                    <label for="profile_pic" id="change">Change profile picture</label>
+                    <div style="text-align: center;" hidden>
+                        <input type="file" id="profile_pic" name="file" accept="image/*" required/>
+                    </div>
+                    <div class="mb-3 row">
+                        <div class="col-sm-8">
+                            <button type="submit" class="btn btn-primary" disabled>Upload</button>
+                        </div>
+                    </div>
+                    <br>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var pic = document.querySelector(".uphoto");
+    img = ['gif','png','jpg','jpeg'];
+    document.querySelector("input[type='file']").addEventListener("change", function(e) {
+        var file = e.target.files[0];
+        var type = file.name.split(".");
+        var reader = new FileReader();
+        if (img.includes(type[type.length-1])) {
+            reader.addEventListener("load", function() {
+                pic.src = reader.result;
+                $("button[type='submit']").attr("disabled", false);
+                $(".err_message").css("display", "none");
+            } ,false);
+             if (file) { reader.readAsDataURL(file); }
+        }
+        else {
+            $(".err_message").css("display", "block");
+            $("button[type='submit']").attr("disabled", true);
+        }
+    });
+</script>
+</body>
+{% endblock %}

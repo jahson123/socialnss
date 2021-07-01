@@ -1,0 +1,105 @@
+<style>
+    .follower_container {
+        width: 100%;
+        position: absolute;
+        left: 0px;
+        top: 90px;
+    }
+    .follower {
+        position: fixed;
+        width: 0px;
+        background: white;
+    }
+    .follower_list {
+        max-height: 270px;
+        overflow-y: auto;
+    }
+    .follower_title {
+        text-align: center;
+        padding: 10px;
+        display: none;
+    }
+    .close_follower {
+        position: absolute;
+        top: -2px;
+        right: 10px;
+        padding: 10px;
+        font-size: 20px;
+        cursor: pointer
+    }
+    .fas.fa-users {
+        position: fixed;
+        color: white;
+        top: 100px;
+        padding: 10px;
+        border-radius: 0px 0px 5px 0px;
+        background: blue;
+    }
+    .suggestion {
+        width: 320px;
+        right: 20px;
+        position: fixed;
+        height: 100%;
+        top: 90px;
+        z-index: initial;
+    }
+    a, a:hover { text-decoration: none; color: black; }
+</style>
+<div class="follower_container">
+    <span class="fas fa-users"></span>
+    <div class="follower">
+        <div style="border-bottom-style: solid; border-color: rgb(204, 204, 204, 0.4); border-width: 1px;">
+            <div class="follower_title">Following</div>
+            <div class="close_follower" style=""><b>&lt;</b></div>
+        </div>
+        <div class="follower_list">
+            {% if not followings  %}
+            <div style="padding: 10px; font-size: 15px; text-align: center; color: #a6a6a6;">You haven't follow any person yet.</div>
+            {% else  %}
+                {% for following in followings %}
+                    <div class="user">
+                        <a href="/{{ following[1] }}">
+                            {% if following[3] == "" %}
+                                <img class="user-circle" src="{{ url_for('static', filename='img/default-user.png') }}"/>
+                            {% elif following[3] != "" %}
+                                <img class="user-circle" src="{{ following[3]  }}"/>
+                            {% endif %}
+                            <span class="user_name" style="padding: 0 10px;">{{ following[2] }}</span>
+                        </a>
+                    </div>
+                {% endfor %}
+            {% endif  %}
+        </div>
+    </div>
+</div>
+<div class="suggestion">
+    <div style="padding: 5px 20px;">Suggestion For You <a href="/suggest" style="color: blue; float: right">See All</a></div>
+
+    <div id="followers" style="width: 300px">
+        <div id="follower" style="text-align: left; padding: 5px 20px 5px 20px;">
+            {% for follower in followers %}
+                <div class="user">
+                    <a href="/{{ follower[0] }}">
+                        {% if follower[2] == "" %}
+                            <img class="user-circle" src="{{ url_for('static', filename='img/default-user.png') }}"/>
+                        {% elif follower[2] != "" %}
+                            <img class="user-circle" src="{{ follower[2] }}"/>
+                        {% endif %}
+                        <span style="padding: 0 5px">{{ follower[1] }}</span>
+                    </a>
+                    <button class="follow" type="button" data-follow="{{ follower[0] }}">Follow</button>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<script>
+document.querySelector(".close_follower").addEventListener("click", function() {
+    $(".follower_title").fadeOut(100);
+    $(".follower").animate({width: '0'}, "fast");
+});
+document.querySelector(".fas.fa-users").addEventListener("click", function() {
+    $(".follower_title").fadeIn(100);
+    $(".follower").animate({width: '300px'}, "slow");
+});
+</script>

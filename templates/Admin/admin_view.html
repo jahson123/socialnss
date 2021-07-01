@@ -1,0 +1,83 @@
+{% extends "Admin/abase.html" %}
+{% block title %}Admin database{% endblock %}
+{% block content %}
+<h5 style="padding: 20px; color: rgb(0, 0, 0, 0.6)">Admin Data</h5>
+<div class="container-fluid" style="background-color:white">
+    <div  style="padding: 10px;">
+        <a href="/admin_create" class="btn btn-primary ">&plus; Add admin</a>
+    </div>
+    <table id="example" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>AdminID</th>
+                <th>AdminUname</th>
+                <th>AdminName</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ad in admins %}
+            <tr>
+                <td>{{ ad[0] }}</td>
+                <td>{{ ad[1] }}</td>
+                <td>{{ ad[2] }}</td>
+                <td>
+                    <a data-id="{{ ad[0] }}" style="color: white" class="btn btn-success update">Reset</a>
+                    <button data-id="{{ ad[0] }}" class="btn btn-danger delete" type="button">Delete</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="overlay">
+    <div class="update_content centered">
+        <div class="content_title">Reset Admin Password</div>
+        <div style="padding: 10px;">Do you sure want to reset this admin password ?</div>
+        <div style="float: right; padding: 5px;">
+            <button class="cancel">Cancel</button>
+            <button class="confirm">Confirm</button>
+        </div>
+    </div>
+    <div class="delete_content centered">
+        <div class="content_title">Delete Admin</div>
+        <div style="padding: 10px;">Are you sure want to delete this admin ?</div>
+        <div style="float: right; padding: 5px;">
+            <button class="cancel">Cancel</button>
+            <button class="confirm">Confirm</button>
+        </div>
+    </div>
+</div>
+<script>
+$(document).ready(function() {
+    $('#example').DataTable();
+    $(".update").click(function(e) {
+        $(".overlay, .update_content").fadeIn(100);
+        $(".confirm").click(function() {
+        console.log(e.target.getAttribute("data-id"));
+            $.ajax({
+                method: "POST",
+                url: "/admin_update/" + e.target.getAttribute("data-id"),
+                success: function() { alert("Reset success"); location.reload(); }
+            });
+        });
+    });
+    $(".delete").click(function(e) {
+        $(".overlay, .delete_content").fadeIn(100);
+        $(".confirm").click(function() {
+            $.ajax({
+                url: "/admin_delete/" + e.target.getAttribute("data-id"),
+                success: function() { alert("Delete success"); location.reload(); }
+            });
+        });
+    });
+    $(".cancel").click(function() {
+        $(".overlay, .update_content, .delete_content").fadeOut(100);
+    });
+});
+
+document.querySelector("#admin").classList.add("active");
+</script>
+
+{% endblock %}
+

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %} Homepage {% endblock %}
+{% block link %}
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: grid:
+            place-items: center;
+        }
+        .container {
+            width: 35%;
+            max-width: 100%;
+        }
+        .follow {
+            border: 1px solid #1a75ff;
+            background: #1a75ff;
+            border-radius: 5px;
+            color: white;
+            padding: 4px;
+            max-width: 70px;
+            float: right;
+        }
+        .user {
+            display: block;
+            padding: 15px;
+            max-width: 100%;
+            position: relative;
+            background: white;
+        }
+        .user_name {
+            font-family: 'Open Sans', sans-serif;
+            padding: 0 10px;
+        }
+        a:hover, a { text-decoration: none; color: black; }
+        button:focus { outline: none; }
+    </style>
+{% endblock %}
+{% block content %}
+<body>
+<br><br><br>
+<div class="container">
+    <h5>Suggestion</h5>
+    <div class="list">
+        {% for suggest in suggests %}
+        <div class="user">
+            <a href="/{{ suggest[0] }}">
+                {% if suggest[2] == "" %}
+                    <img class="user-circle" style="width: 50px; height: 50px;" src="{{ url_for('static', filename='img/default-user.png') }}"/>
+                {% elif suggest[2] != "" %}
+                    <img class="user-circle" style="width: 50px; height: 50px;" src="{{ suggest[2]  }}"/>
+                {% endif %}
+                <span class="user_name">{{ suggest[1] }}</span>
+            </a>
+            <button class="follow" type="button" data-follow="{{ suggest[0] }}" style="width: 80px;">Follow</button>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<script>
+    document.querySelectorAll(".follow").forEach( follow => follow.addEventListener("click", function(e) {
+        userid = e.target.getAttribute("data-follow");
+        $.ajax({
+            method: "POST",
+            url: "/relationship?userid=" + userid,
+            success: function() { $(e.target).fadeOut(100); },
+            error: function() { console.log("fail"); }
+        });
+    }));
+</script>
+</body>
+{% endblock %}

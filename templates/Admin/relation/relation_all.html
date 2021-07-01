@@ -1,0 +1,63 @@
+{% extends "Admin/abase.html" %}
+{% block title %}Relation Data{% endblock %}
+{% block content %}
+<h5 style="padding: 20px; color: rgb(0, 0, 0, 0.6)">Relationship Data</h5>
+<div class="container-fluid" style="background-color:white; max-width: 100%;; padding: 15px;">
+    <table id="example" class="table table-striped table-bordered" style="max-width: 100%;">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>UserID_1</th>
+                <th>UserID_2</th>
+                <th>Relationship</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody >
+            {% for relation in db %}
+            <tr>
+                <td>{{ relation[0] }}</td>
+                <td>{{ relation[1] }}</td>
+                <td>{{ relation[2] }}</td>
+                <td>{{ relation[3] }}</td>
+                <td>
+                    <a href="/admin_relation_view/{{ relation[1] }}" class="btn btn-primary">UserID_1</a> &nbsp; &nbsp;
+                    <a href="/admin_relation_view/{{ relation[2] }}" class="btn btn-primary">UserID_2</a> &nbsp; &nbsp;
+                    <button data-id="{{ relation[0] }}" class="btn btn-danger delete" type="button">Delete</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="overlay">
+        <div class="delete_content centered">
+            <div class="content_title">Delete Relationship</div>
+            <div style="padding: 10px;">Do you sure want to delete this relationship ?</div>
+            <div style="float: right; padding: 5px;">
+                <button class="cancel">Cancel</button>
+                <button class="confirm">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$(document).ready(function() {
+    $('#example').DataTable();
+    $(".delete").click(function(e) {
+        $(".overlay, .delete_content").fadeIn(100);
+        $(".confirm").click(function() {
+        console.log(e.target.getAttribute("data-id"));
+            $.ajax({
+                url: "/admin_relation_delete/" + e.target.getAttribute("data-id"),
+                success: function() { alert("Delete success"); location.reload(); }
+            });
+        });
+    });
+    $(".cancel").click(function() {
+        $(".overlay, .delete_content").fadeOut(100);
+    });
+} );
+document.querySelector("#relation").classList.add("active");
+</script>
+
+{% endblock %}

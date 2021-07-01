@@ -1,0 +1,126 @@
+    <style>
+        .user_like_container, .user_comment_container, .user_share_container, .following_container, .followers_container {
+            background-color: rgba(26, 26, 26, 0.4);
+            width: 100%;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            position: fixed;
+            display: none;
+        }
+        .user_list {
+            place-items: center;
+            margin: auto;
+            border-radius: 5px;
+            border-color: white;
+            border-width: 1px;
+            border-style: solid;
+            width: 30%;
+            max-height: 100%;
+            -webkit-flex: 4;
+            -ms-flex: 4;
+            flex: 4;
+            background-color: white;
+        }
+        .user_title {
+            text-align:center;
+            padding: 10px 5px;
+            font-size: 15px;
+            border-bottom-style: solid;
+            border-color: #cccccc;
+            border-width: 1px;
+        }
+        .close {
+            float: right;
+            position: absolute;
+            right: 3%;
+            top: 2px;
+            font-size: 30px;
+            cursor: pointer;
+        }
+        .list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .user {
+            display: block;
+            padding: 10px;
+            max-width: 100%;
+            position: relative;
+        }
+        .follow {
+            border: 1px solid #1a75ff;
+            background: #1a75ff;
+            border-radius: 5px;
+            color: white;
+            padding: 4px;
+            max-width: 70px;
+            float: right;
+        }
+        .following {
+            border: 2px solid black;
+            background: #ffffff;
+            color: #1a1a1a;
+            border-radius: 5px;
+            padding: 4px;
+            max-width: 85px;
+            float: right;
+        }
+        .following_container .user_list .list .user_name,  .followers_container .user_list .list .user_name{
+            padding: 0 5px;
+        }
+        .list::-webkit-scrollbar { width: 10px }
+        .list::-webkit-scrollbar-thumb { background: linear-gradient(to bottom right, #d9d9d9 30%, #595959 100%); }
+        a, a:hover { text-decoration: none; color: black; }
+    </style>
+
+<div class="following_container" >
+    <div class="user_list centered">
+        <div class="user_title" style="">Following
+            <span class="close">&times;</span>
+        </div>
+        <div class="list">
+            {% for following in followings %}
+            <div class="user">
+                <a href="/{{ following[1] }}">
+                    {% if following[3] == "" %}
+                        <img class="user-circle" src="{{ url_for('static', filename='img/default-user.png') }}"/>
+                    {% elif following[3] != "" %}
+                        <img class="user-circle" src="{{ following[3]  }}"/>
+                    {% endif %}
+                    <span class="user_name">{{ following[2] }}</span>
+                </a>
+                <button class="following" type="button" data-relateid="{{ following[0] }}">Unfollow</button>
+            </div>
+            {% endfor %}
+            {% if relatenum[1] == 0 %}
+                <div style="padding: 10px; font-size: 15px; text-align: center; color: #a6a6a6;">You haven't follow any person yet.</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<div class="followers_container" >
+    <div class="user_list centered">
+        <div class="user_title" style="">Followers
+            <span class="close">&times;</span>
+        </div>
+        <div class="list">
+            {% for follower in followers %}
+            <div class="user">
+                <a href="/{{ follower[1] }}">
+                    {% if follower[3] == "" %}
+                        <img class="user-circle" src="{{ url_for('static', filename='img/default-user.png') }}"/>
+                    {% elif follower[3] != "" %}
+                        <img class="user-circle" src="{{ follower[3]  }}"/>
+                    {% endif %}
+                    <span class="user_name">{{ follower[2] }}</span>
+                </a>
+                <!-- <button class="following" type="button" data-relateid="{{ follower[0] }}">Following</button> -->
+            </div>
+            {% endfor %}
+            {% if relatenum[0] == 0 %}
+                <div style="padding: 10px; font-size: 15px; text-align: center; color: #a6a6a6;">You don't have any followers yet.</div>
+            {% endif %}
+        </div>
+    </div>
+</div>

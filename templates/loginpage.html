@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SNSS</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <style>
+        body { font-family: "Lato", sans-serif; }
+        .main-head{
+            height: 150px;
+            background: #FFF;
+        }
+
+        .sidenav {
+            height: 100%;
+            background-image: url("https://firebasestorage.googleapis.com/v0/b/unique-perigee-299514.appspot.com/o/loginback.png?alt=media");
+            background-repeat: no-repeat, repeat;
+            overflow-x: hidden;
+            padding-top: 20px;
+        }
+
+
+        .main {
+            padding: 0px 10px;
+        }
+
+        @media screen and (max-height: 450px) {
+            .sidenav {padding-top: 15px;}
+        }
+
+        @media screen and (max-width: 450px) {
+            .login-form{
+                margin-top: 10%;
+            }
+            .register-form{
+                margin-top: 10%;
+            }
+        }
+
+        @media screen and (min-width: 768px){
+            .main{
+                margin-left: 40%;
+            }
+            .sidenav{
+                width: 40%;
+                position: fixed;
+                z-index: 1;
+                top: 0;
+                left: 0;
+            }
+
+        }
+        img { display: block;
+          margin-left: auto;
+          margin-right: auto;
+           width: 20%;}
+
+        .form-control { width: 100%; }
+        #button { border-radius: 25px; border: #9999ff; width: 150px; background-color: #9999ff; height: 50px;}
+        #button2 { border-radius: 25px; border: #9999ff; width: 300px; background-color: #9999ff; height: 50px;}
+        .form { border-radius: 25px; border: border: 2px solid black; width: 100%; height: 50px; }
+        p { padding: 15px; font-size: 12px; }
+        p:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+<div class="sidenav"></div>
+<div class="main">
+    <br><br><br>
+    <img src="https://firebasestorage.googleapis.com/v0/b/unique-perigee-299514.appspot.com/o/logo%202.png?alt=media" alt="login">
+    <br><br>
+        <div class="container-fluid" style="width: 60%">
+            <div class="form-group">
+                <div id="login">
+                    <form action="/" method="POST">
+                        {% with messages = get_flashed_messages() %}
+                        {%  for message in messages %}
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <span>{{ message }}</span>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endfor %}{% endwith %}
+                        <input type="text" name="uname" placeholder="username" class="form-control form" maxlength="20"/>
+                        <br>
+                        <input type="password" name="pwd" placeholder="password" class="form-control form" maxlength="20"/>
+                        <br>
+                        <center>
+                            <button type="submit" id="button" class="btn btn-primary">Sign In</button>
+                            <p class="login">Forget Password ?</p>
+                            <b>Don't have an account yet?<a href="/signup" style="color: #6699ff;"> Sign Up</a></b>
+                        </center>
+                    </form>
+                </div>
+                <div id="pwdreset" hidden>
+                    <form action="/username" method="POST">
+                        <p style="font-size: 15px;">Enter your username and we will send link to you by email</p>
+                        <input type="text" name="username" placeholder="username" class="form-control form" autocomplete="off"/>
+                        <center>
+                            <br><button type="submit" id="button2" class="btn btn-primary">Send password reset link</button>
+                            <b><p id="back" style="color: #6699ff; padding: 15px"> Back to Login</p></b>
+                            <b>Don't have an account yet?<a href="/signup" style="color: #6699ff;"> Sign Up</a></b>
+                        </center>
+                    </form>
+                </div>
+            </div>
+        </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $(".login").click(function() {
+            $("#login").fadeOut();
+            $("#pwdreset").fadeToggle(2000);
+            document.getElementById("pwdreset").removeAttribute("hidden");
+        });
+        $("#back").click(function() {
+            $("#login").fadeIn(2000);
+            $("#pwdreset").fadeToggle("fast");
+        });
+    });
+</script>
+</body>
+</html>

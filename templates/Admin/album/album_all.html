@@ -1,0 +1,67 @@
+{% extends "Admin/abase.html" %}
+{% block title %}Album Data{% endblock %}
+{% block content %}
+<h5 style="padding: 20px; color: rgb(0, 0, 0, 0.6)">Album Data</h5>
+<div class="container-fluid" style="background-color:white; padding: 15px;">
+    <table id="example" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>CID</th>
+                <th>Description</th>
+                <th>Post date</th>
+                <th>Post Status</th>
+                <th>UserID</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for album in db %}
+            <tr>
+                <td>{{ album[0] }}</td>
+                <td style="text-overflow: ellipsis;">{{ album[3] }}</td>
+                <td>{{ album[4] }}</td>
+                <td>{{ album[2] }}</td>
+                <td>{{ album[5] }}</td>
+                <td>
+                    <a href="/admin_album_view/{{ album[0] }}" class="btn btn-primary">View</a>
+                    <a href="/admin_album_update/{{ album[0] }}" class="btn btn-success">Update</a>
+                    {% if album[2] == "Deleted" %}
+                        <button data-id="{{ album[0] }}" class="btn btn-danger delete" type="button">Delete</button>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="overlay">
+        <div class="delete_content centered">
+            <div class="content_title">Delete Content</div>
+            <div style="padding: 10px;">Do you sure want to delete this content ?</div>
+            <div style="float: right; padding: 5px;">
+                <button class="cancel">Cancel</button>
+                <button class="confirm">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$(document).ready(function() {
+    $('#example').DataTable();
+    $(".delete").click(function(e) {
+        $(".overlay, .delete_content").fadeIn(100);
+        $(".confirm").click(function() {
+            $.ajax({
+                url: "/admin_post_delete/" + e.target.getAttribute("data-id"),
+                method: "DELETE",
+                success: function() { alert("Delete success"); location.reload(); }
+            });
+        });
+    });
+    $(".cancel").click(function() {
+        $(".overlay, .delete_content").fadeOut(100);
+    });
+} );
+document.querySelector("#album").classList.add("active");
+</script>
+
+{% endblock %}

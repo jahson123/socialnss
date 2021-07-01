@@ -1,0 +1,50 @@
+{% extends "Admin/abase.html" %}
+{% block title %}User Info {% endblock %}
+{% block link %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300&display=swap" rel="stylesheet">
+    <style>
+        label { font-weight: bold; font-size: 20px; padding: 10px;}
+        span { font-family: 'Merriweather', serif; font-size: 18px;}
+        .uphoto {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            border: 3px solid #a6a6a6;
+            object-fit: cover;
+            top: 20%;
+            left: 25%;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+<h5 style="padding: 20px; color: rgb(0, 0, 0, 0.6)">User Data | {{ user[0] }}</h5>
+<div class="container-fluid" style="background-color:white; padding: 15px;">
+    <div class="mb-3 row">
+        <div class="col-sm-6">
+            <div class="profile_picture">
+            {% if upro[6] == "" %}
+                <img class="uphoto" src="{{ url_for('static', filename='img/default-user.png') }}"/>
+            {% elif upro[6] != "" %}
+                <img class="uphoto" src="{{ upro[6] }}"/>
+            {% endif %}
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <p><label>Username: &nbsp; <span>{{ user[1] }}</span></label></p>
+            <p><label>Name: &nbsp; <span>{{ upro[2] }}</span></label></p>
+            <p><label>Email: &nbsp; <span>{{ user[3] }}</span></label> ({{ user[4] }})</p>
+            <p><label>Gender: &nbsp; <span>{{ upro[3] }}</span></label></p>
+            <p><label>Status: &nbsp; <span>{{ upro[4] }}</span></label></p>
+            <p><label>Date of birth: &nbsp; <span>{{ upro[5] }}</span></label></p>
+        </div>
+    </div>
+    <center><a href="/admin_user" class="btn btn-primary btn-md btn-block" style="width: 80%;">Back</a></center>
+    <br><br>
+</div>
+<script>
+    document.querySelector("#user").classList.add("active");
+</script>
+{% endblock %}

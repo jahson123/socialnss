@@ -1,0 +1,61 @@
+{% extends "Admin/abase.html" %}
+{% block title %}Admin Settings{% endblock %}
+{% block content %}
+<h4 style="padding: 20px; color: rgb(0, 0, 0, 0.6)">Admin Settings</h4>
+<div class="container-lg" style="background-color:white; padding: 20px;">
+    <div class="form-group">
+        <form action="/admin_self_update/{{ ad[0] }}" method="POST">
+            <div class="mb-3 row">&nbsp; &nbsp; &nbsp;
+                <label class="col-sm-2 col-form-label" style="font-size: 20px;">ID</label>
+                <div class="col-sm-8"><h4 style="color: #4d4d4d">{{ ad[0] }}</h4></div>
+                <div class="col-sm-2"></div>
+            </div>
+            <div class="mb-3 row">&nbsp; &nbsp; &nbsp;
+                <label class="col-sm-2 col-form-label" style="font-size: 20px;">Admin Name</label>
+                <div class="col-sm-8">
+                    <input type="text" name="name" placeholder="Admin name" class="form-control" maxlength="50" value="{{ ad[2] }}"/>
+                </div>
+                <div class="col-sm-2"></div>
+            </div>
+            <div class="mb-3 row">&nbsp; &nbsp; &nbsp;
+                <label class="col-sm-2 col-form-label" style="font-size: 20px;">Old Password</label>
+                <div class="col-sm-8">
+                    <input type="password" name="opwd" placeholder="password" maxlength="20" class="form-control"/>
+                </div>
+                <div class="col-sm-2"></div>
+            </div>
+            <div class="mb-3 row">&nbsp; &nbsp; &nbsp;
+                <label class="col-sm-2 col-form-label" style="font-size: 20px;">New Password</label>
+                <div class="col-sm-8">
+                    <input type="password" name="npwd" placeholder="new password" minlength="6" maxlength="20" class="form-control"/>
+                </div>
+                <div class="col-sm-2"></div>
+            </div>
+            <div class="mb-3 row">&nbsp; &nbsp; &nbsp;
+                <label class="col-sm-2 col-form-label" style="font-size: 20px;">Confirm Password</label>
+                <div class="col-sm-8">
+                    <input type="password" name="cpwd" placeholder="confirm password" minlength="6" maxlength="20" class="form-control"/>
+                </div>
+                <div class="col-sm-2"></div>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {%  for message in messages %}
+                        <span style="color: red;">{{ message }}</span>
+                        {% endfor %}{% endif %}{% endwith %}
+            </div>
+
+            <div class="mb-3 row">&nbsp; &nbsp; &nbsp;
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+                <div class="col-sm-2"></div>
+            </div>
+        </form>
+    </div>
+    <br>
+</div>
+<script>
+    document.querySelector("#settings").classList.add("active");
+</script>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <style>
+        body { background-color: #f2f2f2; }
+        img
+        {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 80%;
+        }
+    </style>
+</head>
+<body>
+<main class="main_full">
+    <br>
+    <div class="container-fluid" style="width: 70%">
+            <center><img src="{{ myresult[3] }}" alt="{{ myresult[4] }}" style="align: center; width:50%"/></center>
+    <div class="container">
+            <h4>Description</h4>
+            <div class="jumbotron jumbotron-fluid"  style="background-color: white">
+              <div class="container-fluid">
+                <p class="lead">{{ myresult [1] }}</p>
+              </div>
+            </div>
+                <a id="myupdate" href="/image_update/{{ myresult[0] }}/{{ myresult[1] }}/{{ myresult[5] }}" class="btn btn-primary">Update</a>&nbsp;
+                <button id="delete" class="btn btn-danger" onclick="myFunction()">Delete</button> &nbsp;
+        <a href="/homepage" class="btn btn-primary">Back</a>
+    </div>
+    </div>
+</main>
+
+<script>
+    $(document).ready(function() {
+        $("#delete").click(function()
+        {
+            if (confirm("Do you want to delete the post ?"))
+            {
+                alert("Confirm deleted !");
+
+                var url = document.getElementById("myupdate").href;
+                $(location).attr('href','/post_update/{{ myresult[0] }}');
+            }
+        });
+    });
+</script>
+
+</body>
+{% endblock %}

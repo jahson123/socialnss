@@ -1,0 +1,34 @@
+<div class="share_form_container" id="share_form_{{ a[0] }}" style="display: none">
+    <div class="share_form centered">
+        <div class="share_form_title" style="">Share Post
+            <span class="close_share">&times;</span>
+        </div>
+        <div style="padding: 10px 20px;">
+            {% if userid | userpic == "" %}
+                <img class="user-circle" src="../static/img/default-user.png"/>
+            {% elif userid | userpic != "" %}
+                <img class="user-circle" src="{{ userid | userpic }}"/>
+            {% endif %}
+            <span>{{ name }}</span>
+            <br>
+            <textarea class="share_form_text" cols="50" id="share-form-{{ a[0] }}" name="share" placeholder="Share your feeling..." autocomplete="off"></textarea>
+        </div>
+        <div class="share_user_content">
+            <div style="max-width:100%; height: 280px;">
+                {% if a[1] == "Photo" %}
+                    <img src="{{ a[2] }}"/>
+                {% else %}
+                    <video class="video-fluid" width='100%' controls>
+                        <source src="{{ a[2] }}" type="video/mp4" />
+                    </video>
+                {% endif %}
+            </div>
+            <span class="share_user_name">{{ a[4] }}</span> <br>
+            <div class="share_description">
+                <span class="share_description_text">{{ a[3] }}</span>
+            </div>
+        </div>
+        <br>
+        <input type="submit" value="Share" onclick="share_form({{ a[0] }})" />
+    </div>
+</div>

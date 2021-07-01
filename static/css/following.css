@@ -1,0 +1,61 @@
+    #slide-box {
+		height: 100%;
+		width: 0;
+		z-index: auto;
+		position: fixed;
+		background-color: lightblue;
+		transition: 1s;
+		overflow-x: hidden;
+		overflow-y: auto;
+		padding-top: 60px;
+		top: 60px;
+	}
+	.btn.btn-primary {
+		z-index: 1;
+		position: absolute;
+		left:100px;
+	}
+
+	#side-users {
+		top: 20%;
+		left: 10px;
+		background-color: yellow;
+		width: 10px;
+		z-index: 2;
+		position: absolute;
+		padding: 25px;
+		border-color: black;
+		border-width: 1px;
+		border-radius: 5px;
+	}
+	#side-users .fas.fa-users {
+		color: purple;
+		font-size: 25px;
+		position: absolute;
+		top: 25%;
+		left: 10px;
+		width: 10%;
+	}
+	#side-users.active { display: none; }
+	.closebtn {
+		position: absolute;
+		top: 0;
+		right: 25px;
+		font-size: 36px;
+		margin-left: 50px;
+	}
+	#title {
+		top: 20px;
+		left: 25px;
+		position: absolute;
+	}
+	#slide-box #users_1{
+		padding: 5px;
+		transition: 2s;
+		display: block;
+		position: absolute;
+		padding: 8px 32px 8px 32px;
+		width: 100%;
+	}
+	#slide-box #users_1 #hop { padding: 20px 5px; }
+	#slide-box #users_1 #hop a { text-decoration: none; }

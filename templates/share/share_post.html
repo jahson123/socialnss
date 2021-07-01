@@ -1,0 +1,384 @@
+{% extends "base.html" %}
+{% block content %}
+<head>
+	<meta charset="utf-8">
+	<title>{{ myresult[4] }} "{{ myresult[3] }}"</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src='http://kit.fontawesome.com/a076d05399.js'></script>
+    <link href="http://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/container.css') }}" >
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/slide.css') }}" >
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/report.css') }}" >
+	<style>
+        .heart-mode { color: red; }
+
+        .delete_option {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            padding-top: 10px;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(26, 26, 26, 0.4);
+        }
+
+        .delete-content {
+            background-color: white;
+            margin: auto;
+            border: 1px solid #888;
+            width: 400px;
+            padding: 10px;
+        }
+        .confirm_delete {
+            border: 1px solid #0099ff;
+            border-radius: 5px;
+            background: #0099ff;
+            color: white;
+        }
+        .top-right {
+            position: absolute;
+            top: 5px;
+            right: 50px;
+            bottom: 10px;
+        }
+        .centered {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+		.description {
+		    font-size: 18px;
+		    padding: 10px;
+		    overflow-y: auto;
+		    max-height: 180px;
+		}
+		.comment_list {
+		    display: grid;
+            grid-template-columns: minmax(10px, 10%) 1fr;
+		}
+		.comment_list .comment_list_side { padding: 7px; float: right; }
+        .comment_list .comment_list_content { padding: 10px; }
+        .row {
+            display: -webkit-flex;
+            display: flex;
+            width: 100%;
+        }
+        .column.side{
+            -webkit-flex: 4;
+            -ms-flex: 4;
+            flex: 4;
+            height: 480px;
+            background: #1a1a1a;
+            border: 1px solid #e6e6e6;
+            display: flex flex;
+            justify-content: center;
+        }
+        .column.content {
+            -webkit-flex: 2;
+            -ms-flex: 2;
+            flex: 2;
+            flex-direction: column;
+            width: 100%;
+            max-height: 100%;
+            background-color: white;
+            border: 1px solid #e6e6e6;
+        }
+        @media screen and (max-width: 600px) {
+            .column.side, .column.content {
+                -webkit-flex-direction: column;
+                flex-direction: column;
+            }
+        }
+        .post_content {
+            padding: 5px;
+            height: 365px;
+            position: relative;
+            overflow-y: auto;
+        }
+        button {
+            border: none;
+            background: none;
+            outline: none;
+            color: #3399ff;
+        }
+        button:focus { outline:none; }
+        .edit_comment {
+            position: absolute;
+            right: 50;
+            font-size: 12px;
+        }
+        .delete_comment {
+            position: absolute;
+            right: 5;
+            font-size: 12px;
+        }
+        .slide_container {
+            max-width: 100%;
+            max-height: 100%;
+            position: relative;
+            margin: auto;
+        }
+        .slide {
+            width: 100%;
+            height: 100%;
+            display: none;
+        }
+        .slide img,video {
+            object-fit: contain;
+            height: 100%;
+            width: 100%;
+        }
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 45%;
+            width: 10px;
+            background: rgb(217, 217, 217, 0.4);
+            padding: 16px;
+            margin-top: -22px;
+            color: black;
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+            border: 1px solid rgb(217, 217, 217, 0.2);
+        }
+        .next{ right: 0; }
+        .prev{ left: 0; }
+        .prev:hover, .next:hover {
+            color: white;
+            background-color: rgba(0,0,0,0.8);
+        }
+        a, a:hover { text-decoration: none; color: black}
+        .share_description {
+            font-family: 'Roboto', sans-serif;
+            padding: 10px;
+            font-size: 15px;
+        }
+	</style>
+</head>
+<body>
+<div class="container" style="padding: 20px;" id="{{ myresult[0] }}">
+<div class="row" style="max-height: 100%;" >
+    <div class="column side" data-type="{{ myresult[1] }}">
+        {% if myresult[11] != "Active" %}
+        <img src="{{ url_for('static', filename='img/Not available.png') }}"
+        style="max-width: 100%; height:100%; object-fit: contain; display: block; margin: auto;"/>
+        <div style="background: white; height: 70px; overflow-y: auto;"></div>
+        {% else %}
+            {% if myresult[1] == "Photo" %}
+                <img src="{{ myresult[2] }}" style="max-width: 100%; height:100%; object-fit: contain; display: block; margin: auto;"/>
+            {% elif myresult[1] == "Video" %}
+                <video class="video-fluid" width='100%' controls>
+                    <source src="{{ myresult[2] }}" type="video/mp4" />
+                </video>
+            {% endif %}
+            <div style="background: white; height: 70px; overflow-y: auto;">
+                <a href="/{{ myresult[5] }}"><b style="padding: 20px;">{{ myresult[4] }}</b></a>
+                <div class="share_description"> {{ myresult[3] }} </div>
+            </div>
+        {% endif %}
+    </div>
+    <div class="column content">
+        <div class="header" style="background-color: white;">
+            <div class="pro_pic">
+                <a href="/{{ myresult[6] }}">
+                    {% if myresult[9] == "" %}
+                        <img class="user-circle" src="{{ url_for('static', filename='img/default-user.png') }}"/>
+                    {% elif myresult[9] != "" %}
+                        <img class="user-circle" src="{{ myresult[9] }}"/>
+                    {% endif %}
+                    <div class="uname"> {{ myresult[8] }} </div>
+                </a>
+                <button class="post-opt" data-opt="{{ myresult[0] }}">
+                    <svg class="opt" height="10" width="25">
+                        <circle cx="5" cy="5" r="3" fill="black" />
+                        <circle cx="12" cy="5" r="3" fill="black" />
+                        <circle cx="19" cy="5" r="3" fill="black" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="post_content" style="border: 1px solid #f2f2f2; background-color: white;">
+            <div class="description"> {{ myresult[6] }}</div>
+            <div class="comment_list" style="position: relative; overflow-y: auto;">
+                {% for comment in comments %}
+                <div class="comment_list_side">
+                    {% if comment[3] == userid %}
+                        <button class="edit_comment" data-id="{{ comment[0] }}">Edit</button>
+                        <button class="delete_comment" data-id="{{ comment[0] }}" >Delete</button>
+                    {% endif %}
+                    {% if comment[5] == "" %}
+                        <img class="user-circle" src="{{ url_for('static', filename='img/default-user.png') }}"/>
+                    {% elif comment[5] != "" %}
+                        <img class="user-circle" src="{{ comment[5] }}"/>
+                    {% endif %}
+                </div>
+                <div class="comment_list_content">
+                    <div class="uname" style="padding: 2px; float: right; width: 100%;" > {{ comment[4] }} </div>
+                    <div class="comment {{ comment[0] }}" style="font-size: 13px;">{{ comment[1] }}</div>
+                    <div class="input-group mb-3 user_comment {{ comment[0] }}" style="display: none" >
+                        <textarea id="edit_comment {{ comment[0] }}" class="form-control" name="edit_comment" placeholder="Add a comment..."  autocomplete="off">{{ comment[1] }}</textarea>
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-outline-secondary" onclick="comment_update({{ comment[0] }})"></button>
+                        </div>
+                    </div>
+                    <span class="edit_cancel {{ comment[0] }}" data-comment-id ="{{ comment[0] }}"  style="font-size: 12px; color: #66b3ff; display: none">cancel </span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="content" style="background-color: white; padding: 10px 5px;" >
+            <svg class="heart-icon" viewBox="-5 -5 45 40" onclick="myheart()">
+                <defs>
+                    <linearGradient id="linear" x1="20%" y1="10%" x2="80%" y2="80%">
+                        <stop offset="0%"   stop-color="#333333"/>
+                        <stop offset="100%" stop-color="#808080"/>
+                    </linearGradient>
+                </defs>
+                {% if myresult[12][3] == userid %}
+                <path id="heart" class="heart-mode" d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
+                                c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z" stroke="url(#linear)"/>
+                {% elif myresult[12][3] != userid %}
+                <path id="heart" d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
+                                c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z" stroke="url(#linear)"/>
+                {% endif %}
+            </svg>
+            <span style="padding: 1px 1px;" class="num-user-like" data-like="{{ myresult[0] }}">{% if myresult[12][0] != 0 %} {{ myresult[12][0] }} {% endif %}</span>
+            <svg class="comment-icon" x="0px" y="0px" viewBox="0 0 60 60" data-post-id="{{ myresult[0] }}">
+                <defs>
+                    <linearGradient id="linear2" x1="20%" y1="10%" x2="80%" y2="80%">
+                        <stop offset="0%"   stop-color="#333333"/>
+                        <stop offset="100%" stop-color="#808080"/>
+                    </linearGradient>
+                </defs>
+                <path fill="url(#linear2)" d="M54,2H6C2.748,2,0,4.748,0,8v33c0,3.252,2.748,6,6,6h8v10c0,0.413,0.254,0.784,0.639,0.933C14.757,57.978,14.879,58,15,58
+                                c0.276,0,0.547-0.115,0.74-0.327L25.442,47H54c3.252,0,6-2.748,6-6V8C60,4.748,57.252,2,54,2z M58,41c0,2.168-1.832,4-4,4H27.179
+                                l3.579-4.161c0.36-0.418,0.313-1.05-0.106-1.41c-0.418-0.36-1.051-0.312-1.411,0.106l-4.998,5.811L16,54.414V46c0-0.552-0.448-1-1-1
+                                H6c-2.168,0-4-1.832-4-4V8c0-2.168,1.832-4,4-4h48c2.168,0,4,1.832,4,4V41z" />
+            </svg>
+            <span style="padding: 1px 1px;" class="num-user-comment" data-comment="{{ myresult[0] }}">{% if myresult[12][1] != 0 %} {{ myresult[12][1] }} {% endif %}</span>
+            <div class="date" style="float: right; font-size: 12px;"> {{ myresult[7] }}</div>
+        </div>
+        <div class="foot" style="border: 1px solid #f2f2f2; background-color: white;">
+            <div class="input-group mb-3">
+                <textarea id="comment {{ myresult[0] }}" class="form-control" name="comment" placeholder="Add a comment..."  autocomplete="off"></textarea>
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-outline-primary" onclick="myComment({{ myresult[0] }})"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="option" id="option_{{ myresult[0] }}">
+    <div class="option-content centered">
+        <button class="report">Report</button>
+        <button class="cancel">Cancel</button>
+    </div>
+</div>
+{% include 'new/report.html' %}
+<script src="{{ url_for('static', filename='js/following.js') }}" ></script>
+<script>
+        document.querySelector("textarea[name='comment']").addEventListener("keyup", function() {
+            var submit = document.querySelector(".btn-outline-primary");
+            var comment = document.querySelector("textarea[name='comment']");
+            if ( comment.value != "") {
+                submit.disabled = false;
+            }
+            else if ( comment.value == "" ) {
+                submit.disabled = true;
+            }
+        });
+
+        var xhttp = new XMLHttpRequest();
+        function myheart() {
+            var postID = document.getElementsByClassName("container");
+            var heart = document.querySelector("#heart");
+            url = "/like_request/{{ userid }}/" + postID[0].id
+            heart.classList.toggle("heart-mode");
+            if ( heart.classList.contains("heart-mode") == true ) {
+                    xhttp.open("POST", url, true);
+                }
+            else {
+                    xhttp.open("DELETE", url, true);
+                }
+            xhttp.send();
+        }
+        function myComment(comment) {
+            var ucomment = document.getElementById("comment " + comment.id);
+            $.ajax({
+                method: "POST",
+                data: {comment:$(ucomment).val()},
+                url: "/comment_request/{{ userid }}/" + comment.id,
+                success: function() {
+                    window.location.reload();
+                },
+            });
+        }
+        function comment_update(comment){
+            var postID = document.getElementsByClassName("container");
+            var x = document.getElementById("edit_comment " + comment).value;
+            $.ajax({
+                method: "PATCH",
+                url: "/comment_request/{{ userid }}/" + postID[0].id + "?comment_id=" + comment,
+                data: {comment:x},
+                success: function() {
+                    window.location.reload();
+                },
+            });
+        }
+
+</script>
+<script src="{{ url_for('static', filename='js/option.js') }}" ></script>
+{% if myresult[1] == "Album" %}<script src="{{ url_for('static', filename='js/slideshow_post.js') }}" ></script>{% endif %}
+<script>
+    document.querySelectorAll(".edit_comment").forEach(item => {
+        item.addEventListener("click", function(e) {
+            var id = e.target.getAttribute("data-id");
+            var cancel = document.getElementsByClassName("edit_cancel " + id);
+            var comment = document.getElementsByClassName("comment " + id);
+            var edit = document.getElementsByClassName("user_comment " + id);
+            comment[0].style.display = "none";
+            edit[0].style.display = "";
+            cancel[0].style.display = "";
+        });
+    });
+
+
+    document.querySelectorAll(".edit_cancel").forEach(item => {
+        item.addEventListener("click", function(e) {
+            var comment_id = e.target.getAttribute("data-comment-id");
+            var cancel = document.getElementsByClassName("edit_cancel " + comment_id);
+            var comment = document.getElementsByClassName("comment " + comment_id);
+            var edit = document.getElementsByClassName("user_comment " + comment_id);
+            cancel[0].style.display = "none";
+            comment[0].style.display = "";
+            edit[0].style.display = "none";
+        });
+    });
+
+    document.querySelectorAll(".delete_comment").forEach(item => {
+        item.addEventListener("click", function(e) {
+            var comment_id = e.target.getAttribute("data-id");
+            console.log(comment_id);
+            var opt = confirm("Are your want to delete this comment ?");
+            if (opt == true) {
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        window.location.reload();
+                    }
+                };
+                xhttp.open("DELETE", "/comment_request/{{ userid }}/" + {{ myresult[0] }} + "?comment_id=" + comment_id , true);
+                xhttp.send();
+            }
+        });
+    });
+</script>
+</body>
+{% endblock %}

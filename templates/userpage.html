@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+<title> Userpage </title>
+{% block content %}
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/following.css') }}" >
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/container.css') }}" >
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/share.css') }}" >
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/report.css') }}" >
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+    <style>
+        .heart-mode { color: red; }
+        .uphoto{
+            width: 140px;
+            height: 140px;
+            border-radius: 140px;
+            border: 5px solid transparent;
+            background-image: linear-gradient(to bottom right, #ffcc99 -32%, #ff99ff 100%);
+            object-fit: cover;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+	</style>
+</head>
+<body>
+    <span style="display: none;" hidden>{{ userid }}</span>
+    {% for a in myresult %}
+    <br>
+        {% set relate = userid | user_relationship(a[6])%}
+        {% set relate2 = a[6] | user_relationship(userid)%}
+        {% set srelate2 = userid | user_relationship(a[10]) %}
+        {% set srelate = a[10] | user_relationship(userid) %}
+        {% if a[0].startswith('C') %}
+            {% if relate[1] == "Following" and relate2[1] != "Blocked" %}
+                {% include 'container.html' %}
+            {% endif %}
+        {% else %}
+            {% if srelate[1] == "Following" and srelate2[1] != "Blocked" %}
+                {% include 'share/share_container.html' %}
+            {% endif %}
+        {% endif %}
+
+    {% include 'share/share_form.html' %}
+    <br>
+    {% endfor %}
+    <div class="option">
+        <div class="option-content centered">
+            <button class="report">Report</button>
+            <button class="post">Go to post</button>
+            <button class="cancel">Cancel</button>
+        </div>
+    </div>
+    {% include 'new/report.html' %}
+    {% include 'new/list.html' %}
+    {% include 'new/follower_side.html' %}
+    <script>
+        document.querySelectorAll(".follow").forEach( follow => follow.addEventListener("click", function(e) {
+            userid = e.target.getAttribute("data-follow");
+            $.ajax({
+                method: "POST",
+                url: "/relationship?userid=" + userid,
+                success: function() { $(e.target).fadeOut(100); },
+                error: function() { console.log("fail"); }
+            });
+        }));
+    </script>
+    <script src="{{ url_for('static', filename='js/list.js') }}" ></script>
+    <script src="{{ url_for('static', filename='js/following.js') }}" ></script>
+    <script src="{{ url_for('static', filename='js/option.js') }}" ></script>
+    <script src="{{ url_for('static', filename='js/album.js') }}"></script>
+    <script>
+        document.querySelectorAll("textarea[name='comment']").forEach( comment =>
+            comment.addEventListener ("keyup", function(e) {
+                var submit = document.querySelectorAll("button[type='submit']");
+                var comment = document.querySelectorAll("textarea[name='comment']");
+                var index = [].indexOf.call(comment, e.target);
+                if ( comment[index].value != "") {
+                    submit[index].disabled = false;
+                }
+                else if ( comment[index].value == "" ) {
+                    submit[index].disabled = true;
+                }
+            })
+        );
+
+        var xhttp = new XMLHttpRequest();
+        function myheart(postID) {
+            var heart = document.getElementById("heart-" + postID);
+            url = "/like_request/{{ userid }}/" + postID
+            heart.classList.toggle("heart-mode");
+            if ( heart.classList.contains("heart-mode") == true ) {
+                xhttp.open("POST", url, true);
+            }
+            else {
+                xhttp.open("DELETE", url, true);
+            }
+            xhttp.send();
+        }
+        function myComment(comment) {
+            var ucomment = document.getElementById("comment " + comment);
+            if ($(ucomment).val() != "" ) {
+                $.ajax({
+                    method: "POST",
+                    data: {comment:$(ucomment).val()},
+                    url: "/comment_request/{{ userid }}/" + comment,
+                    success: function() { $(ucomment).val(""); },
+                });
+            }
+            else { alert("cannot blank"); }
+        }
+    </script>
+    <script>
+        (function () {
+            $(".close_share").click (function () {
+                $(".share_form_container").fadeOut(200);
+                document.body.style.overflow = "";
+            });
+            $(".share-icon").click(function (e) {
+                var x = e.target.getAttribute("data-post-id");
+                $("#share_form_" + x).fadeIn(300);
+                document.body.style.overflow = "hidden";
+            });
+        })();
+
+        function share_form(pid) {
+            id = document.querySelector("span").innerHTML;
+            var text = document.getElementById("share-form-" + pid.id).value;
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    $(".share_form_container").fadeOut(200);
+                    document.body.style.overflow = "";
+                }
+            };
+            xhttp.open("POST", "/share_request/" + id + "?postID=" + pid.id + "&text=" + text, true);
+            xhttp.send();
+        }
+    </script>
+</body>
+{% endblock %}

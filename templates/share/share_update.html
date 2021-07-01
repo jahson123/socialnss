@@ -1,0 +1,128 @@
+<style>
+.share_form_container {
+    background-color: rgba(26, 26, 26, 0.4);
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    position: fixed;
+}
+        .share_form {
+            place-items: center;
+            margin: auto;
+            border-radius: 5px;
+            border-color: white;
+            border-width: 1px;
+            border-style: solid;
+            width: 35%;
+            height: 80%;
+            -webkit-flex: 4;
+            -ms-flex: 4;
+            flex: 4;
+            background-color: white;
+        }
+        .share_form_title {
+            text-align:center;
+            padding: 10px 5px;
+            font-size: 15px;
+            border-bottom-style: solid;
+            border-color: #cccccc;
+            border-width: 1px;
+        }
+        .share_form_text {
+            position: relative;
+            width: 100%;
+            height: 20%;
+            resize: none;
+            padding: 5px;
+            border: none;
+            font-size: 15px;
+        }
+        .centered {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+        .share_user_content{
+            -webkit-flex: 4;
+            -ms-flex: 4;
+            flex: 4;
+            height: 250px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        .share_user_content img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+            display: block;
+            margin: auto;
+        }
+        .share_user_content::-webkit-scrollbar { width: 8px; }
+        .share_user_content::-webkit-scrollbar-thumb {
+            background: grey;
+            border-radius: 5px;
+        }
+        .share_user_name { padding: 10px 10px; }
+        .share_description { max-width: 100%; padding: 10px 10px; }
+        .share_description_text { font-size: 14px; }
+
+        input[type='submit'] {
+            color: white;
+            border: 1px solid #3385ff;
+            background: #3385ff;
+            width: 400px;
+            height: 40px;
+            border-radius: 50px;
+            text-align: center;
+            display: block;
+            margin: auto;
+        }
+        input:focus, button:focus, textarea { outline: none; }
+        .close_share {
+            float: right;
+            position: absolute;
+            right: 3%;
+            top: -5px;
+            font-size: 30px;
+        }
+</style>
+<div class="share_form_container" id="share_form_{{ myresult[0] }}" style="display: none">
+    <div class="share_form centered">
+        <div class="share_form_title" style="">Update Share
+            <span class="close_share">&times;</span>
+        </div>
+        <div style="padding: 10px 20px;">
+            {% if userid | userpic == "" %}
+                <img class="user-circle" src="{{ url_for('static', filename='img/Not available.png') }}"/>
+            {% elif userid | userpic != "" %}
+                <img class="user-circle" src="{{ userid | userpic }}"/>
+            {% endif %}
+            <span>{{ myresult[8] }}</span>
+            <br>
+            <textarea class="share_form_text" cols="50" id="share-form-{{ myresult[0] }}" name="share" placeholder="Share your feeling..." autocomplete="off">{{ myresult[6] }}</textarea>
+        </div>
+        <div class="share_user_content">
+            {% if myresult[12] != "Active" %}
+                    <img src="{{ url_for('static', filename='img/Not available.png') }}"/>
+            {% elif myresult[12] == "Active" %}
+            <div style="max-width:100%; height: 280px;">
+                {% if myresult[1] == "Photo" %}
+                    <img src="{{ myresult[2] }}"/>
+                {% else %}
+                    <video class="video-fluid" width='100%' controls>
+                        <source src="{{ myresult[2] }}" type="video/mp4" />
+                    </video>
+                {% endif %}
+            </div>
+            <span class="share_user_name">{{ myresult[4] }}</span> <br>
+            <div class="share_description">
+                <span class="share_description_text">{{ myresult[3] }}</span>
+            </div>
+            {% endif %}
+        </div>
+        <br>
+        <input type="submit" value="Update" onclick="share_form({{ myresult[0] }})" />
+    </div>
+</div>

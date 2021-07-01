@@ -1,0 +1,48 @@
+{% extends "Admin/abase.html" %}
+{% block title %}Report Data{% endblock %}
+{% block content %}
+<h5 style="padding: 20px; color: rgb(0, 0, 0, 0.6)">Report Data</h5>
+<div class="container-fluid" style="background-color:white; max-width: 100%;; padding: 15px;">
+    <table id="example" class="table table-striped table-bordered" style="max-width: 100%;">
+        <thead>
+            <tr>
+                <th>ReportID</th>
+                <th>CID</th>
+                <th>ReportDetail</th>
+                <th>Report_dateTime</th>
+                <th>UserID</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody >
+            {% for report in db %}
+            <tr>
+                <td>{{ report[0] }}</td>
+                <td>{{ report[1] }}</td>
+                <td>{{ report[2] }}</td>
+                <td>{{ report[3] }}</td>
+                <td>{{ report[4] }}</td>
+                <td>
+                    {% if report[5] == "Video" %}
+                        <a href="/admin_video_view/{{ report[1] }}" class="btn btn-primary">View</a> &nbsp; &nbsp;
+                    {% elif report[5] == "Photo" %}
+                        <a href="/admin_photo_view/{{ report[1] }}" class="btn btn-primary">View</a>
+                    {% elif report[5] == "Album" %}
+                        <a href="/admin_album_view/{{ report[1] }}" class="btn btn-primary">View</a>
+                    {% endif %}
+                    <a href="/admin_handle/{{ report[0] }}" class="btn btn-success">Handle</a> &nbsp; &nbsp;
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<script>
+$(document).ready(function() {
+    $('#example').DataTable();
+
+});
+document.querySelector("#report").classList.add("active");
+</script>
+
+{% endblock %}

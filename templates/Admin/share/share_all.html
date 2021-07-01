@@ -1,0 +1,43 @@
+{% extends "Admin/abase.html" %}
+{% block title %}Share Data{% endblock %}
+{% block content %}
+<h5 style="padding: 20px; color: rgb(0, 0, 0, 0.6)">Share Data</h5>
+<div class="container-fluid" style="background-color:white; padding: 15px;">
+    <table id="example" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>ShareID</th>
+                <th>CID</th>
+                <th>Description</th>
+                <th>Share Date</th>
+                <th>UserID</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for share in db %}
+            <tr>
+                <td>{{ share[0] }}</td>
+                <td>{{ share[1] }}</td>
+                <td style="text-overflow: ellipsis;">{{ share[2] }}</td>
+                <td>{{ share[3] }}</td>
+                <td>{{ share[4] }}</td>
+                <td>{{ share[5] }}</td>
+                <td>
+                    <a href="/admin_share_view/{{ share[0] }}/{{ share[7] }}" class="btn btn-primary">View</a>
+                    <a href="/admin_share_update/{{ share[0] }}/{{ share[7] }}" class="btn btn-success">Update</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<script>
+$(document).ready(function() {
+    $('#example').DataTable();
+});
+document.querySelector("#share").classList.add("active");
+</script>
+
+{% endblock %}

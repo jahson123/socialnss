@@ -1,0 +1,45 @@
+{% extends "Admin/abase.html" %}
+{% block title %}Like Data{% endblock %}
+{% block content %}
+<h5 style="padding: 20px; color: rgb(0, 0, 0, 0.6)">Like Data</h5>
+<div class="container-fluid" style="background-color:white; padding: 15px;">
+    <table id="example" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>LikeID</th>
+                <th>UserID</th>
+                <th>CID</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for like in reacts %}
+            <tr>
+                <td>{{ like[0] }}</td>
+                <td>{{ like[1] }}</td>
+                <td>{{ like[2] }}</td>
+                <td>
+                    <a href="/admin_view_profile/{{ like[1] }}" class="btn btn-primary">{{ like[1] }}</a> &nbsp; &nbsp;
+                    {% if like[3] == "Video" %}
+                        <a href="/admin_video_view/{{ like[2] }}" class="btn btn-primary">{{ like[2] }}</a>
+                    {% elif like[3] == "Photo" %}
+                        <a href="/admin_photo_view/{{ like[2] }}" class="btn btn-primary">{{ like[2] }}</a>
+                    {% elif like[3] == "Album" %}
+                        <a href="/admin_album_view/{{ like[2] }}" class="btn btn-primary">{{ like[2] }}</a>
+                    {% else %}
+                        <a href="/admin_share_view/{{ like[2] }}/{{ like[3] }}" class="btn btn-primary">{{ like[2] }}</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<script>
+$(document).ready(function() {
+    $('#example').DataTable();
+});
+document.querySelector("#like").classList.add("active");
+</script>
+
+{% endblock %}

@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+<title>Profile</title>
+{% block content %}
+<head>
+    <style>
+        .body { margin: 0; background-color: #e699ff;}
+        .column.side {
+            width: 25%;
+            background-color: white;
+            border: 1px solid #e6e6e6;
+        }
+        .column.side a {
+            color: black;
+            text-decoration: none;
+        }
+        .column.content {
+            padding: 20px;
+            width: 75%;
+            background-color: white;
+            float: right;
+            border: 1px solid #e6e6e6;
+        }
+        .row:after {
+            display: table;
+            clear: both;
+        }
+        @media screen and (max-width: 600px) {
+            .column.side, .column.content {
+                width: 100%;
+            }
+        }
+        .column.side ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        .column.side li a {
+            padding: 20px 50px;
+            display: block;
+        }
+        .column.side li a:hover:not(.active) {
+            background-color: #e6e6e6;
+            color: black;
+            text-decoration: none;
+            border-style: hidden hidden hidden solid;
+            border-color: #bfbfbf;
+        }
+        .active {
+            border-style: hidden hidden hidden solid;
+            border-color: black;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" style="padding: 30px;">
+        <div class="row">
+            <div class="column side">
+            <ul>
+                <li><a href="/profile" class="active">Edit Profile</a></li>
+                <li><a href="/profile/password">Change Password</a></li>
+                <li><a href="/profile/picture">Profile Photo</a></li>
+            </ul>
+            </div>
+        <div class="column content">
+            <div class="form-group">
+                <form action="/profile" method="POST">
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Username</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" placeholder="name" name="name" value="{{ user[0] }}" disabled required>
+                        </div>
+                        <div class="col-sm-2"></div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Name</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" placeholder="name" maxlength="50" name="upname" value="{{ upro[2] }}" required>
+                        </div>
+                        <div class="col-sm-2"></div>
+                    </div>
+                    <br>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Email</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" placeholder="email" name="email" value="{{ user[2] }}" required>
+                        </div>
+                        <div class="col-sm-2"></div>
+                    </div>
+                    <br>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Gender</label>
+                        <div class="col-sm-8">
+                            {% if upro[3] == "Male" %}
+                                <div class="form-check"><input class="form-check-input" type="radio" name="gender" value="Male" checked>Male</div>
+                                <div class="form-check"><input class="form-check-input" type="radio" name="gender" value="Female">Female</div>
+                                <div class="form-check"><input class="form-check-input" type="radio" name="gender" value="None">None</div>
+                            {% elif upro[3] == "Female" %}
+                                <div class="form-check"><input class="form-check-input" type="radio" name="gender" value="Male">Male</div>
+                                <div class="form-check"><input class="form-check-input" type="radio" name="gender" value="Female" checked>Female</div>
+                                <div class="form-check"><input class="form-check-input" type="radio" name="gender" value="None">None</div>
+                            {% elif upro[3] == "None" %}
+                                <div class="form-check"><input class="form-check-input" type="radio" name="gender" id="male" value="Male">Male</div>
+                                <div class="form-check"><input class="form-check-input" type="radio" name="gender" id="female" value="">Female</div>
+                                <div class="form-check"><input class="form-check-input" type="radio" name="gender" value="None" checked>None</div>
+                             {% endif %}
+                        </div>
+                        <div class="col-sm-2"></div>
+                    </div>
+                    <br>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Status</label>
+                        <div class="col-sm-8">
+                            {% if upro[4] == "Married" %}
+                                <div class="form-check"><input class="form-check-input" type="radio" name="status" value="Married" checked>Married</div>
+                                <div class="form-check"><input class="form-check-input" type="radio" name="status" value="Single">Single</div>
+                                <div class="form-check"><input class="form-check-input" type="radio" name="status" value="None">None</div>
+                            {% elif upro[4] == "Single" %}
+                                <div class="form-check"><input class="form-check-input" type="radio" name="status" value="Married">Married</div>
+                                <div class="form-check"><input class="form-check-input" type="radio" name="status" value="Single" checked>Single</div>
+                                <div class="form-check"><input class="form-check-input" type="radio" name="status" value="None">None</div>
+                            {% elif upro[4] == "None" %}
+                                <div class="form-check"><input class="form-check-input" type="radio" name="status" value="Married">Married</div>
+                                <div class="form-check"><input class="form-check-input" type="radio" name="status" value="Single">Single</div>
+                                <div class="form-check"><input class="form-check-input" type="radio" name="status" value="None" checked>None</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-sm-2"></div>
+                    </div>
+                    <br>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Date of Birth</label>
+                        <div class="col-sm-8">
+                            <input type="date" name="dob" class="form-control" value="{{ upro[5] }}"/>
+                        </div>
+                        <div class="col-sm-2"></div>
+                    </div>
+                    <br>
+                    <div class="mb-3 row">
+                        <div class="col-sm-8">
+                        <button type="submit" class="btn btn-primary">Update</button>
+                        </div>
+                    </div>
+                    <br>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+{% endblock %}

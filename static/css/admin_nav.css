@@ -1,0 +1,64 @@
+body {
+      margin: 0;
+      background-color: rgb(153, 194, 255, 0.3);
+    }
+
+    .sidebar {
+      margin: 0;
+      padding: 0;
+      width: 200px;
+      background: rgb(38, 38, 38, 0.9);
+      position: fixed;
+      height: 100%;
+      overflow: auto;
+    }
+
+    .sidebar a {
+      display: block;
+      color: white;
+      padding: 16px;
+      text-decoration: none;
+    }
+
+    .sidebar a.active {
+      background-color: rgb(115, 115, 115, 0.5);
+      color: white;
+    }
+
+    .sidebar a:hover:not(.active) {
+      background: rgb(179, 204, 255, 0.2);
+    }
+
+    div.content {
+      margin-left: 200px;
+      padding: 1px 16px;
+      overflow-y: auto;
+    }
+
+    @media screen and (max-width: 700px) {
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+      .sidebar a {float: left;}
+      div.content { margin-left: 0; overflow-y: auto; }
+    }
+
+    @media screen and (max-width: 400px) {
+      .sidebar a {
+        text-align: center;
+        float: none;
+      }
+    }
+    #settings path { stroke: rgb(217, 217, 217); }
+    #logout path { fill: rgb(217, 217, 217);  }
+    .sidebar::-webkit-scrollbar {
+        width: 10px;
+    }
+    .sidebar::-webkit-scrollbar-tract {
+        background: rgb(153, 194, 255, 0.3);
+    }
+    .sidebar::-webkit-scrollbar-thumb {
+      background: rgb(191, 191, 191, 0.8);
+    }

@@ -1,0 +1,38 @@
+{% extends "Admin/abase.html" %}>
+{% block title %}Admin Create{% endblock %}
+{% block content %}
+<h5 style="padding: 20px; color: rgb(0, 0, 0, 0.6)">Admin Settings | add admin</h5>
+<div class="container" style="background-color:white">
+    <div class="form-group">
+        <form action="/admin_create" method="POST">
+            <div class="mb-3 row" style="padding: 10px;">
+                <label class="col-sm-2 col-form-label" style="font-size: 20px;">Admin username</label>
+                <div class="col-sm-8">
+                    <input type="text" name="uname" placeholder="username" minlength="6" maxlength="20" autocomplete="off" class="form-control" required/>
+                </div>
+            </div>
+            <div class="mb-3 row" style="padding: 10px;">
+                <label class="col-sm-2 col-form-label" style="font-size: 20px;">Password</label>
+                <div class="col-sm-8">
+                    <input type="password" name="pwd" minlength="6" maxlength="20" placeholder="password" class="form-control" required/>
+                </div>
+            </div>
+            <div class="mb-3 row" style="padding: 10px;">
+                <label class="col-sm-2 col-form-label" style="font-size: 20px;">Repeat Password</label>
+                <div class="col-sm-8">
+                    <input type="password" name="rpwd" minlength="6" maxlength="20" placeholder="repeat password" class="form-control" required/>
+                </div>
+            </div>
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {%  for message in messages %}
+                <span style="color: red; padding: 15px;">{{ message }}</span>
+            {% endfor %}{% endif %}{% endwith %}
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Add</button> &nbsp; &nbsp;
+        </form>
+    </div>
+</div>
+<script>
+    document.querySelector("#admin").classList.add("active");
+</script>
+{% endblock %}

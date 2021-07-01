@@ -1,0 +1,53 @@
+{% extends "Admin/abase.html" %}
+{% block title %}Share View{% endblock %}
+{% block link %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300&display=swap" rel="stylesheet">
+    <style>
+        label { font-weight: bold; font-size: 20px; padding: 10px;}
+        span { font-family: 'Merriweather', serif; font-size: 18px;}
+        .pic {
+            display: block;
+            margin: auto;
+            width: 80%;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+<h5 style="padding: 20px; color: rgb(0, 0, 0, 0.6)">Share Data | {{ share[0] }}</h5>
+<div class="container-fluid" style="background-color:white; padding: 15px;">
+    <div class="mb-3 row">
+        <div class="col-sm-5">
+            {% if post[9] == "Photo" %}
+                <img class="pic" src="{{ post[6] }}" alt="{{ post[5] }}">
+            {% elif post[9] == "Video" %}
+                <video class="video-fluid" width="100%" controls>
+                    <source src="{{ post[6] }}" type="video/{{ post[8] }}" />
+                </video>
+            {% endif %}
+        </div>
+        <div class="col-sm-7">
+            <p><label>Description: &nbsp; <span>{{ share[2] }}</span></label></p>
+            <p><label>Share DateTime: &nbsp; <span>{{ share[3] }}</span></label></p>
+            <p>
+                <label>UserID: &nbsp; <span>{{ share[4] }}</span></label> &nbsp;  &nbsp; &nbsp;
+                <label>Status: &nbsp; <span>{{ share[5] }}</span></label>
+            </p>
+            <p>
+                <label class="user_like_list" data-post-id="{{ post[0] }}">Like: &nbsp; <span data-post-id="{{ post[0] }}">{{ react[0] }}</span></label>  &nbsp; &nbsp;
+                <label class="user_comment_list" data-post-id="{{ post[0] }}">Comment: &nbsp; <span data-post-id="{{ post[0] }}">{{ react[1] }}</span></label>  &nbsp; &nbsp;
+                <label class="user_share_list" data-post-id="{{ post[0] }}">Share: &nbsp; <span data-post-id="{{ post[0] }}">{{ react[2] }}</span></label>  &nbsp; &nbsp;
+            </p>
+        </div>
+    </div>
+    <center><a href="/postdb?type=Share" class="btn btn-primary btn-md btn-block" style="width: 80%;">Back</a></center>
+    <br>
+</div>
+{% include 'new/list.html' %}
+<script src="{{ url_for('static', filename='js/react.js')  }}"></script>
+<script>
+document.querySelector("#photo").classList.add("active");
+</script>
+
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <style>
+        body { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+<main class="main_full">
+    <br>
+    <div class="container-fluid">
+                <center>
+                <video class="video-fluid" width="50%" controls>
+                    <source src="{{ myresult[2] }}" type="video/{{ myresult[6] }}" />
+                </video></center>
+
+        <div class="container-md">
+            <h4>Description</h4>
+            <div class="jumbotron"  style="background-color: white" width="50%">
+                <p class="lead">{{ myresult [3] }}</p>
+            </div>
+                <a href="/video_update/{{ myresult[0] }}/{{ myresult[1] }}/{{ myresult[5] }}" class="btn btn-success">Update</a>&nbsp; &nbsp;
+                <button id="delete" class="btn btn-danger" onclick="myFunction()">Delete</button>&nbsp; &nbsp;
+                <a href="/homepage" class="btn btn-primary">Back</a>
+        </div>
+    </div>
+    <br>
+</main>
+
+<script>
+    $(document).ready(function() {
+        $("#delete").click(function()
+        {
+            if (confirm("Do you want to delete the post ?"))
+            {
+                alert("Confirm deleted !");
+                $(location).attr('href','/post_update/{{ myresult[0] }}');
+            }
+        });
+    });
+</script>
+
+</body>
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends "Admin/abase.html" %}
+{% block title %}Admin Dashboard {% endblock %}
+{% block content %}
+<h5 style="padding: 20px; color: rgb(0, 0, 0, 0.6)">Dashboard</h5>
+<div class="container-fluid" style="background-color:white; max-width: 100%;; padding: 15px;">
+    <table id="example" class="table table-striped table-bordered" style="max-width: 100%;">
+        <thead>
+            <tr>
+                <th>RID</th>
+                <th>ReportID</th>
+                <th>Report Status</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody >
+            {% for report in db %}
+            <tr>
+                <td>{{ report[0] }}</td>
+                <td>{{ report[1] }}</td>
+                <td>{{ report[3] }}</td>
+                <td>{{ report[4] }}</td>
+                <td>{{ report[5] }}</td>
+                <td>
+                    <a href="/admin_repinfo/{{ report[0] }}" class="btn btn-primary">View</a> &nbsp; &nbsp;
+                    <button data-id="{{ report[0] }}" class="btn btn-success complete" type="button">Complete</button> &nbsp; &nbsp;
+                    <button data-id="{{ report[0] }}" class="btn btn-danger remove" type="button">Remove</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="overlay">
+    <div class="update_content centered">
+        <div class="content_title">Report Completed</div>
+        <div style="padding: 10px;">Are you confirm to complete this report ?</div>
+        <div style="float: right; padding: 5px;">
+            <button class="cancel">Cancel</button>
+            <button class="confirm">Confirm</button>
+        </div>
+    </div>
+    <div class="delete_content centered">
+        <div class="content_title">Remove Report</div>
+        <div style="padding: 10px;">Do you sure want to remove this remove ?</div>
+        <div style="float: right; padding: 5px;">
+            <button class="cancel">Cancel</button>
+            <button class="confirm">Confirm</button>
+        </div>
+    </div>
+</div>
+<script>
+$(document).ready(function() {
+    $('#example').DataTable();
+    $(".remove").click(function(e) {
+        $(".overlay, .delete_content").fadeIn(100);
+        $(".confirm").click(function() {
+            $.ajax({
+                url: "/admin_remove/" + e.target.getAttribute("data-id"),
+                success: function() { alert("Remove success"); location.reload(); }
+            });
+        });
+    });
+    $(".complete").click(function(e) {
+        $(".overlay, .update_content").fadeIn(100);
+        $(".confirm").click(function() {
+        console.log(e.target.getAttribute("data-id"));
+            $.ajax({
+                method: "POST",
+                url: "/admin_completed/" + e.target.getAttribute("data-id"),
+                success: function() { alert("Report complete"); location.reload(); }
+            });
+        });
+    });
+    $(".cancel").click(function() {
+        $(".overlay, .delete_content, .update_content").fadeOut(100);
+    });
+});
+document.querySelector("#dashboard").classList.add("active");
+</script>
+
+{% endblock %}
+

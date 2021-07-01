@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %} Dashboard {% endblock %}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/admin.css') }}" >
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/admin_nav.css') }}" >
+    {% block link %}{% endblock %}
+</head>
+<body>
+
+<div class="sidebar">
+    <a href="/dashboard" id="dashboard">Dashboard</a>
+    <a href="/admin_view" id="admin">Admin Info</a>
+    <a href="/admin_user" id="user">User Info</a>
+    <a data-toggle="collapse" href="#collapse1">Post</a>
+    <div id="collapse1" class="collapse">
+        <a class="nav-link list" href="/postdb?type=Video" id="video"> &nbsp; &nbsp; Video Post</a>
+        <a class="nav-link list" href="/postdb?type=Photo" id="photo"> &nbsp; &nbsp; Photo Post</a>
+        <a class="nav-link list" href="/postdb?type=Album" id="album"> &nbsp; &nbsp; Album Post</a>
+        <a class="nav-link list" href="/postdb?type=Share" id="share"> &nbsp; &nbsp; Share Post</a>
+    </div>
+    <a data-toggle="collapse" href="#collapse2">Reaction</a>
+    <div id="collapse2" class="collapse">
+        <a class="nav-link list" href="/admin_react/like" id="like"> &nbsp; &nbsp; Like</a>
+        <a class="nav-link list" href="/admin_react/comment" id="comment"> &nbsp; &nbsp; Comment</a>
+    </div>
+    <a href="/admin_relationship" id="relation">Relationship</a>
+    <a href="/reportdb" id="report">Report</a>
+    <div style="background: rgb(26, 26, 26); color: white; padding: 15px;">
+        <img class="user-circle" src="{{ url_for('static', filename='img/default-user.png') }}"/> &nbsp;
+        {% if admin[0] != "" %}
+            {{ admin[0] }}
+        {% else %}
+            Admin
+        {% endif %}
+    </div>
+    <a href="/admin_self_update/{{ aid }}" id="settings">
+        {% include 'icon/setting.html' %} &nbsp; Settings
+    </a>
+    <a href="/logout_admin">
+        {% include 'icon/logout.html' %} &nbsp; Logout
+    </a>
+</div>
+
+<div class="content">
+    {% block content %} {% endblock %}
+</div>
+</body>
+</html>

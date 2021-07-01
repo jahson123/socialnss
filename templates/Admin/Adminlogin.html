@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Benne&family=Noto+Sans&display=swap" rel="stylesheet">
+    <style>
+        html { height: 100%; }
+        body { background: linear-gradient(to left, #ff4d4d 36%, #ff944d 100%); }
+        .container {
+            border: 2px solid none;
+            width: 30%;
+            background: white;
+            max-width: 100%;
+        }
+        header {
+            text-align: center;
+            padding: 20px;
+        }
+        header h3 { font-family: 'Benne', serif; }
+        .centered {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        button[type='submit'] {
+            display: block;
+            margin: auto;
+            width: 100%;
+            max-width: 100%;
+            padding: 10px;
+            border-radius: 25px;
+            border: #9999ff;
+            background: linear-gradient(to left, #3399ff 18%, #66ccff 100%);
+            color: white;
+        }
+        input {
+            padding: 5px;
+            width: 100%;
+            max-width: 100%;
+            border: 1px solid #bfbfbf;
+        }
+        button:focus { outline: none; }
+    </style>
+</head>
+<body>
+    <div class="container centered">
+        <header>
+            <h3>Sign In</h3>
+        </header>
+        <div>
+            <form action="/admin" method="POST">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    {%  for message in messages %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <span>{{ message }}</span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}{% endif %}{% endwith %}
+                <input type="text" name="uname" maxlength="20" placeholder="  Username" autocomplete="off"/> &nbsp;
+                <br>
+                <input type="password" name="pwd" maxlength="20" placeholder="  Password" autocomplete="off"/>
+                <div style="padding: 20px 0;">
+                <button type="submit">LogIn</button>
+                </div>
+            </form>
+        </div>
+</body>
+</html>

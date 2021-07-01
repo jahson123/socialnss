@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %} Homepage {% endblock %}
+{% block content %}
+<head>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/homepage.css') }}" >
+</head>
+<body style="background-color: white;">
+<div class="homepage">
+    <div style="padding: 20px 25px;">
+        <div class="user_profile" style="position: fixed; width: 24%">
+            <div class="user_profile_photo">
+                <img class="uphoto" src="https://firebasestorage.googleapis.com/v0/b/unique-perigee-299514.appspot.com/o/photo%2FFood.png?alt=media"/>
+                <div class="username"> {{ upro[1] }}
+                    {% if upro[2] == "Male" %}
+                        <img src="static/img/male.png"/>
+                    {% elif upro[2] == "Female" %}
+                        <img src="static/img/female.png"/>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="user_relationship">
+                <div>100 <div style="font-family: 'Open Sans', sans-serif;">Followers</div></div>
+                <div>120 <div style="font-family: 'Open Sans', sans-serif;">Following</div></div>
+            </div>
+            <div class="user_profile_info">
+                    <img src="static/img/cake.png" style="float: right"/> {{ upro[4] }} <br>
+                    {% if upro[3] == "Single" %}
+                        <img src="static/img/heart.png"/> Single
+                    {% elif upro[3] == "Married" %}
+                        <img src="static/img/married.png"/> Married
+                    {% endif %}
+            </div>
+            <a class="btn btn-primary" href="/create_post" style="color: white">Create Post</a> <br><br>
+            <br><br>
+        </div>
+    </div>
+    <div style="padding: 20px 50px;">
+        <div class="user_post">
+            <div class="user_post_photo">
+                <div style="padding: 0 40px;">
+                    <span>Photo</span>
+                    <a href="" style="float: right; text-decoration: none">See All</a>
+                </div>
+                <hr style="border-width: 2px; width: 90%">
+                <center>
+                <div class="photo">
+                    {% for a in myresult %}
+                        {% if a[1] == "Photo" %}
+                            <a href="/image_view/{{ a[0] }}"><img src="{{ a[2] }}" width='45%' style="object-fit: cover;"/></a> &nbsp;
+                        {% endif %}
+                     {% endfor %}
+                </div>
+                </center>
+            </div>
+            <br>
+            <div class="user_post_video">
+                <div style="padding: 0 40px;">
+                    <span>Video</span>
+                    <a href="" style="float: right; text-decoration: none">See All</a>
+                </div>
+                <hr style="border-width: 2px; width: 90%">
+                <div class="video">
+                    {% for a in myresult %}
+                        {% if a[1] == "Video" %}
+                            <video class="video-fluid" width='40%' controls>
+                                <source src="{{ a[4] }}" type="video/mp4" />
+                            </video>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+{% endblock %}

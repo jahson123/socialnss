@@ -1,0 +1,80 @@
+.report_form_container {
+        background-color: rgba(26, 26, 26, 0.4);
+        width: 100%;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        position: fixed;
+        display: none;
+    }
+    .report_form {
+        place-items: center;
+        margin: auto;
+        border-radius: 5px;
+        border-color: white;
+        border-width: 1px;
+        border-style: solid;
+        max-width: 35%;
+        max-height: 100%;
+        -webkit-flex: 4;
+        -ms-flex: 4;
+        flex: 4;
+        background-color: white;
+    }
+    .report_form_title {
+        text-align:center;
+        padding: 10px 5px;
+        font-size: 15px;
+        border-bottom-style: solid;
+        border-color: #cccccc;
+        border-width: 1px;
+    }
+    .report_submit {
+        color: white;
+        border: 1px solid #3385ff;
+        background: #3385ff;
+        max-width: 90%;
+        width: 350px;
+        height: 40px;
+        border-radius: 50px;
+        text-align: center;
+        display: block;
+        margin: auto;
+    }
+    .centered {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    input:focus, button:focus, textarea { outline: none; }
+    .close_report {
+        float: right;
+        position: absolute;
+        right: 3%;
+        top: -5px;
+        font-size: 30px;
+        cursor: pointer;
+    }
+    label {
+        display: block;
+        border-width: 1px;
+        border-color: #d9d9d9;
+        border-top-style: solid;
+        padding: 5px 15px;
+        max-width: 100%;
+    }
+    label:hover {
+        background: #f2f2f2;
+    }
+    input[type=radio] { display: none; }
+    input[type=radio]:checked + label{
+        background: #1a75ff;
+        color: white;
+    }
+    .report_submit:disabled {
+        border: 1px solid grey;
+        color: white;
+        background: grey;
+    }
