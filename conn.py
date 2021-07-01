@@ -30,8 +30,8 @@ class MyConnection:
 """
 username: b0ce4add4165c0
 pwd: c83f3da2 
-host: c83f3da2@us-cdbr-east-04.cleardb.com
+host: us-cdbr-east-04.cleardb.com
 db: heroku_d47041e50366ffe
 """
-connect = MyConnection("localhost", "root", "", "snss")
+connect = MyConnection("us-cdbr-east-04.cleardb.com", "b0ce4add4165c0", "c83f3da2 ", "heroku_d47041e50366ffe")
 mydb = connect.get_conn()
