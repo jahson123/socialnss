@@ -18,92 +18,161 @@ pb = pyrebase.initialize_app(config)
 
 mycursor = conn.mydb.cursor()
 
+
 def photos(cid):
     """ Fetch photo url & name from photo table """
-    mycursor.execute("Select p.Photo_url, p.Photo_name from post_photo as pp \
-                        inner join photo as p on pp.PhotoID = p.PhotoID \
-                        where pp.CID ='{}'".format(cid))
-    result = mycursor.fetchall()
+    sql = "Select p.Photo_url, p.Photo_name from post_photo as pp \
+            inner join photo as p on pp.PhotoID = p.PhotoID \
+            where pp.CID ='{}'".format(cid)
+    try:
+        mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+        mycursor.execute(sql)
+        result = mycursor.fetchall()
+    except:
+        conn.mydb.ping(True)
+        mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+        mycursor.execute(sql)
+        result = mycursor.fetchall()
     return result
 
 
 def videos(cid):
     """ Fetch video url & name from photo table """
-    mycursor.execute("Select v.Video_url, v.Video_name from post_video as pv \
-                        inner join video as v on pv.VideoID = v.VideoID \
-                        where pv.CID ='{}'".format(cid))
-    result = mycursor.fetchall()
+    sql = "Select v.Video_url, v.Video_name from post_video as pv \
+            inner join video as v on pv.VideoID = v.VideoID \
+            where pv.CID ='{}'".format(cid)
+    try:
+        mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+        mycursor.execute(sql)
+        result = mycursor.fetchall()
+    except:
+        conn.mydb.ping(True)
+        mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+        mycursor.execute(sql)
+        result = mycursor.fetchall()
     return result
+
 
 def album(userid):
     """ Fetch album """
     album = []
-    mycursor.execute("Select DISTINCT pc.CID, pc.Post_type, pc.Description, "
-                     "up.Name, pc.Post_datetime, pc.UserID, up.profile_pic \
-                      from post_content as pc \
-                        left join post_photo as pp on pc.CID = pp.CID \
-                        left join userprofile as up on pc.UserID = up.UserID \
-                      where "
-                     "pc.Post_status = 'Active' and "
-                     "pc.UserID !='{}' and "
-                     "pc.Post_type='Album'".format(userid))
-    myresult = mycursor.fetchall()
-    for x in range(len(myresult)):
-        url_list = ()
-        url_list += tuple(photos(myresult[x][0]))
-        url_list += tuple(videos(myresult[x][0]))
-        add = list(myresult[x])
-        add.append(post_content.Post_content.post_num(add[0], userid))
-        add[4] = date_cal(add[4])
-        add.insert(2, url_list)
-        b = tuple(add)
-        album += [b]
+    sql = "Select DISTINCT pc.CID, pc.Post_type, pc.Description, \
+            up.Name, pc.Post_datetime, pc.UserID, up.profile_pic \
+          from post_content as pc \
+            left join post_photo as pp on pc.CID = pp.CID \
+            left join userprofile as up on pc.UserID = up.UserID \
+          where " \
+         "pc.Post_status = 'Active' and " \
+         "pc.UserID !='{}' and " \
+         "pc.Post_type='Album'".format(userid)
+    try:
+        mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+        mycursor.execute(sql)
+        myresult = mycursor.fetchall()
+        for x in range(len(myresult)):
+            url_list = ()
+            url_list += tuple(photos(myresult[x][0]))
+            url_list += tuple(videos(myresult[x][0]))
+            add = list(myresult[x])
+            add.append(post_content.Post_content.post_num(add[0], userid))
+            add[4] = date_cal(add[4])
+            add.insert(2, url_list)
+            b = tuple(add)
+            album += [b]
+    except:
+        conn.mydb.ping(True)
+        mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+        mycursor.execute(sql)
+        myresult = mycursor.fetchall()
+        for x in range(len(myresult)):
+            url_list = ()
+            url_list += tuple(photos(myresult[x][0]))
+            url_list += tuple(videos(myresult[x][0]))
+            add = list(myresult[x])
+            add.append(post_content.Post_content.post_num(add[0], userid))
+            add[4] = date_cal(add[4])
+            add.insert(2, url_list)
+            b = tuple(add)
+            album += [b]
     return album
 
 
 def album_user(userid):
     """ Fetch specific user all album """
     album = []
-    mycursor.execute("Select DISTINCT pc.CID, pc.Post_type, pc.UserID \
+    sql = "Select DISTINCT pc.CID, pc.Post_type, pc.UserID \
                       from post_content as pc \
                         left join post_photo as pp on pc.CID = pp.CID \
                         left join userprofile as up on pc.UserID = up.UserID \
-                      where "
-                     "pc.Post_status = 'Active' and "
-                     "pc.UserID ='{}' and "
-                     "pc.Post_type='Album'".format(userid))
-    myresult = mycursor.fetchall()
-    conn.mydb.commit()
-    for x in myresult:
-        url_list = ()
-        url_list += tuple(photos(x[0]))
-        url_list += tuple(videos(x[0]))
-        add = list(x)
-        add.insert(2, url_list)
-        b = tuple(add)
-        album += [b]
+                      where " \
+                     "pc.Post_status = 'Active' and " \
+                     "pc.UserID ='{}' and " \
+                     "pc.Post_type='Album'".format(userid)
+    try:
+        mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+        mycursor.execute(sql)
+        myresult = mycursor.fetchall()
+        for x in myresult:
+            url_list = ()
+            url_list += tuple(photos(x[0]))
+            url_list += tuple(videos(x[0]))
+            add = list(x)
+            add.insert(2, url_list)
+            b = tuple(add)
+            album += [b]
+    except:
+        conn.mydb.ping(True)
+        mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+        mycursor.execute(sql)
+        myresult = mycursor.fetchall()
+        for x in myresult:
+            url_list = ()
+            url_list += tuple(photos(x[0]))
+            url_list += tuple(videos(x[0]))
+            add = list(x)
+            add.insert(2, url_list)
+            b = tuple(add)
+            album += [b]
     return album
+
 
 def fetchone(cid, userid):
     """ Fetch specific user post album """
-    mycursor.execute("Select DISTINCT pc.CID, pc.Post_type, pc.Description, "
-                     "up.Name, pc.Post_datetime, pc.UserID, up.Profile_pic \
-                      from post_content as pc \
-                        left join post_photo as pp on pc.CID = pp.CID \
-                        left join userprofile as up on pc.UserID = up.UserID \
-                      where "
-                     "pc.CID = '{}'".format(cid))
-    x= list(mycursor.fetchone())
-    x.append(post_content.Post_content.post_num(cid, userid))
-    x[4] = date_cal(x[4])
-    myresult = tuple(x)
-    url_list = ()
-    url_list += tuple(photos(myresult[0]))
-    url_list += tuple(videos(myresult[0]))
-    add = list(myresult)
-    add.insert(2, url_list)
-    myresult = tuple(add)
+    sql = "Select DISTINCT pc.CID, pc.Post_type, pc.Description, " \
+         "up.Name, pc.Post_datetime, pc.UserID, up.Profile_pic \
+          from post_content as pc \
+            left join post_photo as pp on pc.CID = pp.CID \
+            left join userprofile as up on pc.UserID = up.UserID \
+          where " \
+         "pc.CID = '{}'".format(cid)
+    try:
+        mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+        mycursor.execute(sql)
+        x= list(mycursor.fetchone())
+        x.append(post_content.Post_content.post_num(cid, userid))
+        x[4] = date_cal(x[4])
+        myresult = tuple(x)
+        url_list = ()
+        url_list += tuple(photos(myresult[0]))
+        url_list += tuple(videos(myresult[0]))
+        add = list(myresult)
+        add.insert(2, url_list)
+        myresult = tuple(add)
+    except:
+        conn.mydb.ping(True)
+        mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+        x = list(mycursor.fetchone())
+        x.append(post_content.Post_content.post_num(cid, userid))
+        x[4] = date_cal(x[4])
+        myresult = tuple(x)
+        url_list = ()
+        url_list += tuple(photos(myresult[0]))
+        url_list += tuple(videos(myresult[0]))
+        add = list(myresult)
+        add.insert(2, url_list)
+        myresult = tuple(add)
     return myresult
+
 
 def album_patch(type, files, cid):
     image = []
@@ -164,20 +233,41 @@ def album_patch(type, files, cid):
                 Post_video.delete(video_list[num][0])
     return "Album patch success"
 
+
 def album_select(type, cid):
     sql = "Select * from post_{} where CID='{}'".format(type,  cid)
-    mycursor.execute(sql)
-    myresult = mycursor.fetchall()
+    try:
+        mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+        mycursor.execute(sql)
+        myresult = mycursor.fetchall()
+    except:
+        conn.mydb.ping(True)
+        mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+        mycursor.execute(sql)
+        myresult = mycursor.fetchall()
     return myresult
 
 
 def album_update(type, type_id, id, post_id):
     sql = "Update post_{} set {}ID='{}' where PostID_{}='{}'".format(type, type, type_id, id, post_id)
-    mycursor.execute(sql)
-    conn.mydb.commit()
+    try:
+        mycursor.execute(sql)
+        conn.mydb.commit()
+    except:
+        conn.mydb.ping(True)
+        mycursor.execute(sql)
+        conn.mydb.commit()
+
 
 def content_select(type):
     sql = "Select {}ID from {} ".format(type, type)
-    mycursor.execute(sql)
-    myresult = mycursor.fetchall()
+    try:
+        mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+        mycursor.execute(sql)
+        myresult = mycursor.fetchall()
+    except:
+        conn.mydb.ping(True)
+        mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+        mycursor.execute(sql)
+        myresult = mycursor.fetchall()
     return myresult

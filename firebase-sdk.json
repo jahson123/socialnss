@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "unique-perigee-299514",
+  "private_key_id": "0ea97df3e87fbc8e719305ac5ccdd6b9aca7c670",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQD5lif7BHp7Cp2d\nXBKY8Telak/4qMvVGvij2iI1G6oml0UFi1yNUlrePF2h+QK/gQOOuxW6HaCnCVHh\nq2stkJTlr9gMLw6p8Qvx5+0gt2bU+0qsRG40WcMvKEVAkTmyf76cK4oSzal7Azmr\nBkSX3oPxFRWtBhFaIzgFJjs/xMAg0OPzET+eubBfjt1zr7wGHLP+PU4pFvn7T6YK\nxZ1+X70B5x6YyF5yH68cCEOSwPSpIShgupnpPURvGVU0yIOuWXPxLVOkqI2Ccjh9\n/VgH5CaHHGYHDZx8EEm/T5lIYriqj+RuoVyQJAgr4JQN6czc6qtKnftK4hsFTZ2H\ni79UMJOnAgMBAAECggEATtOkU+zRrCuppQnv27sPiqBdmpjhK7Clh8Z8mE5g+mg7\nRemCdSXmChuBrQbi3c3m7DzdO1dhJnBUmpQTuSPZSwOzFgIEvRqi3aeU5ojWIv0s\n0+SW89THxwyOdrqHQP+EmXlM1ex7kxztKT1FC7wc6tbwbiGk+FV4O3QcMWM4FQSU\n1gCcnY5f2CNKKkZWTcvQSanvf5cuYszhZ18WR0w0zEnDJClmmHRH7afTGtQmN5fa\nKMneahFcsBZ3HbTOosypCSa+FsP6l3YvYhD+/bPwqF0+q7l7VZiURjPajciVigLd\npZvsx1uS/rTJ3iuXJaycj9yLEC6LdMh9FRSV1sTE8QKBgQD+VO1jQASuUNTKIob9\nNPLPquGcIaawxY3DQFc9ZRsHuCINODrUGxMPAglFRObCtCXIsxGcmexmE3FzAx7h\n5j+3G6AbVmX1rM28lyaoF3XXNcgEmdCjdCSDeQz5Jj+BPNWrfhats2SrP0dQE5CQ\nHr+YZBY+Qo6B22NVAvJTMp18kQKBgQD7OULBNr1mpyL6O9yB/UXXt3f0U+CJ5SU0\neO6ZaFARKHfUjuhmKLuF/LlVVHjmvm6Kt6jKAglzy6pEoRAEP58lyRsfKuSSrxmq\nvhmKwiTzU5tGFmgLNG9F7xa0Ezt8HQbwgBJvpU2qVRSXtDQnaS8olpT19blDDael\nWgbDWjgItwKBgFX/QYWdz/dhPZJbumlDzhaKIV85wbNkGVs8FkOcPFeP23O836d4\nwCkC9z+E3MJZR61lXz8kjNq3GFVbaMXZpRG1NZ4IyNEZbTenpFqSFDaA6PElUXbz\nfqU1+T0FwdNhTp5+NAzn69I7w1FATFFvFDnjHeJPfwBJvnywUl/vbXEBAoGBAJar\nE98fPl53dOHQzwHi7WVfsoCFYZAyLqsWsDqvNf3kYGHJx5WlbjoAhQKpI813foKR\nfZiRuiuJhTedxSZXJdKalzqNFgLnIySk2FrA7zpD9UcGnyXBL88oglxDgJSCMCxD\nE0uEP10do7kMKY9NZSwZi4Mr+Q0+/kGMCaxVym9nAoGAJHOW/eQ4mtEOgDIcSf25\nnxh91CLcuPwdCs/ST0rsD+QLzpEEFLxYBYBBOchK7lnFJc7dPFrF4aYmUmaW8jVo\nI4zkpjlsb5JLubAMcYW+bmUvzx95RDkwJfZNU9OyBr2o6D3hzqOWOgSNVafo6EKe\nUh7KaEXZGh40zUXvymnm8YY=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-n2h53@unique-perigee-299514.iam.gserviceaccount.com",
+  "client_id": "111051794571298847952",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-n2h53%40unique-perigee-299514.iam.gserviceaccount.com"
+}

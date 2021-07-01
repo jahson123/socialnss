@@ -40,7 +40,11 @@ class Photo:
     def photo_create(self):
         sql = "Insert into photo (PhotoID, Photo_name, Photo_url, Photo_size, Photo_type) values (%s, %s, %s, %s, %s)"
         val = (self.photo_id, self.photo_name, self.photo_url, self.photo_size, self.photo_type[-1])
-        mycursor.execute(sql, val)
+        try:
+            mycursor.execute(sql, val)
+        except:
+            conn.mydb.ping(True)
+            mycursor.execute(sql, val)
         conn.mydb.commit()
         return self.photo_id
 
@@ -53,7 +57,11 @@ class Photo:
         sql = "Update photo set Photo_name='{}', Photo_url='{}', Photo_size='{}', Photo_type='{}'" \
               "where" \
               " PhotoID = (SELECT PhotoID from post_photo WHERE CID='{}')".format(self.photo_name, self.photo_url, self.photo_size, self.photo_type[-1], cid)
-        mycursor.execute(sql)
+        try:
+            mycursor.execute(sql)
+        except:
+            conn.mydb.ping(True)
+            mycursor.execute(sql)
         conn.mydb.commit()
         return 'Photo update success'
 
@@ -66,18 +74,30 @@ class Post_photo:
     def post_image_create(self):
         sql = "Insert into post_photo (PostID_p, PhotoID, CID) values (%s, %s, %s)"
         val = (self.pp_id, self.photo_id, self.content_id)
-        mycursor.execute(sql, val)
+        try:
+            mycursor.execute(sql, val)
+        except:
+            conn.mydb.ping(True)
+            mycursor.execute(sql, val)
         conn.mydb.commit()
 
     def delete(self):
         sql = "DELETE FROM post_photo where PostID_p='{}'".format(self)
-        mycursor.execute(sql)
+        try:
+            mycursor.execute(sql)
+        except:
+            conn.mydb.ping(True)
+            mycursor.execute(sql)
         conn.mydb.commit()
         pass
 
     def update(self):
         sql = "Update post_photo set PhotoID='{}' where CID='{}'".format(self.photo_id, self.content_id)
-        mycursor.execute(sql)
+        try:
+            mycursor.execute(sql)
+        except:
+            conn.mydb.ping(True)
+            mycursor.execute(sql)
         conn.mydb.commit()
         return self.photo_id
 
@@ -87,9 +107,15 @@ class Post_photo:
               "left join photo on photo.PhotoID = pp.PhotoID " \
               "left join post_content as pc on pc.CID = pp.CID " \
               "where pp.CID='{}'".format(self)
-        mycursor.execute(sql)
-        myresult = mycursor.fetchone()
-        conn.mydb.commit()
+        try:
+            mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+            mycursor.execute(sql)
+            myresult = mycursor.fetchone()
+        except:
+            conn.mydb.ping(True)
+            mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+            mycursor.execute(sql)
+            myresult = mycursor.fetchone()
         return myresult
 
     def fetchone(self, userid):
@@ -101,38 +127,62 @@ class Post_photo:
                             left join userprofile as up on pc.UserID = up.UserID \
                           where "
                          "pc.CID = '{}'".format(self))
-        x = list(mycursor.fetchone())
-        x.append(post_content.Post_content.post_num(self, userid))
-        x[5] = date_cal(x[5])
-        myresult = tuple(x)
+        try:
+            mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+            x = list(mycursor.fetchone())
+            x.append(post_content.Post_content.post_num(self, userid))
+            x[5] = date_cal(x[5])
+            myresult = tuple(x)
+        except:
+            conn.mydb.ping(True)
+            mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+            x = list(mycursor.fetchone())
+            x.append(post_content.Post_content.post_num(self, userid))
+            x[5] = date_cal(x[5])
+            myresult = tuple(x)
         return myresult
 
 
     def fetchall_other(self):
-        mycursor.execute("Select pc.CID, pc.Post_type, p.Photo_url, pc.Description, "
+        sql = "Select pc.CID, pc.Post_type, p.Photo_url, pc.Description, " \
                          "up.Name, pc.Post_datetime, pc.UserID, up.profile_pic  \
                           from post_content as pc \
                             left join post_photo as pp on pc.CID = pp.CID \
                             left join photo as p on pp.PhotoID = p.PhotoID \
                             left join userprofile as up on pc.UserID = up.UserID \
-                          where "
-                         "pc.Post_status = 'Active' and "
-                         "pc.UserID !='{}' and "
-                         "pc.Post_type='Photo'".format(self))
-        myresult = mycursor.fetchall()
+                          where " \
+                         "pc.Post_status = 'Active' and " \
+                         "pc.UserID !='{}' and " \
+                         "pc.Post_type='Photo'".format(self)
+        try:
+            mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+            mycursor.execute(sql)
+            myresult = mycursor.fetchall()
+        except:
+            conn.mydb.ping(True)
+            mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+            mycursor.execute(sql)
+            myresult = mycursor.fetchall()
         return myresult
 
     def fetchall_user(self):
-        mycursor.execute("Select pc.CID, pc.Post_type, p.Photo_url, pc.UserID "
+        sql = "Select pc.CID, pc.Post_type, p.Photo_url, pc.UserID " \
                          "from post_content as pc \
                             left join post_photo as pp on pc.CID = pp.CID \
                             left join photo as p on pp.PhotoID = p.PhotoID \
-                          where "
-                         "pc.Post_status = 'Active' and "
-                         "pc.UserID ='{}' and "
-                         "pc.Post_type='Photo'".format(self))
-        myresult = mycursor.fetchall()
-        conn.mydb.commit()
+                          where " \
+                         "pc.Post_status = 'Active' and " \
+                         "pc.UserID ='{}' and " \
+                         "pc.Post_type='Photo'".format(self)
+        try:
+            mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+            mycursor.execute(sql)
+            myresult = mycursor.fetchall()
+        except:
+            conn.mydb.ping(True)
+            mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+            mycursor.execute(sql)
+            myresult = mycursor.fetchall()
         return myresult
 
     def method_request(self):

@@ -19,48 +19,89 @@ mycursor = conn.mydb.cursor()
 
 def user_select(uid):
     sql = "Select Username, UserPassword, Email from user where UserID='" + uid + "'"
-    mycursor.execute(sql)
-    user = mycursor.fetchone()
-    conn.mydb.commit()
+    try:
+        mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+        mycursor.execute(sql)
+        user = mycursor.fetchone()
+    except:
+        conn.mydb.ping(True)
+        mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+        mycursor.execute(sql)
+        user = mycursor.fetchone()
     return user
 
 
 def profile_select(uid):
     sql = "Select Distinct * from userprofile where UserID='" + uid + "'"
-    mycursor.execute(sql)
-    pro = mycursor.fetchone()
-    conn.mydb.commit()
+    try:
+        mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+        mycursor.execute(sql)
+        pro = mycursor.fetchone()
+    except:
+        conn.mydb.ping(True)
+        mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+        mycursor.execute(sql)
+        pro = mycursor.fetchone()
     return pro
 
 
 def profile_update(uid, name, gender, status, dob):
     sql = "Update userprofile set Name='" + name + "', Gender='"+gender+"', Status='"+status+"', Date_of_birth='"+dob+"' where UserID='"+uid+"'"
-    mycursor.execute(sql)
-    conn.mydb.commit()
+    try:
+        mycursor.execute(sql)
+        conn.mydb.commit()
+    except:
+        conn.mydb.ping(True)
+        mycursor.execute(sql)
+        conn.mydb.commit()
 
 def user_update(uid, email):
     sql = "Update user set Email='"+email+"' where UserID='" + uid + "'"
-    mycursor.execute(sql)
-    conn.mydb.commit()
+    try:
+        mycursor.execute(sql)
+        conn.mydb.commit()
+    except:
+        conn.mydb.ping(True)
+        mycursor.execute(sql)
+        conn.mydb.commit()
 
 def user_update_admin(uid, pwd, email, ev):
     sql = "Update user set UserPassword='"+pwd+"', Email='"+email+"', Email_verified='" +ev+ "' where UserID='" + uid + "'"
-    mycursor.execute(sql)
-    conn.mydb.commit()
+    try:
+        mycursor.execute(sql)
+        conn.mydb.commit()
+    except:
+        conn.mydb.ping(True)
+        mycursor.execute(sql)
+        conn.mydb.commit()
 
 def profile_create(uid, name):
     sql = "Insert into userprofile (UserID, Name, Gender, Status, Date_of_birth, Profile_pic) values (%s, %s, %s, %s, %s, %s)"
     val = (uid, name, "None", "None", "", "")
-    mycursor.execute(sql, val)
-    conn.mydb.commit()
+    try:
+        mycursor.execute(sql, val)
+        conn.mydb.commit()
+    except:
+        conn.mydb.ping(True)
+        mycursor.execute(sql, val)
+        conn.mydb.commit()
 
 def username(uid):
     sql = "SELECT user.Username, p.Name from user " \
           "join userprofile as p on user.UserID = p.UserID " \
           "where user.UserID='{}'".format(uid)
-    mycursor.execute(sql)
-    name = mycursor.fetchone()
-    session['name'] = name[1]
+    try:
+        mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+        mycursor.execute(sql)
+        name = mycursor.fetchone()
+        session['name'] = name[1]
+    except:
+        conn.mydb.ping(True)
+        mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+        mycursor.execute(sql)
+        name = mycursor.fetchone()
+        session['name'] = name[1]
+
 
 
 def profile_photo(uid):
@@ -72,8 +113,13 @@ def profile_photo(uid):
     file.seek(0, os.SEEK_END)
 
     sql = "Update userprofile set Profile_pic='{}' where UserID='{}'".format(photo_url, uid)
-    mycursor.execute(sql)
-    conn.mydb.commit()
+    try:
+        mycursor.execute(sql)
+        conn.mydb.commit()
+    except:
+        conn.mydb.ping(True)
+        mycursor.execute(sql)
+        conn.mydb.commit()
 
 
 

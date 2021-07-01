@@ -1,10 +1,8 @@
 from flask import request, session, flash
-import mysql.connector
+import conn
 import uprofile
 
-
-mydb = mysql.connector.connect(host="localhost", user="root", password="", database="snss")
-mycursor = mydb.cursor()
+mycursor = conn.mydb.cursor()
 
 
 def login():
@@ -12,9 +10,15 @@ def login():
         username = request.form.get('uname')
         pwd = request.form.get('pwd')
         sql = "Select UserID, Username, UserPassword from user where Email_verified='Verified'"
-        mycursor.execute(sql)
-        user = mycursor.fetchall()
-        mydb.commit()
+        try:
+            mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+            mycursor.execute(sql)
+            user = mycursor.fetchall()
+        except:
+            conn.mydb.ping(True)
+            mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+            mycursor.execute(sql)
+            user = mycursor.fetchall()
         for check in user:
             if check[1] == username and check[2] == pwd:
                 session['userid'] = check[0]
@@ -23,15 +27,29 @@ def login():
         else:
             return flash("Password or Username are wrong")
 
+
 def email_verified(uid):
     sql = "Update user set Email_verified='Verified' where UserID= '" + uid + "'"
-    mycursor.execute(sql)
-    mydb.commit()
+    try:
+        mycursor.execute(sql)
+        conn.mydb.commit()
+    except:
+        conn.mydb.ping(True)
+        mycursor.execute(sql)
+        conn.mydb.commit()
     return None
+
 
 def fetch_userid(uname):
     sql = "Select UserID, Email from user where UserName='" + uname + "'"
-    cursor = mydb.cursor(buffered=True)
-    cursor.execute(sql)
-    user = cursor.fetchone()
+    cursor = conn.mydb.cursor(buffered=True)
+    try:
+        mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+        cursor.execute(sql)
+        user = cursor.fetchone()
+    except:
+        conn.mydb.ping(True)
+        mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+        cursor.execute(sql)
+        user = cursor.fetchone()
     return user

@@ -20,31 +20,61 @@ class Follow:
                SELECT DISTINCT '{}', '{}' FROM relationship \
                WHERE NOT EXISTS ( SELECT * FROM relationship where UserID_1='{}' and UserID_2 ='{}' LIMIT 1); \
                UPDATE relationship set Relationship='Blocked' where UserID_1='{}' and UserID_2 ='{}'".format(self.u1, self.u2, self.u1, self.u2, self.u1, self.u2)
-        for _ in mycursor.execute(sql, multi=True):
-            pass
-        conn.mydb.commit()
+        try:
+            for _ in mycursor.execute(sql, multi=True):
+                pass
+            conn.mydb.commit()
+        except:
+            conn.mydb.ping(True)
+            for _ in mycursor.execute(sql, multi=True):
+                pass
+            conn.mydb.commit()
 
     def unblock(self):
         sql = "UPDATE relationship set Relationship='Following' where RelateID='{}'".format(self)
-        mycursor.execute(sql)
-        conn.mydb.commit()
-
+        try:
+            mycursor.execute(sql)
+            conn.mydb.commit()
+        except:
+            conn.mydb.ping(True)
+            mycursor.execute(sql)
+            conn.mydb.commit()
 
     def delete(self):
         sql = "Delete from relationship where RelateID='{}'".format(self)
-        mycursor.execute(sql)
-        conn.mydb.commit()
+        try:
+            mycursor.execute(sql)
+            conn.mydb.commit()
+        except:
+            conn.mydb.ping(True)
+            mycursor.execute(sql)
+            conn.mydb.commit()
+
 
     def fetchall(self):
         sql = "Select * from relationship"
-        mycursor.execute(sql)
-        relation = mycursor.fetchall()
+        try:
+            mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+            mycursor.execute(sql)
+            relation = mycursor.fetchall()
+        except:
+            conn.mydb.ping(True)
+            mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+            mycursor.execute(sql)
+            relation = mycursor.fetchall()
         return relation
 
     def fetchall_user(self):
         sql = "Select Distinct * from relationship where UserID_1='{}' or UserID_2='{}'".format(self, self)
-        mycursor.execute(sql)
-        relation = mycursor.fetchall()
+        try:
+            mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+            mycursor.execute(sql)
+            relation = mycursor.fetchall()
+        except:
+            conn.mydb.ping(True)
+            mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+            mycursor.execute(sql)
+            relation = mycursor.fetchall()
         return relation
 
     def fetchall_following(self):
@@ -53,8 +83,15 @@ class Follow:
               "left join userprofile as up on up.UserID = r.UserID_2 " \
               "where r.UserID_1='{}' and r.Relationship='Following'".format(self)
         cursor = conn.mydb.cursor(buffered=True)
-        cursor.execute(sql)
-        follower = cursor.fetchall()
+        try:
+            mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+            cursor.execute(sql)
+            follower = cursor.fetchall()
+        except:
+            conn.mydb.ping(True)
+            mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+            cursor.execute(sql)
+            follower = cursor.fetchall()
         return follower
 
     def fetchall_follower(self):
@@ -63,8 +100,15 @@ class Follow:
               "left join userprofile as up on up.UserID = r.UserID_1 " \
               "where r.UserID_2='{}' and r.Relationship='Following'".format(self)
         cursor = conn.mydb.cursor(buffered=True)
-        cursor.execute(sql)
-        follower = cursor.fetchall()
+        try:
+            mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+            cursor.execute(sql)
+            follower = cursor.fetchall()
+        except:
+            conn.mydb.ping(True)
+            mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+            cursor.execute(sql)
+            follower = cursor.fetchall()
         return follower
 
     def suggestion(self):
@@ -76,22 +120,43 @@ class Follow:
               "user.UserID not in (Select UserID_1 from relationship where UserID_1='{}') and " \
               "user.UserID !='{}'".format(self, self, self)
         cursor = conn.mydb.cursor(buffered=True)
-        cursor.execute(sql)
-        suggest = cursor.fetchall()
+        try:
+            mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+            cursor.execute(sql)
+            suggest = cursor.fetchall()
+        except:
+            conn.mydb.ping(True)
+            mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+            cursor.execute(sql)
+            suggest = cursor.fetchall()
         return suggest
 
     def count_following(self):
         sql = "Select Count(UserID_2) from relationship where UserID_1='{}' and Relationship='Following'".format(self)
         cursor = conn.mydb.cursor(buffered=True)
-        cursor.execute(sql)
-        following_num = cursor.fetchone()
+        try:
+            mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+            cursor.execute(sql)
+            following_num = cursor.fetchone()
+        except:
+            conn.mydb.ping(True)
+            mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+            cursor.execute(sql)
+            following_num = cursor.fetchone()
         return following_num[0]
 
     def count_followers(self):
         sql = "Select Count(UserID_1) from relationship where UserID_2='{}' and Relationship='Following'".format(self)
         cursor = conn.mydb.cursor(buffered=True)
-        cursor.execute(sql)
-        followers_num = cursor.fetchone()
+        try:
+            mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+            cursor.execute(sql)
+            followers_num = cursor.fetchone()
+        except:
+            conn.mydb.ping(True)
+            mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+            cursor.execute(sql)
+            followers_num = cursor.fetchone()
         return followers_num[0]
 
     def relationship_num(self):
@@ -110,6 +175,13 @@ def check_relation(uid1, uid2):
     sql = "Select Distinct RelateID, relationship from relationship " \
           "where UserID_1='{}' and UserID_2='{}'".format(uid1, uid2)
     cursor = conn.mydb.cursor(buffered=True)
-    cursor.execute(sql)
-    relate = cursor.fetchone()
+    try:
+        mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+        cursor.execute(sql)
+        relate = cursor.fetchone()
+    except:
+        conn.mydb.ping(True)
+        mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+        cursor.execute(sql)
+        relate = cursor.fetchone()
     return relate

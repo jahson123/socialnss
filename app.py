@@ -187,8 +187,13 @@ def suggestion():
 @app.route('/post_update/<cid>', methods=['POST'])
 def post_deactive(cid):
     sql = "Update post_content set Post_status='Deleted' where CID='" + cid + "'"
-    mycursor.execute(sql)
-    mydb.commit()
+    try:
+        mycursor.execute(sql)
+        mydb.commit()
+    except:
+        conn.mydb.ping(True)
+        mycursor.execute(sql)
+        mydb.commit()
     return redirect('/homepage')
 
 
@@ -617,9 +622,14 @@ def post(pid):
 def data():
     search = request.form.get("text")
     sql = "Select Name, UserID from userprofile where Name LIKE '%{}%'".format(search)
-    mycursor.execute(sql)
-    result = mycursor.fetchall()
-    mydb.commit()
+    try:
+        mycursor.execute(sql)
+        result = mycursor.fetchall()
+    except:
+        conn.mydb.ping(True)
+        mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+        mycursor.execute(sql)
+        result = mycursor.fetchall()
     return jsonify(result)
 
 
@@ -745,14 +755,15 @@ def relatelist():
               left join userprofile as up on up.UserID = t.UserID \
               left join relationship as r on r.UserID_2 = t.UserID \
               WHERE t.CID='{}'".format(react, cid)
-    mycursor.execute(sql)
-    result = mycursor.fetchall()
+    try:
+        mycursor.execute(sql)
+        result = mycursor.fetchall()
+    except:
+        conn.mydb.ping(True)
+        mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+        mycursor.execute(sql)
+        result = mycursor.fetchall()
     return jsonify(result)
-
-
-@app.route('/test', methods=["GET"])
-def test():
-    return render_template('new/test.html')
 
 
 @app.route('/relationship', methods=["POST", "DELETE", "PATCH"])

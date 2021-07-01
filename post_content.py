@@ -23,8 +23,13 @@ class Post_content:
                                     values (%s, %s, %s, %s, %s, %s)"
         if len(files) > 1:
             val = (self.content_id, "Album", "Active", self.description, datetime.datetime.now(), self.user_id)
-            mycursor.execute(sql, val)
-            conn.mydb.commit()
+            try:
+                mycursor.execute(sql, val)
+                conn.mydb.commit()
+            except:
+                conn.mydb.ping(True)
+                mycursor.execute(sql, val)
+                conn.mydb.commit()
             for file in files:
                 type = file.filename.split(".")[-1]
                 if type in video_type:
@@ -37,22 +42,37 @@ class Post_content:
             type = files[0].filename.split(".")[-1]
             if type in video_type:
                 val = (self.content_id, "Video", "Active", self.description, datetime.datetime.now(), self.user_id)
-                mycursor.execute(sql, val)
-                conn.mydb.commit()
+                try:
+                    mycursor.execute(sql, val)
+                    conn.mydb.commit()
+                except:
+                    conn.mydb.ping(True)
+                    mycursor.execute(sql, val)
+                    conn.mydb.commit()
                 video_id = video.Video(files[0].filename, files[0]).method_request()
                 video.Post_video(self.content_id, video_id).method_request()
             elif type in photo_type:
                 val = (self.content_id, "Photo", "Active", self.description, datetime.datetime.now(), self.user_id)
-                mycursor.execute(sql, val)
-                conn.mydb.commit()
+                try:
+                    mycursor.execute(sql, val)
+                    conn.mydb.commit()
+                except:
+                    conn.mydb.ping(True)
+                    mycursor.execute(sql, val)
+                    conn.mydb.commit()
                 photo_id = photo.Photo(files[0].filename, files[0]).method_request()
                 photo.Post_photo(self.content_id, photo_id).method_request()
         return self.content_id
 
     def update(self, types, cid, files):
         sql = "UPDATE `post_content` SET Post_type='{}', Description='{}' where CID='{}'".format(types, self.description, cid)
-        mycursor.execute(sql)
-        conn.mydb.commit()
+        try:
+            mycursor.execute(sql)
+            conn.mydb.commit()
+        except:
+            conn.mydb.ping(True)
+            mycursor.execute(sql)
+            conn.mydb.commit()
         if request.args.get("type") == types:
             if types == "Photo":
                 photo.Photo(files[0].filename, files[0]).update(cid)
@@ -77,20 +97,38 @@ class Post_content:
 
     def delete(self):
         sql = "DELETE FROM post_content where CID='{}'".format(self)
-        mycursor.execute(sql)
+        try:
+            mycursor.execute(sql)
+        except:
+            conn.mydb.ping(True)
+            mycursor.execute(sql)
         conn.mydb.commit()
         pass
 
     def fetchone(self):
         sql = "Select Distinct * from post_content where CID='{}'".format(self)
-        mycursor.execute(sql)
-        myresult = mycursor.fetchone()
+        try:
+            mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+            mycursor.execute(sql)
+            myresult = mycursor.fetchone()
+        except:
+            conn.mydb.ping(True)
+            mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+            mycursor.execute(sql)
+            myresult = mycursor.fetchone()
         return myresult
 
     def fetchall(self, type):
         sql = "Select * from post_content where post_content.Post_type='{}' Order By post_datetime ".format(type)
-        mycursor.execute(sql)
-        myresult = mycursor.fetchall()
+        try:
+            mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+            mycursor.execute(sql)
+            myresult = mycursor.fetchall()
+        except:
+            conn.mydb.ping(True)
+            mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+            mycursor.execute(sql)
+            myresult = mycursor.fetchall()
         return myresult
 
     def fetchall_other(self):
@@ -149,8 +187,15 @@ class Post_content:
 
     def status(self):
         sql = "Select Distinct Post_status from post_content where CID='{}'".format(self)
-        mycursor.execute(sql)
-        status = mycursor.fetchone()
+        try:
+            mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+            mycursor.execute(sql)
+            status = mycursor.fetchone()
+        except:
+            conn.mydb.ping(True)
+            mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+            mycursor.execute(sql)
+            status = mycursor.fetchone()
         return status[0]
 
 

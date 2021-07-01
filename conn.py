@@ -15,7 +15,8 @@ class MyConnection:
                                            user=self.user,
                                            password=self.password,
                                            database=self.database,
-                                           buffered=True)
+                                           buffered=True,
+                                           connect_time=5)
             return self.conn
         except mysql_conn.Error as err:
             if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
@@ -26,7 +27,11 @@ class MyConnection:
                 print("MySQL server not connect")
             else:
                 print(err)
-
-
+"""
+username: b0ce4add4165c0
+pwd: c83f3da2 
+host: c83f3da2@us-cdbr-east-04.cleardb.com
+db: heroku_d47041e50366ffe
+"""
 connect = MyConnection("localhost", "root", "", "snss")
 mydb = connect.get_conn()
