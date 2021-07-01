@@ -786,7 +786,7 @@ def split(string):
 def userpic(uid):
     return profile_select(uid)[6]
 
-
+@app.template_filter()
 def user_relationship(uid1, uid2):
     return follow.check_relation(uid1, uid2)
 
@@ -798,7 +798,6 @@ def post_status(pid):
 if __name__ == "__main__":
     app.jinja_env.filters['split'] = split
     app.jinja_env.filters['userpic'] = userpic
-    app.jinja_env.filters['user_relationship'] = user_relationship
     app.jinja_env.filters['post_status'] = post_status
     app.run(host="localhost", port=5000, debug=True, threaded=True)
 
