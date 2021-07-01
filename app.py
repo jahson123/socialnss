@@ -778,11 +778,11 @@ def relations():
         follow.Follow(session['userid'], user).block()
     return 'success'
 
-
+@app.template_filter()
 def split(string):
     return string.split()
 
-
+@app.template_filter()
 def userpic(uid):
     return profile_select(uid)[6]
 
@@ -790,15 +790,12 @@ def userpic(uid):
 def user_relationship(uid1, uid2):
     return follow.check_relation(uid1, uid2)
 
-
+@app.template_filter()
 def post_status(pid):
     return post_content.Post_content.status(pid)
 
 
 if __name__ == "__main__":
-    app.jinja_env.filters['split'] = split
-    app.jinja_env.filters['userpic'] = userpic
-    app.jinja_env.filters['post_status'] = post_status
     app.run(host="localhost", port=5000, debug=True, threaded=True)
 
 
