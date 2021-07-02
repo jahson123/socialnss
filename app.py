@@ -211,7 +211,7 @@ def admin_login():
                 elif check[1] != uname or check[2] != pwd:
                     flash('Password or username are wrong')
                     return redirect('/admin')
-        return render_template('admin/Adminlogin.html')
+        return render_template('Admin/Adminlogin.html')
     else:
         return redirect('/dashboard')
 
@@ -221,7 +221,7 @@ def dashboard():
     if 'adminid' in session:
         aid = admin_name(session['adminid'])
         reports = report.Report.fetchall(session['adminid'])
-        return render_template('admin/dashboard.html', admin=aid, aid=session['adminid'], db=reports)
+        return render_template('Admin/dashboard.html', admin=aid, aid=session['adminid'], db=reports)
     else:
         return redirect('/admin')
 
@@ -230,7 +230,7 @@ def user_all():
     if 'adminid' in session:
         aid = admin_name(session['adminid'])
         users = users_all()
-        return render_template('admin/admin_user.html', users=users, admin=aid, aid=session['adminid'])
+        return render_template('Admin/admin_user.html', users=users, admin=aid, aid=session['adminid'])
     else:
         return redirect('/admin')
 
@@ -241,7 +241,7 @@ def user_info(uid):
         admin = admin_name(session['adminid'])
         user = user_one(uid)
         upro = profile_select(uid)
-        return render_template('admin/admin_view_profile.html', user=user, upro=upro, admin=admin, aid=session['adminid'])
+        return render_template('Admin/admin_view_profile.html', user=user, upro=upro, admin=admin, aid=session['adminid'])
     else:
         return redirect('/admin')
 
@@ -255,7 +255,7 @@ def admin_all():
     if 'adminid' in session:
         aid = admin_name(session['adminid'])
         admins = admins_all(session['adminid'])
-        return render_template('admin/admin_view.html', admins=admins, admin=aid, aid=session['adminid'])
+        return render_template('Admin/admin_view.html', admins=admins, admin=aid, aid=session['adminid'])
 
 @app.route('/admin_delete/<uid>', methods=['GET'])
 def admin_delete(uid):
@@ -285,7 +285,7 @@ def admin_create():
         else:
             return redirect('/admin_create')
     else:
-        return render_template('admin/AdminCreate.html', admin=aid, aid=session['adminid'])
+        return render_template('Admin/AdminCreate.html', admin=aid, aid=session['adminid'])
 
 @app.route('/admin_update/<aid>', methods=['POST'])
 def admin_update(aid):
@@ -325,7 +325,7 @@ def admin_self_update(aid):
                 return redirect('/admin_self_update/' + aid)
         else:
             ad = admin_select(aid)
-            return render_template('admin/admin_self.html', ad=ad, admin=admin, aid=aid)
+            return render_template('Admin/admin_self.html', ad=ad, admin=admin, aid=aid)
     else:
         return redirect('/admin')
 
@@ -360,7 +360,7 @@ def admin_share_view(sid, types):
         elif types == "Video":
             post = ad_video_one(shares[1])
         reaction = post_content.Post_content.post_num(sid, '')
-        return render_template('admin/share/share_one.html', admin=admin, aid=session['adminid'],
+        return render_template('Admin/share/share_one.html', admin=admin, aid=session['adminid'],
                                post=post, share=shares, react=reaction)
     else:
         return redirect('/admin')
@@ -371,7 +371,7 @@ def admin_album_view(cid):
         admin = admin_name(session['adminid'])
         app = ad_album_one(cid)
         reaction = post_content.Post_content.post_num(cid, '')
-        return render_template('admin/album/album_one.html', admin=admin, aid=session['adminid'],
+        return render_template('Admin/album/album_one.html', admin=admin, aid=session['adminid'],
                                app=app, react=reaction)
     else:
         return redirect('/admin')
@@ -382,7 +382,7 @@ def admin_photo_view(cid):
         admin = admin_name(session['adminid'])
         app = ad_image_one(cid)
         reaction = post_content.Post_content.post_num(cid, '')
-        return render_template('admin/photo/image_one.html', admin=admin, aid=session['adminid'],
+        return render_template('Admin/photo/image_one.html', admin=admin, aid=session['adminid'],
                                app=app, react=reaction)
     else:
         return redirect('/admin')
@@ -393,7 +393,7 @@ def admin_video_view(cid):
         admin = admin_name(session['adminid'])
         avp = ad_video_one(cid)
         reaction = post_content.Post_content.post_num(cid, '')
-        return render_template('admin/video/video_one.html', admin=admin, aid=session['adminid'],
+        return render_template('Admin/video/video_one.html', admin=admin, aid=session['adminid'],
                                app=avp, react=reaction)
     else:
         return redirect('/admin')
@@ -403,7 +403,7 @@ def admin_photo_update(cid):
     if 'adminid' in session:
         admin = admin_name(session['adminid'])
         app = ad_image_one(cid)
-        return render_template('admin/photo/image_update.html', admin=admin, aid=session['adminid'], app=app)
+        return render_template('Admin/photo/image_update.html', admin=admin, aid=session['adminid'], app=app)
     else:
         return redirect('/admin')
 
@@ -413,7 +413,7 @@ def admin_album_update(cid):
     if 'adminid' in session:
         admin = admin_name(session['adminid'])
         app = ad_album_one(cid)
-        return render_template('admin/album/album_update.html', admin=admin, aid=session['adminid'], app=app)
+        return render_template('Admin/album/album_update.html', admin=admin, aid=session['adminid'], app=app)
     else:
         return redirect('/admin')
 
@@ -423,7 +423,7 @@ def admin_video_update(cid):
     if 'adminid' in session:
         admin = admin_name(session['adminid'])
         app = ad_video_one(cid)
-        return render_template('admin/video/video_update.html', admin=admin, aid=session['adminid'], app=app)
+        return render_template('Admin/video/video_update.html', admin=admin, aid=session['adminid'], app=app)
     else:
         return redirect('/admin')
 
@@ -443,7 +443,7 @@ def admin_share_update(sid, types):
                 post = ad_image_one(shares[1])
             elif types == "Video":
                 post = ad_video_one(shares[1])
-            return render_template('admin/share/share_update.html', admin=admin, aid=session['adminid'],
+            return render_template('Admin/share/share_update.html', admin=admin, aid=session['adminid'],
                                    post=post, share=shares)
     else:
         return redirect('/admin')
@@ -476,7 +476,7 @@ def admin_comment(id):
             post = ad_video_one(types[0])
         elif types[1] == "Album":
             post = ad_album_one(types[0])
-        return render_template('admin/react/comment_one.html', admin=admin,
+        return render_template('Admin/react/comment_one.html', admin=admin,
                                aid=session['adminid'], comment=comment, post=post, types=types[1])
     else:
         return redirect('/admin')
@@ -509,7 +509,7 @@ def admin_relationship():
     if 'adminid' in session:
         admin = admin_name(session['adminid'])
         relatedb = follow.Follow.fetchall("")
-        return render_template('admin/relation/relation_all.html', admin=admin, aid=session['adminid'], db=relatedb)
+        return render_template('Admin/relation/relation_all.html', admin=admin, aid=session['adminid'], db=relatedb)
     else:
         return redirect('/admin')
 
@@ -518,7 +518,7 @@ def admin_relationship_view(uid):
     if 'adminid' in session:
         rnum = follow.Follow.relationship_num(uid)
         relate = follow.Follow.fetchall_user(uid)
-        return render_template('admin/relation/relation_one.html', admin=admin, aid=session['adminid'],
+        return render_template('Admin/relation/relation_one.html', admin=admin, aid=session['adminid'],
                                rnum=rnum, relate=relate, uid=uid)
     else:
         return redirect('/admin')
@@ -536,7 +536,7 @@ def reportdb():
     if 'adminid' in session:
         admin = admin_name(session['adminid'])
         reportdb = report.Report_info.fetchall('')
-        return render_template('admin/report/report_all.html', admin=admin, aid=session['adminid'], db=reportdb)
+        return render_template('Admin/report/report_all.html', admin=admin, aid=session['adminid'], db=reportdb)
     else:
         return redirect('/admin')
 
