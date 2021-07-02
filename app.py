@@ -141,7 +141,7 @@ def profile_pwd():
                 flash("Old password does not correct")
                 return redirect('/profile/password')
         else:
-            return render_template('profile/change_pwd.html', userid=session['userid'])
+            return render_template('Profile/change_pwd.html', userid=session['userid'])
     else:
         return redirect('/')
 
