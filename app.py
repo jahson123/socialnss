@@ -241,7 +241,7 @@ def user_info(uid):
         admin = admin_name(session['adminid'])
         user = user_one(uid)
         upro = profile_select(uid)
-        return render_template('Admin/admin_view_profile.html', user=user, upro=upro, admin=admin, aid=session['adminid'])
+        return render_template('Admin/admin_view_profile.html', user=user[0], upro=upro, admin=admin, aid=session['adminid'])
     else:
         return redirect('/admin')
 
