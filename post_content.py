@@ -73,26 +73,27 @@ class Post_content:
             conn.mydb.ping(True)
             mycursor.execute(sql)
             conn.mydb.commit()
-        if request.args.get("type") == types:
-            if types == "Photo":
-                photo.Photo(files[0].filename, files[0]).update(cid)
-            elif types == "Video":
-                video.Video(files[0].filename, files[0]).update(cid)
-            elif types == "Album":
-                album.album_patch("Photo", files, cid)
-                album.album_patch("Video", files, cid)
-        elif request.args.get("types") != types:
-            if types == "Photo":
-                video.Post_video(cid, "").delete()
-                photo_id = photo.Photo(files[0].filename, files[0]).method_request()
-                photo.Post_photo(cid, photo_id).method_request()
-            elif types == "Video":
-                photo.Post_photo(cid, "").delete()
-                video_id = video.Video(files[0].filename, files[0]).method_request()
-                video.Post_video(cid, video_id).method_request()
-            elif types == "Album":
-                album.album_patch("Photo", files, cid)
-                album.album_patch("Video", files, cid)
+        if files[0].filename != "":
+            if request.args.get("type") == types:
+                if types == "Photo":
+                    photo.Photo(files[0].filename, files[0]).update(cid)
+                elif types == "Video":
+                    video.Video(files[0].filename, files[0]).update(cid)
+                elif types == "Album":
+                    album.album_patch("Photo", files, cid)
+                    album.album_patch("Video", files, cid)
+            elif request.args.get("types") != types:
+                if types == "Photo":
+                    video.Post_video(cid, "").delete()
+                    photo_id = photo.Photo(files[0].filename, files[0]).method_request()
+                    photo.Post_photo(cid, photo_id).method_request()
+                elif types == "Video":
+                    photo.Post_photo(cid, "").delete()
+                    video_id = video.Video(files[0].filename, files[0]).method_request()
+                    video.Post_video(cid, video_id).method_request()
+                elif types == "Album":
+                    album.album_patch("Photo", files, cid)
+                    album.album_patch("Video", files, cid)
         return 'Update post content success'
 
     def delete(self):
