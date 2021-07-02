@@ -155,7 +155,7 @@ def profile_pic():
             return redirect('/profile/picture')
         else:
             pic = profile_select(session['userid'])
-            return render_template('profile/profile_picture.html', pic=pic[6], userid=session['userid'])
+            return render_template('Profile/profile_picture.html', pic=pic[6], userid=session['userid'])
     else:
         return redirect('/')
 
