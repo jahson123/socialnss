@@ -31,19 +31,16 @@
 	{% set relate2 = a[6] | user_relationship(userid)%}
 	{% set srelate2 = userid | user_relationship(a[10]) %}
 	{% set srelate = a[10] | user_relationship(userid) %}
-    <br>
         {% if a[0].startswith('C') %}
             {% if relate[1] == "Following" and relate2[1] != "Blocked" %}
-                {% include 'container.html' %}
+                {% include 'container.html' %} {% include 'share/share_form.html' %}
+		
             {% endif %}
         {% else %}
             {% if srelate[1] == "Following" and srelate2[1] != "Blocked" %}
                 {% include 'share/share_container.html' %}
             {% endif %}
         {% endif %}
-
-    {% include 'share/share_form.html' %}
-    <br>
     {% endfor %}
     <div class="option">
         <div class="option-content centered">
