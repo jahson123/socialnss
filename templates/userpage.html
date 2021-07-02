@@ -29,8 +29,8 @@
     {% for a in myresult %}
 	{% set relate = userid | user_relationship(a[6])%}
 	{% set relate2 = a[6] | user_relationship(userid)%}
-	{% set srelate2 = userid | user_relationship(a[5]) %}
-	{% set srelate = a[5] | user_relationship(userid) %}
+	{% set srelate = userid | user_relationship(a[5]) %}
+	{% set srelate2 = a[5] | user_relationship(userid) %}
         {% if a[0].startswith('C') %}
             {% if relate[1] == "Following" and relate2[1] != "Blocked" %}
                 {% include 'container.html' %} {% include 'share/share_form.html' %}
