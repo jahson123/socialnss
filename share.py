@@ -41,18 +41,18 @@ def check_share(cid):
 
 def fetchphoto_others(userid):
     sql = "Select share.ShareID, pc.Post_type, p.Photo_url, pc.Description, " \
-                     "up.Name, pc.UserID, share.Share_describe, share.Share_dateTime, up.UserID, up2.Name, " \
-                     "up2.Profile_pic, pc.Post_status  \
-                     from share \
-                        left join post_content as pc on share.CID = pc.CID \
-                        left join post_photo as pp on pc.CID = pp.CID \
-                        left join photo as p on pp.PhotoID = p.PhotoID \
-                        left join userprofile as up on pc.UserID = up.UserID \
-                        left join userprofile as up2 on share.UserID = up2.UserID \
-                     where " \
-                     "share.Share_status='Active' and " \
-                     "share.UserID !='" + userid + "' and " \
-                     "pc.Post_type ='Photo'"
+          "up2.Name, up2.UserID, share.Share_describe, share.Share_dateTime, up.UserID, up.Name, " \
+          "up2.Profile_pic, pc.Post_status  \
+           from share \
+                left join post_content as pc on share.CID = pc.CID \
+                left join post_photo as pp on pc.CID = pp.CID \
+                left join photo as p on pp.PhotoID = p.PhotoID \
+                left join userprofile as up on pc.UserID = up.UserID \
+                left join userprofile as up2 on share.UserID = up2.UserID \
+         where " \
+         "share.Share_status='Active' and " \
+         "share.UserID !='" + userid + "' and " \
+         "pc.Post_type ='Photo'"
     try:
         mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
         mycursor.execute(sql)
@@ -67,18 +67,18 @@ def fetchphoto_others(userid):
 
 def fetchvideo_others(userid):
     sql = "Select share.ShareID, pc.Post_type, v.Video_url, pc.Description, " \
-                     "up.Name, pc.UserID, share.Share_describe, share.Share_dateTime, up2.Name, " \
-                     "up.Profile_pic, pc.Post_status \
-                     from share \
-                        left join post_content as pc on share.CID = pc.CID \
-                        left join post_video as pv on pc.CID = pv.CID \
-                        left join video as v on pv.VideoID = v.VideoID \
-                        left join userprofile as up on pc.UserID = up.UserID \
-                        left join userprofile as up2 on share.UserID = up2.UserID \
-                     where " \
-                     "share.Share_status='Active' and " \
-                     "share.UserID !='" + userid + "' and " \
-                     "pc.Post_type ='Video'"
+          "up2.Name, up2.UserID, share.Share_describe, share.Share_dateTime, up.UserID, up.Name, " \
+          "up2.Profile_pic, pc.Post_status \
+           from share \
+                left join post_content as pc on share.CID = pc.CID \
+                left join post_video as pv on pc.CID = pv.CID \
+                left join video as v on pv.VideoID = v.VideoID \
+                left join userprofile as up on pc.UserID = up.UserID \
+                left join userprofile as up2 on share.UserID = up2.UserID \
+          where " \
+          "share.Share_status='Active' and " \
+          "share.UserID !='" + userid + "' and " \
+          "pc.Post_type ='Video'"
     try:
         mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
         mycursor.execute(sql)
