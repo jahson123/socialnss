@@ -126,7 +126,7 @@
             {% for share in shares %}
                 <div class="share">
                     <a href="/post/{{ share[0] }}?id={{ userid }}&type={{ share[1] }}">
-                    {% if share[2] == "Active" %}
+                    {% if share[3] == "Active" %}
                         {% if share[1] == "Photo" %}
                             <img src="{{ share[2] }}"/>
                         {% elif share[1] == "Video" %}
