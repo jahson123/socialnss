@@ -378,6 +378,20 @@
             }
         });
     });
+	
+	function myheart() {
+            var postID = document.getElementsByClassName("container");
+            var heart = document.querySelector("#heart");
+            url = "/like_request/{{ userid }}/" + postID[0].id
+            heart.classList.toggle("heart-mode");
+            if ( heart.classList.contains("heart-mode") == true ) {
+                    xhttp.open("POST", url, true);
+                }
+            else {
+                    xhttp.open("DELETE", url, true);
+                }
+            xhttp.send();
+        }
 </script>
 </body>
 {% endblock %}
