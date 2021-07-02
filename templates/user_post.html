@@ -378,8 +378,21 @@
             }
         });
     });
-	
-	function myheart() {
+</script>
+<script>
+        document.querySelector("textarea[name='comment']").addEventListener("keyup", function() {
+            var submit = document.querySelector(".btn-outline-primary");
+            var comment = document.querySelector("textarea[name='comment']");
+            if ( comment.value != "") {
+                submit.disabled = false;
+            }
+            else if ( comment.value == "" ) {
+                submit.disabled = true;
+            }
+        });
+
+        var xhttp = new XMLHttpRequest();
+        function myheart() {
             var postID = document.getElementsByClassName("container");
             var heart = document.querySelector("#heart");
             url = "/like_request/{{ userid }}/" + postID[0].id
@@ -392,6 +405,30 @@
                 }
             xhttp.send();
         }
-</script>
+        function myComment(comment) {
+            var ucomment = document.getElementById("comment " + comment.id);
+            $.ajax({
+                method: "POST",
+                data: {comment:$(ucomment).val()},
+                url: "/comment_request/{{ userid }}/" + comment.id,
+                success: function() {
+                    window.location.reload();
+                },
+            });
+        }
+        function comment_update(comment){
+            var postID = document.getElementsByClassName("container");
+            var x = document.getElementById("edit_comment " + comment).value;
+            $.ajax({
+                method: "PATCH",
+                url: "/comment_request/{{ userid }}/" + postID[0].id + "?comment_id=" + comment,
+                data: {comment:x},
+                success: function() {
+                    window.location.reload();
+                },
+            });
+        }
+
+</script>	
 </body>
 {% endblock %}
