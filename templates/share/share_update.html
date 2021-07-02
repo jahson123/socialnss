@@ -104,9 +104,9 @@
             <textarea class="share_form_text" cols="50" id="share-form-{{ myresult[0] }}" name="share" placeholder="Share your feeling..." autocomplete="off">{{ myresult[6] }}</textarea>
         </div>
         <div class="share_user_content">
-            {% if myresult[12] != "Active" %}
+            {% if myresult[11] != "Active" %}
                     <img src="{{ url_for('static', filename='img/Not available.png') }}"/>
-            {% elif myresult[12] == "Active" %}
+            {% elif myresult[11] == "Active" %}
             <div style="max-width:100%; height: 280px;">
                 {% if myresult[1] == "Photo" %}
                     <img src="{{ myresult[2] }}"/>
