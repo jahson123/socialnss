@@ -1,11 +1,11 @@
 <div class="box" id="{{ a[0] }}" data-post-id="{{ a[0] }}">
     <div class="header">
         <div class="pro_pic">
-            <a href="/{{ a[6] }}">
-                {% if a[9] == "" %}
+            <a href="/{{ a[5] }}">
+                {% if a[10] == "" %}
                     <img class="user-circle" src="{{ url_for('static', filename='img/default-user.png') }}g"/>
-                {% elif a[9] != "" %}
-                    <img class="user-circle" src="{{ a[9] }}"/>
+                {% elif a[10] != "" %}
+                    <img class="user-circle" src="{{ a[10] }}"/>
                 {% endif %}
                 <div class="uname"> {{ a[4] }} </div>
             </a>
@@ -21,9 +21,9 @@
     <div class="body" style="border: 1px solid #f2f2f2;">
         <div class="description"> {{ a[6] }}</div>
         <div class="pic" data-type="{{ a[1] }}">
-            {% if a[10] == "Active" %}
+            {% if a[11] == "Active" %}
                 {% if a[1] == "Photo" %}
-                <a href="/post/{{ a[11] }}?id={{ userid }}&type={{ a[1] }}">
+                <a href="/post/{{ a[6] }}?id={{ userid }}&type={{ a[1] }}">
                     <img src="{{ a[2] }}" style="width: 100%;">
                 </a>
                 {% elif a[1] == "Video" %}
@@ -32,7 +32,7 @@
                     </video>
                 {% endif %}
                 <div class="share_post">
-                    <a href="/{{ a[8] }}"><b style="padding: 5px;">{{ a[4] }}</b></a>
+                    <a href="/{{ a[8] }}"><b style="padding: 5px;">{{ a[9] }}</b></a>
                     <div class="share_description"> {{ a[3] }} </div>
                 </div>
             {% elif a[10] != "Active" %}
@@ -47,17 +47,17 @@
                         <stop offset="100%" stop-color="#808080"/>
                     </linearGradient>
                 </defs>
-                {% if a[11][3] == userid %}
+                {% if a[12][3] == userid %}
                 <path id="heart-{{ a[0] }}" class="heart-mode" d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
                                 c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z" stroke="url(#linear)"/>
-                {% elif a[11][3] != userid %}
+                {% elif a[12][3] != userid %}
                 <path id="heart-{{ a[0] }}" d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
                                 c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z" stroke="url(#linear)"/>
                 {% endif %}
             </svg>
             <span style="padding: 1px 1px;" class="num-user-like" data-like="{{ a[0] }}">
-                {% if a[11][0] !=0 %}
-                    <span class="user_like_list" data-post-id="{{ a[0] }}" style="cursor: pointer">{{ a[11][0] }}</span>
+                {% if a[12][0] !=0 %}
+                    <span class="user_like_list" data-post-id="{{ a[0] }}" style="cursor: pointer">{{ a[12][0] }}</span>
                 {% endif %}
             </span>
             <svg class="comment-icon" x="0px" y="0px" viewBox="0 0 60 60" data-post-id="{{ a[0] }}">
@@ -73,8 +73,8 @@
                             H6c-2.168,0-4-1.832-4-4V8c0-2.168,1.832-4,4-4h48c2.168,0,4,1.832,4,4V41z" />
             </svg>
             <span style="padding: 1px 1px;" class="num-user-comment" data-comment="{{ a[0] }}">
-                {% if a[11][1] !=0 %}
-                    <span class="user_comment_list" data-post-id="{{ a[0] }}" style="cursor: pointer">{{ a[11][1] }}</span>
+                {% if a[12][1] !=0 %}
+                    <span class="user_comment_list" data-post-id="{{ a[0] }}" style="cursor: pointer">{{ a[12][1] }}</span>
                 {% endif %}
             </span>
             <div class="date"> {{ a[7] }}</div>
