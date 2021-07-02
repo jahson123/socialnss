@@ -129,6 +129,7 @@ class Post_photo:
                          "pc.CID = '{}'".format(self))
         try:
             mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+            mycursor.execute(sql)
             x = list(mycursor.fetchone())
             x.append(post_content.Post_content.post_num(self, userid))
             x[5] = date_cal(x[5])
@@ -136,6 +137,7 @@ class Post_photo:
         except:
             conn.mydb.ping(True)
             mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
+            mycursor.execute(sql)
             x = list(mycursor.fetchone())
             x.append(post_content.Post_content.post_num(self, userid))
             x[5] = date_cal(x[5])
