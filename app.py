@@ -189,11 +189,11 @@ def post_deactive(cid):
     sql = "Update post_content set Post_status='Deleted' where CID='" + cid + "'"
     try:
         mycursor.execute(sql)
-        mydb.commit()
+        conn.mydb.commit()
     except:
         conn.mydb.ping(True)
         mycursor.execute(sql)
-        mydb.commit()
+        conn.mydb.commit()
     return redirect('/homepage')
 
 
@@ -260,8 +260,13 @@ def admin_all():
 @app.route('/admin_delete/<uid>', methods=['GET'])
 def admin_delete(uid):
     sql = "Delete from admin where AdminID='" + uid + "'"
-    mycursor.execute(sql)
-    mydb.commit()
+    try:
+        mycursor.execute(sql)
+        conn.mydb.commit()
+    except:
+        conn.mydb.ping(True)
+        mycursor.execute(sql)
+        conn.mydb.commit()
     return redirect('/admin_view')
 
 @app.route('/admin_create', methods=['POST', 'GET'])
