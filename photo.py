@@ -119,14 +119,14 @@ class Post_photo:
         return myresult
 
     def fetchone(self, userid):
-        mycursor.execute("Select Distinct pc.CID, pc.Post_type, p.Photo_url,  pc.Description, "
+        sql = "Select Distinct pc.CID, pc.Post_type, p.Photo_url,  pc.Description, " \
                          "up.Name, pc.Post_datetime, pc.UserID, up.profile_pic \
                           from post_content as pc \
                             left join post_photo as pp on pc.CID = pp.CID \
                             left join photo as p on pp.PhotoID = p.PhotoID \
                             left join userprofile as up on pc.UserID = up.UserID \
-                          where "
-                         "pc.CID = '{}'".format(self))
+                          where " \
+                         "pc.CID = '{}'".format(self)
         try:
             mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
             mycursor.execute(sql)
