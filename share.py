@@ -40,7 +40,7 @@ def check_share(cid):
 
 
 def fetchphoto_others(userid):
-    sql = "Select share.ShareID, pc.Post_type, p.Photo_url, pc.Description, " \
+    sql = "Select DISTINCT share.ShareID, pc.Post_type, p.Photo_url, pc.Description, " \
           "up2.Name, up2.UserID, share.Share_describe, share.Share_dateTime, up.UserID, up.Name, " \
           "up2.Profile_pic, pc.Post_status  \
            from share \
@@ -66,7 +66,7 @@ def fetchphoto_others(userid):
 
 
 def fetchvideo_others(userid):
-    sql = "Select share.ShareID, pc.Post_type, v.Video_url, pc.Description, " \
+    sql = "Select DISTINCT  share.ShareID, pc.Post_type, v.Video_url, pc.Description, " \
           "up2.Name, up2.UserID, share.Share_describe, share.Share_dateTime, up.UserID, up.Name, " \
           "up2.Profile_pic, pc.Post_status \
            from share \
@@ -109,7 +109,7 @@ def fetchall(userid):
 
 
 def fetchphoto_user(userid):
-    sql = "Select share.ShareID, pc.Post_type, p.Photo_url, pc.Post_status, share.Share_status \
+    sql = "Select DISTINCT  share.ShareID, pc.Post_type, p.Photo_url, pc.Post_status, share.Share_status \
                      from share \
                         left join post_content as pc on share.CID = pc.CID \
                         left join post_photo as pp on pc.CID = pp.CID \
@@ -130,7 +130,7 @@ def fetchphoto_user(userid):
     return myresult
 
 def fetchvideo_user(userid):
-    sql = "Select share.ShareID, pc.Post_type, v.Video_url, pc.Post_status, share.Share_status  \
+    sql = "Select DISTINCT  share.ShareID, pc.Post_type, v.Video_url, pc.Post_status, share.Share_status  \
                      from share \
                         left join post_content as pc on share.CID = pc.CID \
                         left join post_video as pv on pc.CID = pv.CID \
@@ -162,7 +162,7 @@ def fetchall_user(userid):
 def fetchone(sid, userid):
     types = request.args.get("type")
     cursor = conn.mydb.cursor(buffered=True)
-    sql = "Select share.ShareID, pc.Post_type, {}.{}_url, pc.Description, up.Name, \
+    sql = "Select DISTINCT  share.ShareID, pc.Post_type, {}.{}_url, pc.Description, up.Name, \
            pc.UserID, share.Share_describe, share.Share_dateTime, up2.Name, up2.Profile_pic, up2.UserID, pc.Post_status \
             from share \
                 left join post_content as pc on share.CID = pc.CID \
@@ -226,7 +226,7 @@ def update_status(sid, status):
 
 
 def fetchall_share():
-    sql = "Select * from share " \
+    sql = "Select DISTINCT  * from share " \
           "left join post_content as pc on share.CID = pc.CID"
     try:
         mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
