@@ -337,14 +337,14 @@ def postdb():
         postdb = post_content.Post_content("", "").fetchall(type)
         url = ""
         if type == "Photo":
-            url = 'admin/photo/image_all.html'
+            url = 'Admin/photo/image_all.html'
         elif type == "Video":
-            url = 'admin/video/video_all.html'
+            url = 'Admin/video/video_all.html'
         elif type == "Album":
-            url = 'admin/album/album_all.html'
+            url = 'Admin/album/album_all.html'
         elif type == "Share":
             postdb = share.fetchall_share()
-            url = 'admin/share/share_all.html'
+            url = 'Admin/share/share_all.html'
         return render_template(url, admin=admin, aid=session['adminid'], db=postdb)
     else:
         return redirect('/admin')
@@ -433,7 +433,7 @@ def admin_share_update(sid, types):
         if request.method == "POST":
             status = request.form.get('status')
             share.update_status(sid, status)
-            url = "/admin_share_update/{}/{}".format(sid, types)
+            url = "/Admin_share_update/{}/{}".format(sid, types)
             return redirect(url)
         else:
             global post
@@ -455,10 +455,10 @@ def admin_react(react):
         admin = admin_name(session['adminid'])
         if react == "like":
             reacts = like.fetchall()
-            template = 'admin/react/like_all.html'
+            template = 'Admin/react/like_all.html'
         elif react == "comment":
             reacts = fetchall()
-            template = 'admin/react/comment_all.html'
+            template = 'Admin/react/comment_all.html'
         return render_template(template, admin=admin, aid=session['adminid'], reacts=reacts)
     else:
         return redirect('/admin')
@@ -578,7 +578,7 @@ def admin_repinfo(rid):
             post = ad_video_one(types[0])
         elif types[1] == "Album":
             post = ad_album_one(types[0])
-        return render_template('/admin/report/repinfo_one.html', admin=admin, aid=session['adminid'],
+        return render_template('Admin/report/repinfo_one.html', admin=admin, aid=session['adminid'],
                                report=reports, rinfo=repinfo, post=post)
     else:
         return redirect('/admin')
