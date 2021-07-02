@@ -55,7 +55,7 @@ def comment_edit(comment_id, comment):
 
 def comment_list(cid):
     if request.method == "GET":
-        sql = "SELECT c.CommentID, c.Comment, c.CID, c.UserID , up.Name, up.Profile_pic " \
+        sql = "SELECT DISTINCT c.CommentID, c.Comment, c.CID, c.UserID , up.Name, up.Profile_pic " \
               "from `comment` as c " \
               "left join userprofile as up on c.UserID = up.UserID " \
               "WHERE c.CID='{}'".format(cid)
