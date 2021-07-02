@@ -215,7 +215,6 @@
             <div class="description"> {{ myresult[3] }}</div>
             <div class="comment_list" style="position: relative; overflow-y: auto;">
                 {% for comment in comments %}
-		    {{ comment }}
                     <div class="comment_list_side">
                         {% if comment[3] == userid %}
                             <button class="edit_comment" data-id="{{ comment[0] }}">Edit</button>
