@@ -115,6 +115,7 @@ def fetchphoto_user(userid):
                         left join post_photo as pp on pc.CID = pp.CID \
                         left join photo as p on pp.PhotoID = p.PhotoID \
                      where " \
+                     "share.Share_status='Active' and " \
                      "share.UserID ='" + userid + "' and " \
                      "pc.Post_type ='Photo'"
     try:
@@ -135,6 +136,7 @@ def fetchvideo_user(userid):
                         left join post_video as pv on pc.CID = pv.CID \
                         left join video as v on pv.VideoID = v.VideoID \
                      where " \
+                     "share.Share_status='Active' and " \
                      "share.UserID ='" + userid + "' and " \
                      "pc.Post_type ='Video'"
     try:
