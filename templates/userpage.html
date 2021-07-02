@@ -25,13 +25,13 @@
 	</style>
 </head>
 <body>
+	{% set relate = userid | user_relationship(a[6])%}
+	{% set relate2 = a[6] | user_relationship(userid)%}
+	{% set srelate2 = userid | user_relationship(a[10]) %}
+	{% set srelate = a[10] | user_relationship(userid) %}
     <span style="display: none;" hidden>{{ userid }}</span>
     {% for a in myresult %}
     <br>
-        {% set relate = userid | user_relationship(a[6])%}
-        {% set relate2 = a[6] | user_relationship(userid)%}
-        {% set srelate2 = userid | user_relationship(a[10]) %}
-        {% set srelate = a[10] | user_relationship(userid) %}
         {% if a[0].startswith('C') %}
             {% if relate[1] == "Following" and relate2[1] != "Blocked" %}
                 {% include 'container.html' %}
