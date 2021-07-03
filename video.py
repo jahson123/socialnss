@@ -129,7 +129,7 @@ class Post_video:
             conn.mydb.commit()
 
     def fetchall_other(self):
-        sql = "Select Disctinct pc.CID, pc.Post_type, v.Video_url, pc.Description, " \
+        sql = "Select pc.CID, pc.Post_type, v.Video_url, pc.Description, " \
                          "up.Name, pc.Post_datetime, pc.UserID, up.profile_pic \
                          from post_content as pc \
                             left join post_video as pv on pc.CID = pv.CID \
@@ -151,7 +151,7 @@ class Post_video:
         return myresult
 
     def fetchall_user(self):
-        sql = "Select Disctinct pc.CID, pc.Post_type, v.Video_url, pc.UserID \
+        sql = "Select pc.CID, pc.Post_type, v.Video_url, pc.UserID \
                          from post_content as pc \
                             left join post_video as pv on pc.CID = pv.CID \
                             left join video as v on pv.VideoID = v.VideoID \
