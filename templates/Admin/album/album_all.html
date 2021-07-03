@@ -25,42 +25,16 @@
                 <td>
                     <a href="/admin_album_view/{{ album[0] }}" class="btn btn-primary">View</a>
                     <a href="/admin_album_update/{{ album[0] }}" class="btn btn-success">Update</a>
-                    {% if album[2] == "Deleted" %}
-                        <button data-id="{{ album[0] }}" class="btn btn-danger delete" type="button">Delete</button>
-                    {% endif %}
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-    <div class="overlay">
-        <div class="delete_content centered">
-            <div class="content_title">Delete Content</div>
-            <div style="padding: 10px;">Do you sure want to delete this content ?</div>
-            <div style="float: right; padding: 5px;">
-                <button class="cancel">Cancel</button>
-                <button class="confirm">Confirm</button>
-            </div>
-        </div>
-    </div>
 </div>
 <script>
 $(document).ready(function() {
     $('#example').DataTable();
-    $(".delete").click(function(e) {
-        $(".overlay, .delete_content").fadeIn(100);
-        $(".confirm").click(function() {
-            $.ajax({
-                url: "/admin_post_delete/" + e.target.getAttribute("data-id"),
-                method: "DELETE",
-                success: function() { alert("Delete success"); location.reload(); }
-            });
-        });
-    });
-    $(".cancel").click(function() {
-        $(".overlay, .delete_content").fadeOut(100);
-    });
-} );
+});
 document.querySelector("#album").classList.add("active");
 </script>
 
