@@ -47,7 +47,7 @@ def admin_name(id):
     return admin
 
 
-def admin_delete(id):
+def admin_del(id):
     sql = "Delete from admin where AdminID='{}'".format(id)
     try:
         mycursor.execute(sql)
