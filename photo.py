@@ -146,7 +146,7 @@ class Post_photo:
 
 
     def fetchall_other(self):
-        sql = "Select pc.CID, pc.Post_type, p.Photo_url, pc.Description, " \
+        sql = "Select Disctinct pc.CID, pc.Post_type, p.Photo_url, pc.Description, " \
                          "up.Name, pc.Post_datetime, pc.UserID, up.profile_pic  \
                           from post_content as pc \
                             left join post_photo as pp on pc.CID = pp.CID \
@@ -168,7 +168,7 @@ class Post_photo:
         return myresult
 
     def fetchall_user(self):
-        sql = "Select pc.CID, pc.Post_type, p.Photo_url, pc.UserID " \
+        sql = "Select Disctinct pc.CID, pc.Post_type, p.Photo_url, pc.UserID " \
                          "from post_content as pc \
                             left join post_photo as pp on pc.CID = pp.CID \
                             left join photo as p on pp.PhotoID = p.PhotoID \
