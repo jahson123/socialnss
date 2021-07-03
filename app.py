@@ -270,7 +270,7 @@ def admin_delete(uid):
     return redirect('/admin_view')
 
 @app.route('/admin_create', methods=['POST', 'GET'])
-def admin_create():
+def admin_creates():
     aid = admin_name(session['adminid'])
     if request.method == "POST":
         uname = request.form.get('uname')
