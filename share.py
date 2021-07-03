@@ -109,7 +109,7 @@ def fetchall(userid):
 
 
 def fetchphoto_user(userid):
-    sql = "Select DISTINCT  share.ShareID, pc.Post_type, p.Photo_url, pc.Post_status, share.Share_status \
+    sql = "Select share.ShareID, pc.Post_type, p.Photo_url, pc.Post_status, share.Share_status \
                      from share \
                         left join post_content as pc on share.CID = pc.CID \
                         left join post_photo as pp on pc.CID = pp.CID \
@@ -130,7 +130,7 @@ def fetchphoto_user(userid):
     return myresult
 
 def fetchvideo_user(userid):
-    sql = "Select DISTINCT  share.ShareID, pc.Post_type, v.Video_url, pc.Post_status, share.Share_status  \
+    sql = "Select share.ShareID, pc.Post_type, v.Video_url, pc.Post_status, share.Share_status  \
                      from share \
                         left join post_content as pc on share.CID = pc.CID \
                         left join post_video as pv on pc.CID = pv.CID \
@@ -226,7 +226,7 @@ def update_status(sid, status):
 
 
 def fetchall_share():
-    sql = "Select DISTINCT  * from share " \
+    sql = "Select * from share " \
           "left join post_content as pc on share.CID = pc.CID"
     try:
         mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
