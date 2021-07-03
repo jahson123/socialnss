@@ -27,13 +27,13 @@
         font-size: 20px;
         cursor: pointer
     }
-    .fas.fa-users {
+    .users {
         position: fixed;
-        color: white;
         top: 100px;
         padding: 10px;
         border-radius: 0px 0px 5px 0px;
-        background: blue;
+        background: rgb(153, 204, 255, 0.5);
+        cursor: pointer;
     }
     .suggestion {
         width: 320px;
@@ -46,7 +46,7 @@
     a, a:hover { text-decoration: none; color: black; }
 </style>
 <div class="follower_container">
-    <span class="fas fa-users"></span>
+    <span class="users">{% include 'icon/users.html' %}</span>
     <div class="follower">
         <div style="border-bottom-style: solid; border-color: rgb(204, 204, 204, 0.4); border-width: 1px;">
             <div class="follower_title">Following</div>
@@ -98,7 +98,7 @@ document.querySelector(".close_follower").addEventListener("click", function() {
     $(".follower_title").fadeOut(100);
     $(".follower").animate({width: '0'}, "fast");
 });
-document.querySelector(".fas.fa-users").addEventListener("click", function() {
+document.querySelector(".users").addEventListener("click", function() {
     $(".follower_title").fadeIn(100);
     $(".follower").animate({width: '300px'}, "slow");
 });
