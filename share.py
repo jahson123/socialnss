@@ -40,7 +40,7 @@ def check_share(cid):
 
 
 def fetchphoto_others(userid):
-    sql = "Select share.ShareID, pc.Post_type, p.Photo_url, pc.Description, " \
+    sql = "Select Distinct share.ShareID, pc.Post_type, p.Photo_url, pc.Description, " \
           "up2.Name, up2.UserID, share.Share_describe, share.Share_dateTime, up.UserID, up.Name, " \
           "up2.Profile_pic, pc.Post_status  \
            from share \
@@ -66,7 +66,7 @@ def fetchphoto_others(userid):
 
 
 def fetchvideo_others(userid):
-    sql = "Select share.ShareID, pc.Post_type, v.Video_url, pc.Description, " \
+    sql = "Select Distinct share.ShareID, pc.Post_type, v.Video_url, pc.Description, " \
           "up2.Name, up2.UserID, share.Share_describe, share.Share_dateTime, up.UserID, up.Name, " \
           "up2.Profile_pic, pc.Post_status \
            from share \
