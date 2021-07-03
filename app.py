@@ -246,7 +246,7 @@ def user_info(uid):
         return redirect('/admin')
 
 @app.route('/user_delete/<uid>')
-def user_deletes(uid):
+def user_deletes_user(uid):
     user.user_delete(uid)
     return redirect('/admin_user')
 
@@ -299,7 +299,7 @@ def admin_update(aid):
 @app.route('/admin_delete/<aid>')
 def admin_deletes(aid):
     if 'adminid' in session:
-        admin.admin_delete(aid)
+        admin.admin_del(aid)
         return redirect('/admin_view')
     else:
         return redirect('/admin')
