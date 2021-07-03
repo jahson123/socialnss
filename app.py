@@ -433,7 +433,7 @@ def admin_share_update(sid, types):
         if request.method == "POST":
             status = request.form.get('status')
             share.update_status(sid, status)
-            url = "/Admin_share_update/{}/{}".format(sid, types)
+            url = "/admin_share_update/{}/{}".format(sid, types)
             return redirect(url)
         else:
             global post
