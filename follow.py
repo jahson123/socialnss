@@ -98,7 +98,8 @@ class Follow:
         sql = "Select Distinct r.RelateID, r.UserID_1, up.Name, up.Profile_pic " \
               "from relationship as r " \
               "left join userprofile as up on up.UserID = r.UserID_1 " \
-              "where r.UserID_2='{}' and r.Relationship='Following'".format(self)
+              "left join user on up.UserID = user.UserID " \
+              "where r.UserID_2='{}' and r.Relationship='Following' and Email_verified='Verified' ".format(self)
         cursor = conn.mydb.cursor(buffered=True)
         try:
             mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
