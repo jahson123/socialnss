@@ -10,7 +10,7 @@ import admin, user
 
 from uprofile import profile_select, user_select, profile_update, user_update, user_update_admin, profile_create, profile_photo
 
-from admin import admin_create, admin_check, admin_name, admin_delete, admin_select, admin_updates, admins_all, admins_self_update
+from admin import admin_create, admin_check, admin_name, admin_del, admin_select, admin_updates, admins_all, admins_self_update
 from user import users_all, user_one, user_create, fetchall_user
 
 from admin_post import  ad_image_one, ad_update_status,  ad_video_one, ad_album_one, ad_share_one
