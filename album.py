@@ -21,7 +21,7 @@ mycursor = conn.mydb.cursor()
 
 def photos(cid):
     """ Fetch photo url & name from photo table """
-    sql = "Select p.Photo_url, p.Photo_name from post_photo as pp \
+    sql = "Select Disctinct p.Photo_url, p.Photo_name from post_photo as pp \
             inner join photo as p on pp.PhotoID = p.PhotoID \
             where pp.CID ='{}'".format(cid)
     try:
@@ -38,7 +38,7 @@ def photos(cid):
 
 def videos(cid):
     """ Fetch video url & name from photo table """
-    sql = "Select v.Video_url, v.Video_name from post_video as pv \
+    sql = "Select Disctinct v.Video_url, v.Video_name from post_video as pv \
             inner join video as v on pv.VideoID = v.VideoID \
             where pv.CID ='{}'".format(cid)
     try:
