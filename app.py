@@ -69,9 +69,9 @@ def username_check():
 
 
 """ User Password reset """
-@app.route('/pwdreset/<uid>')
-def pwd_reset(uid):
-    reset_pwd(uid)
+@app.route('/pwdreset/<uid>/<pwd>')
+def pwd_reset(uid, pwd):
+    reset_pwd(uid, pwd)
     return redirect('/')
 
 
