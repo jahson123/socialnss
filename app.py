@@ -623,8 +623,9 @@ def post(pid):
 @app.route('/data', methods=["POST", "GET"])
 def data():
     search = request.form.get("text")
-    sql = "Select Name, UserID from userprofile where Name LIKE '%{}%'".format(search)
+    sql = "Select Distinct Name, UserID from userprofile where Name LIKE '%{}%'".format(search)
     try:
+        mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
         mycursor.execute(sql)
         result = mycursor.fetchall()
     except:
