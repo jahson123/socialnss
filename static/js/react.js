@@ -11,7 +11,7 @@ document.querySelector(".user_like_list").addEventListener("click", function(e) 
                 user = "<div class='user'>";
                 user += "<a href='/admin_view_profile/" + value[2] + "'>"
                 if ( value[0] != "" ) { user += "<img class='user-circle' src='" + value[0] + "'/>" }
-                else { user += "<img class='user-circle' src='static/img/default-user.png'/>" }
+                else { user += "<img class='user-circle' src='../static/img/default-user.png'/>" }
                 user += "<span class='user_name'>  " + value[1] + "</span>"
                 user += "</a></div>"
                 data += user;
@@ -32,7 +32,7 @@ document.querySelector(".user_comment_list").addEventListener("click", function(
             $.each(res, function(index, value) {
                 user = "<div class='user'>";
                 if ( value[0] != "" ) { user += "<img class='user-circle' src='" + value[0] + "'/>" }
-                else { user += "<img class='user-circle' src='static/img/default-user.png'/>" }
+                else { user += "<img class='user-circle' src='../static/img/default-user.png'/>" }
                 user += "<span class='user_name'>  " + value[1] + "</span>"
                 user += "</div>"
                 data += user;
@@ -54,7 +54,7 @@ document.querySelector(".user_share_list").addEventListener("click", function(e)
                 user = "<div class='user'>";
                 user += "<a href='/admin_view_profile/" + value[2] + "'>"
                 if ( value[0] != "" ) { user += "<img class='user-circle' src='" + value[0] + "'/>" }
-                else { user += "<img class='user-circle' src='{{ url_for('static', filename='img/default-user.png') }}'/>" }
+                else { user += "<img class='user-circle' src='../static/img/default-user.png'/>" }
                 user += "<span class='user_name'>  " + value[1] + "</span>"
                 user += "</a></div>"
                 data += user;
