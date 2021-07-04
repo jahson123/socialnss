@@ -65,7 +65,7 @@ def change_pwd_email(user_email, uid):
                 <div class="email_content">
                     <h3 style="text-align: center;">SNSS - Password Reset</h3>
                     <br>
-                    <a href="http://127.0.0.1:5000/pwdreset/{uid}/{pwd}"><b>Click the following link to reset your account password.</b></a>
+                    <a href="https://socialnss.herokuapp.com/pwdreset/{uid}/{pwd}"><b>Click the following link to reset your account password.</b></a>
                     <p>Your password will be reset to this given after you click the link</p>
                     <h3>{pwd}</h3>
                     <p>Don't reply this email and delete this email after reset your password</p>
