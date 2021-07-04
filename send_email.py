@@ -8,7 +8,7 @@ def email(user_email, uid, name):
     email = smtplib.SMTP('smtp.gmail.com', 587)
     email.starttls()
 
-    email.login("sagerioko4@gmail.com", "wasabi123")
+    email.login("socialsnss@gmail.com", "Wasabi123+")
 
     msg = EmailMessage()
     msg['Subject'] = f'Email Verification for SNS system, {user_email}'
@@ -48,7 +48,7 @@ def change_pwd_email(user_email, uid):
     email = smtplib.SMTP('smtp.gmail.com', 587)
     email.starttls()
 
-    email.login("sagerioko4@gmail.com", "wasabi123")
+    email.login("socialsnss@gmail.com", "Wasabi123+")
 
     msg = EmailMessage()
     msg['Subject'] = f'Password Reset for SNSS Account, {user_email}'
