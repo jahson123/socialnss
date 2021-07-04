@@ -204,13 +204,10 @@ def admin_login():
             uname = request.form.get('uname')
             pwd = request.form.get('pwd')
             admin = admin_check(uname, pwd)
-            for check in admin:
-                if check[1] == uname and check[2] == pwd:
-                    session['adminid'] = check[0]
-                    return redirect('/dashboard')
-                elif check[1] != uname or check[2] != pwd:
-                    flash('Password or username are wrong')
-                    return redirect('/admin')
+            if admin == "Success":
+                return redirect('/dashboard')
+            else:
+                return render_template('Admin/Adminlogin.html')
         return render_template('Admin/Adminlogin.html')
     else:
         return redirect('/dashboard')
