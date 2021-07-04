@@ -119,7 +119,7 @@ class Follow:
               "where " \
               "user.UserID not in (Select UserID_2 from relationship where UserID_1='{}') and " \
               "user.UserID not in (Select UserID_1 from relationship where UserID_1='{}') and " \
-              "user.UserID !='{}' user.Email_verified='Verified'".format(self, self, self)
+              "user.UserID !='{}' and user.Email_verified='Verified'".format(self, self, self)
         cursor = conn.mydb.cursor(buffered=True)
         try:
             mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
