@@ -12,7 +12,7 @@ def email(user_email, uid, name):
 
     msg = EmailMessage()
     msg['Subject'] = f'Email Verification for SNS system, {user_email}'
-    msg['From'] = "no-replay@mail.SNS.com"
+    msg['From'] = "socialsnss@gmail.com"
     msg['To'] = user_email
     msg.add_alternative(f"""\
     <!DOCTYPE html>
