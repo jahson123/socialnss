@@ -759,6 +759,7 @@ def relatelist():
               left join relationship as r on r.UserID_2 = t.UserID \
               WHERE t.CID='{}'".format(react, cid)
     try:
+        mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
         mycursor.execute(sql)
         result = mycursor.fetchall()
     except:
