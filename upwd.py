@@ -28,8 +28,6 @@ def change_pwd(npwd, uid):
         conn.mydb.commit()
 
 
-def reset_pwd(uid):
-    pwd_generator = string.ascii_letters + string.digits
-    pwd = ''.join(random.choice(pwd_generator) for i in range(10))
+def reset_pwd(uid, pwd):
     change_pwd(pwd, uid)
     pass
