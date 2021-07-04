@@ -1,5 +1,6 @@
 import random, string
 import conn
+from flask import session, flash
 
 mycursor = conn.mydb.cursor()
 
