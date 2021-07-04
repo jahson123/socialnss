@@ -10,7 +10,7 @@ document.querySelectorAll(".user_like_list").forEach( ulike => ulike.addEventLis
             $.each(res, function(index, value) {
                 user = "<div class='user'>";
                 if ( value[0] != "" ) { user += "<img class='user-circle' src='" + value[0] + "'/>" }
-                else { user += "<img class='user-circle' src='static/img/default-user.png'/>" }
+                else { user += "<img class='user-circle' src='../static/img/default-user.png'/>" }
                 user += "<span class='user_name'>  " + value[1] + "</span>"
                 if ( value[2] != a ) {
                     if ( value[2] == value[3] ) {
@@ -39,7 +39,7 @@ document.querySelectorAll(".user_comment_list").forEach( ucl => ucl.addEventList
             $.each(res, function(index, value) {
                 user = "<div class='user'>";
                 if ( value[0] != "" ) { user += "<img class='user-circle' src='" + value[0] + "'/>" }
-                else { user += "<img class='user-circle' src='static/img/default-user.png'/>" }
+                else { user += "<img class='user-circle' src='../static/img/default-user.png'/>" }
                 user += "<span class='user_name'>  " + value[1] + "</span>"
                 if ( value[2] != a ) {
                     if ( value[2] == value[3] ) {
@@ -68,7 +68,7 @@ document.querySelectorAll(".user_share_list").forEach( sharelist => sharelist.ad
             $.each(res, function(index, value) {
                 user = "<div class='user'>";
                 if ( value[0] != "" ) { user += "<img class='user-circle' src='" + value[0] + "'/>" }
-                else { user += "<img class='user-circle' src='static/img/default-user.png'/>" }
+                else { user += "<img class='user-circle' src='../static/img/default-user.png'/>" }
                 user += "<span class='user_name'>  " + value[1] + "</span>"
                 if ( value[2] != a ) {
                     if ( value[2] == value[3] ) {
