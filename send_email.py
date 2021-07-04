@@ -42,7 +42,7 @@ def email(user_email, uid, name):
     return user_email, uid, name
 
 
-def change_pwd_email(user_email, uid, pwd):
+def change_pwd_email(user_email, uid):
     pwd_generator = string.ascii_letters + string.digits
     pwd = ''.join(random.choice(pwd_generator) for i in range(10))
     email = smtplib.SMTP('smtp.gmail.com', 587)
