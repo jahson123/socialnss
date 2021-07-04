@@ -30,7 +30,12 @@ def admin_check(uname, pwd):
         mycursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ")
         mycursor.execute(sql)
         admin = mycursor.fetchall()
-    return admin
+    for check in admin:
+        if check[1] == uname and check[2] == pwd:
+            session['adminid'] = check[0]
+            return 'Success'
+    else:
+        return flash("Password or Username are wrong")
 
 
 def admin_name(id):
