@@ -1,4 +1,6 @@
 import smtplib
+import random
+import string
 from email.message import EmailMessage
 
 
@@ -40,7 +42,9 @@ def email(user_email, uid, name):
     return user_email, uid, name
 
 
-def change_pwd_email(user_email, uid):
+def change_pwd_email(user_email, uid, pwd):
+    pwd_generator = string.ascii_letters + string.digits
+    pwd = ''.join(random.choice(pwd_generator) for i in range(10))
     email = smtplib.SMTP('smtp.gmail.com', 587)
     email.starttls()
 
@@ -61,7 +65,9 @@ def change_pwd_email(user_email, uid):
                 <div class="email_content">
                     <h3 style="text-align: center;">SNSS - Password Reset</h3>
                     <br>
-                    <a href="https://socialnss.herokuapp.com/pwdreset/{uid}"><b>Click the following link to reset your account password.</b></a>
+                    <a href="http://127.0.0.1:5000/pwdreset/{uid}/{pwd}"><b>Click the following link to reset your account password.</b></a>
+                    <p>Your password will be reset to this given after you click the link</p>
+                    <h3>{pwd}</h3>
                     <p>Don't reply this email and delete this email after reset your password</p>
                     <br><br>
                     <p>Thank you, </p>
