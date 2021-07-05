@@ -24,7 +24,9 @@
                 <td>{{ report[5] }}</td>
                 <td>
                     <a href="/admin_repinfo/{{ report[0] }}" class="btn btn-primary">View</a> &nbsp; &nbsp;
-                    <button data-id="{{ report[0] }}" class="btn btn-success complete" type="button">Complete</button> &nbsp; &nbsp;
+                    {% if report[3] != "Completed" %}
+                        <button data-id="{{ report[0] }}" class="btn btn-success complete" type="button">Complete</button> &nbsp; &nbsp;
+                    {% endif %}
                     <button data-id="{{ report[0] }}" class="btn btn-danger remove" type="button">Remove</button>
                 </td>
             </tr>
