@@ -619,7 +619,7 @@ def post(pid):
                 template = "share/share_user_post.html"
             else:
                 template = "share/share_post.html"
-        return render_template(template, userid=userid, myresult=myresult, comments=comment)
+        return render_template(template, userid=userid, myresult=myresult, comments=comment, name=session['name'])
     else:
         return redirect('/')
 
