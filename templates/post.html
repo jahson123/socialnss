@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/container.css') }}" >
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/slide.css') }}" >
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/report.css') }}" >
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/share.css') }}" >
     <style>
         .heart-mode { color: red; }
 
@@ -270,13 +271,15 @@
                                 H6c-2.168,0-4-1.832-4-4V8c0-2.168,1.832-4,4-4h48c2.168,0,4,1.832,4,4V41z" />
             </svg>
             <span style="padding: 1px 1px;" class="num-user-comment" data-comment="{{ myresult[0] }}">{% if myresult[8][1] != 0 %} {{ myresult[8][1] }} {% endif %}</span>
-            <svg class="share-icon" viewBox="0 0 512 512" data-post-id="{{ myresult[0] }}">
+            {% if myresult[1] != "Album" %}
+	    <svg class="share-icon" viewBox="0 0 512 512" data-post-id="{{ myresult[0] }}">
                 <linearGradient id="linear3" x1="20%" y1="10%" x2="80%" y2="80%">
                     <stop offset="0%"   stop-color="#333333"/>
                     <stop offset="100%" stop-color="#808080"/>
                 </linearGradient>
                 <path fill="url(#linear3)" d="m505.664 183.754-212-150c-4.575-3.237-10.577-3.653-15.557-1.077-4.98 2.577-8.107 7.715-8.107 13.322v75.385c-70.488 3.632-136.248 32.812-186.525 83.089-53.83 53.83-83.475 125.4-83.475 201.526v60c0 8.327 6.76 15.001 15.012 15.001 6.605 0 12.551-4.369 14.411-10.88l2.309-8.08c30.756-107.649 127.472-184.227 238.268-190.61v74.569c0 5.607 3.127 10.746 8.106 13.322 4.98 2.576 10.981 2.161 15.557-1.077l212-150c3.974-2.812 6.336-7.377 6.336-12.245s-2.361-9.433-6.335-12.245zm-205.664 133.257v-61.012c0-8.284-6.716-15-15-15-32.193 0-63.916 5.228-94.287 15.539-68.596 23.288-125.113 70.767-160.095 131.61 9.191-132.313 119.773-237.149 254.382-237.149 8.284 0 15-6.716 15-15v-61.012l171.03 121.012z" />
             </svg>
+	    {% endif %}
             <span style="padding: 1px 1px;" class="num-user-share" data-share="{{ myresult[0] }}">{% if myresult[8][2] != 0 %} {{ myresult[8][2] }} {% endif %}</span>
             <div class="date" style="float: right; font-size: 12px;"> {{ myresult[5] }}</div>
         </div>
@@ -351,7 +354,11 @@
 
 </script>
 <script src="{{ url_for('static', filename='js/option.js') }}" ></script>
-{% if  myresult[1] == "Album" %}<script src="{{ url_for('static', filename='js/slideshow_post.js') }}" ></script>{% endif %}
+{% if myresult[1] == "Album" %}
+	<script src="{{ url_for('static', filename='js/slideshow_post.js') }}" ></script>
+{% else %} 
+	{% include 'share/share_post_form.html' %} 
+{% endif %}
 <script>
     document.body.addEventListener("load", function() {
         setTimeout(num(), 3000);
@@ -399,5 +406,32 @@
     });
 
 </script>
+<script>
+    (function () {
+        $(".close_share").click (function () {
+            $(".share_form_container").fadeOut(200);
+            document.body.style.overflow = "";
+        });
+        $(".share-icon").click(function (e) {
+            var x = e.target.getAttribute("data-post-id");
+            $("#share_form_" + x).fadeIn(300);
+            document.body.style.overflow = "hidden";
+        });
+    })();
+
+    function share_form(pid) {
+        var text = document.getElementById("share-form-" + pid.id).value;
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                $(".share_form_container").fadeOut(200);
+                document.body.style.overflow = "";
+                alert("Share post success");
+            }
+        };
+        xhttp.open("POST", "/share_request/{{ userid }}?postID=" + pid.id + "&text=" + text, true);
+        xhttp.send();
+    }
+</script>	
 </body>
 {% endblock %}
