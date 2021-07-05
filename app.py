@@ -273,6 +273,10 @@ def admin_creates():
         uname = request.form.get('uname')
         pwd = request.form.get('pwd')
         rpwd = request.form.get('rpwd')
+        for admin in admins_all(''):
+            if admin[1] == uname:
+                flash("Admin already exist, please choose another")
+                return redirect('/admin_create')
         if rpwd == pwd:
             admin_create(uname, rpwd)
             return redirect('/admin_view')
