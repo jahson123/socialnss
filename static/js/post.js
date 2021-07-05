@@ -14,7 +14,7 @@ document.getElementById("file").addEventListener("change", function(e) {
                 var a = files[j].name;
                 result = true;
             }
-            else if (type[type.length-1] == "mp3") {
+            else if (!img.includes(type[type.length-1]) || !video.includes(type[type.length-1])) {
                 var b = files[j].name;
                 result = true;
             }
@@ -51,7 +51,7 @@ document.getElementById("file").addEventListener("change", function(e) {
         }
         else if ( result == true ) {
             if ( a != "" ) { alert("You cannot upload ''" + a + "'' that is more than 30mb."); }
-            else if ( b != "" ) { alert("You cannot upload ''" + b  + "'' that is  mp3 file."); }
+            else if ( b != "" ) { alert("You cannot upload ''" + b  + "'' that is not image or video."); }
             document.querySelector("input[type='file']").value = "";
             document.querySelector("#view").style.display = "none";
         }
