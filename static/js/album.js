@@ -9,15 +9,25 @@ for ( i=0; i<container.length; i++ ) {
     showSlides(slideIndex[i], i);
 }
 
+function vidpause() {
+    var vid = document.getElementsByTagName("video");
+    for (z=0; z<vid.length; z++) {
+        vid[z].pause();
+    }
+}
+
+
 document.querySelectorAll(".next").forEach( next => next.addEventListener("click", function(e) {
         var a = e.target.getAttribute("data-slide-next");
         plusSlides(1, a);
+        vidpause();
     })
 );
 
 document.querySelectorAll(".prev").forEach( prev => prev.addEventListener("click", function(e) {
         var a = e.target.getAttribute("data-slide-next");
         plusSlides(-1, a);
+        vidpause();
     })
 );
 
