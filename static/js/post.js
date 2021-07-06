@@ -14,7 +14,7 @@ document.getElementById("file").addEventListener("change", function(e) {
                 var a = files[j].name;
                 result = true;
             }
-            else if (!img.includes(type[type.length-1]) || !video.includes(type[type.length-1])) {
+            else if (type[type.length-1] == "mp3" || type[type.length-1] == "pptx") {
                 var b = files[j].name;
                 result = true;
             }
