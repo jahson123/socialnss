@@ -7,6 +7,7 @@ import share
 import conn
 import post_content, follow, report
 import admin, user
+import uprofile
 
 from uprofile import profile_select, user_select, profile_update, user_update, user_update_admin, profile_create, profile_photo
 
@@ -115,6 +116,7 @@ def profile():
             email = request.form.get('email')
             profile_update(userid, name, gender, status, dob)
             user_update(userid, email)
+            uprofile.username(userid)
             return redirect('/homepage')
         else:
             return render_template('profile.html', upro=upro, user=user, userid=userid)
