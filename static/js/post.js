@@ -1,6 +1,6 @@
 video = ['mp4', 'mov', 'avi', 'webm'];
 img = ['gif','png','jpg','jpeg'];
-var result = "" ;
+var result = false ;
 var a,b;
 
 document.getElementById("file").addEventListener("change", function(e) {
@@ -14,12 +14,12 @@ document.getElementById("file").addEventListener("change", function(e) {
                 var a = files[j].name;
                 result = true;
             }
-            else if (type[type.length-1] == "mp3" || type[type.length-1] == "pptx") {
+            else if (!video.includes(type[type.length-1] && !img.includes(type[type.length-1]) {
                 var b = files[j].name;
                 result = true;
             }
         }
-        if ( result == "" ) {
+        if ( result == false ) {
             for ( i=0; i<files.length; i++) {
                 var reader = new FileReader();
                 var file = files[i];
