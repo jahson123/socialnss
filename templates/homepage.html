@@ -54,7 +54,7 @@
             {% for a in myresult %}
                 {% if a[1] == "Photo" %}
                     <div class="post">
-                        <a href="/post/{{ a[0] }}?id={{ userid }}&type=Photo"><img src="{{ a[2] }}" style="max-height: 40%;"/></a> &nbsp;
+                        <a href="/post/{{ a[0] }}?id={{ userid }}&type=Photo"><img src="{{ a[2] }}"/></a> &nbsp;
                     </div>
                 {% elif a[1] == "Video" %}
                     <div class="post">
