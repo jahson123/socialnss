@@ -27,11 +27,6 @@ class MyConnection:
                 print("MySQL server not connect")
             else:
                 print(err)
-"""
-username: b0ce4add4165c0
-pwd: c83f3da2 
-host: us-cdbr-east-04.cleardb.com
-db: heroku_d47041e50366ffe
-"""
+
 connect = MyConnection("us-cdbr-east-04.cleardb.com", "b0ce4add4165c0", "c83f3da2", "heroku_d47041e50366ffe")
 mydb = connect.get_conn()
